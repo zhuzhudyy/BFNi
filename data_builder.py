@@ -99,25 +99,120 @@ def extract_macro_rgb_features(csv_path, target_rgbs=None, tolerance=50, prefix=
                 
             features['TARGET_Yield'] = (min_dist <= tolerance).mean()
 
-    # --- 2. 连续变量处理 ---
+    # --- 2. 连续变量处理 (GND/Half quadratic) ---
     hq_cols = [c for c in df.columns if 'Half quadratic' in c or 'HQ' in c or 'GND' in c]
     if hq_cols:
         hq_col = hq_cols[0]
-        df[hq_col] = pd.to_numeric(df[hq_col], errors='coerce')
-        features[f'{prefix}Defect_Mean'] = df[hq_col].mean()  
-        features[f'{prefix}Defect_Std'] = df[hq_col].std()    
+        gnd_data = pd.to_numeric(df[hq_col], errors='coerce').dropna()
+        
+        if len(gnd_data) > 0:
+            # 基础统计量
+            features[f'{prefix}GND_Mean'] = gnd_data.mean()
+            features[f'{prefix}GND_Std'] = gnd_data.std()
+            
+            # 分位数特征 (捕捉分布形状)
+            features[f'{prefix}GND_Q25'] = gnd_data.quantile(0.25)  # 第一四分位数
+            features[f'{prefix}GND_Q50'] = gnd_data.quantile(0.50)  # 中位数
+            features[f'{prefix}GND_Q75'] = gnd_data.quantile(0.75)  # 第三四分位数
+            features[f'{prefix}GND_Q90'] = gnd_data.quantile(0.90)  # 90%分位数 (尾部)
+            features[f'{prefix}GND_Q95'] = gnd_data.quantile(0.95)  # 95%分位数 (极端值)
+            features[f'{prefix}GND_Q99'] = gnd_data.quantile(0.99)  # 99%分位数 (绝对峰值)
+            
+            # 四分位距 (IQR) - 衡量数据离散度，对异常值稳健
+            features[f'{prefix}GND_IQR'] = gnd_data.quantile(0.75) - gnd_data.quantile(0.25)
+            
+            # 绝对峰值 (99.9%分位数 - 代表最大GND区域)
+            features[f'{prefix}GND_Peak'] = gnd_data.quantile(0.999)
+            
+            # 偏度 (Skewness) - 衡量分布不对称性
+            # 正偏: 峰值在左，长尾在右 (多数区域低GND，少数区域高GND)
+            # 负偏: 峰值在右，长尾在左 (多数区域高GND，少数区域低GND)
+            if len(gnd_data) > 3 and gnd_data.std() > 0:
+                features[f'{prefix}GND_Skewness'] = gnd_data.skew()
+            else:
+                features[f'{prefix}GND_Skewness'] = 0.0
+            
+            # 峰度 (Kurtosis) - 衡量尾部厚度 (极端值多少)
+            if len(gnd_data) > 4 and gnd_data.std() > 0:
+                features[f'{prefix}GND_Kurtosis'] = gnd_data.kurtosis()
+            else:
+                features[f'{prefix}GND_Kurtosis'] = 0.0
+            
+            # 变异系数 (CV) - 标准化离散度
+            if gnd_data.mean() > 0:
+                features[f'{prefix}GND_CV'] = gnd_data.std() / gnd_data.mean()
+            else:
+                features[f'{prefix}GND_CV'] = 0.0
+            
+            # 高GND区域比例 (超过均值+2倍标准差的像素比例)
+            high_gnd_threshold = gnd_data.mean() + 2 * gnd_data.std()
+            features[f'{prefix}GND_HighRatio'] = (gnd_data > high_gnd_threshold).mean()
+            
+            # 低GND区域比例 (低于25%分位数的像素比例 - 代表再结晶/低缺陷区域)
+            features[f'{prefix}GND_LowRatio'] = (gnd_data < gnd_data.quantile(0.25)).mean()
 
     return features
 
-def build_training_dataset(root_dir, target_indices, color_tolerance=50):
-    # 将用户输入的密勒指数自动转换为 AZtec 颜色
-    target_rgbs = [hkl_to_aztec_rgb(h, k, l) for h, k, l in target_indices]
+# 定义所有可能的目标晶向（用于One-Hot编码）
+# 可以根据需要扩展这个列表
+ALL_TARGET_ORIENTATIONS = [
+    (1, 0, 3),   # <103>
+    (1, 0, 2),   # <102>
+    (3, 0, 1),   # <301>
+    (1, 1, 4),   # <114>
+    (1, 1, 5),   # <115>
+    (1, 0, 5),   # <105>
+    (1, 2, 4),   # <124>
+    (1, 2, 5),   # <125>
+    (2, 1, 4),   # <214>
+]
+
+
+# 定义所有目标晶向组合方案
+TARGET_SCHEMES = {
+    1: {
+        'name': '<103> 型织构（橙色系）',
+        'indices': [(1, 0, 3), (1, 0, 2), (3, 0, 1)]
+    },
+    2: {
+        'name': '<114> 型织构（粉紫色系）',
+        'indices': [(1, 1, 4), (1, 1, 5), (1, 0, 5)]
+    },
+    3: {
+        'name': '<124> 型织构（混合色）',
+        'indices': [(1, 2, 4), (1, 2, 5), (2, 1, 4)]
+    },
+    4: {
+        'name': '自定义组合',
+        'indices': [(1, 0, 3), (1, 1, 4), (1, 2, 4)]
+    }
+}
+
+
+def build_training_dataset_multi_target(root_dir, target_schemes, color_tolerance=80, all_targets=None):
+    """
+    构建多目标训练数据集
+    
+    为每个实验样本计算所有目标晶向方案的产率，将1个实验扩展为多行数据
+    
+    Args:
+        root_dir: 数据根目录
+        target_schemes: 目标晶向方案字典 {scheme_id: {'name': str, 'indices': [(h,k,l), ...]}}
+        color_tolerance: 颜色容差
+        all_targets: 所有可能的目标晶向列表（用于One-Hot编码）
+    """
+    if all_targets is None:
+        all_targets = ALL_TARGET_ORIENTATIONS
+    
+    print(f"将为每个实验计算 {len(target_schemes)} 种目标晶向方案的产率")
+    for scheme_id, scheme_info in target_schemes.items():
+        rgbs = [hkl_to_aztec_rgb(h, k, l) for h, k, l in scheme_info['indices']]
+        print(f"  方案 {scheme_id}: {scheme_info['name']}")
+        for (h, k, l), rgb in zip(scheme_info['indices'], rgbs):
+            print(f"    <{h}{k}{l}> -> RGB: {rgb}")
+    print()
         
-    print(f"正在追踪的单晶目标面及其计算颜色：")
-    for idx, (h,k,l) in enumerate(target_indices):
-        print(f"   <{h}{k}{l}> -> RGB: {target_rgbs[idx]}")
-        
-    print(f"\n开始扫描实验数据库并进行色彩降维：{root_dir}")
+    print(f"\n开始扫描实验数据库：{root_dir}")
     all_experiments = []
 
     for folder_name in os.listdir(root_dir):
@@ -126,16 +221,16 @@ def build_training_dataset(root_dir, target_indices, color_tolerance=50):
             
         pre_path = os.path.join(folder_path, 'pre.csv')
         done_path = os.path.join(folder_path, 'done.csv')
-        # 匹配 condition 文件（支持 .xls Excel 或 .csv 格式）
         cond_path = os.path.join(folder_path, 'condition.xls')
         if not os.path.exists(cond_path):
             cond_path = os.path.join(folder_path, 'condition.csv') 
 
         if os.path.exists(pre_path) and os.path.exists(done_path) and os.path.exists(cond_path):
             try:
-                exp_data = extract_macro_rgb_features(pre_path, target_rgbs=None, prefix="Pre_")
+                # 提取预处理特征（所有方案共享相同的预处理特征）
+                pre_features = extract_macro_rgb_features(pre_path, target_rgbs=None, prefix="Pre_")
                 
-                # 读取工艺条件（兼容 Excel 和 CSV 格式）
+                # 读取工艺条件
                 if cond_path.endswith('.xls') or cond_path.endswith('.xlsx'):
                     cond_df = pd.read_excel(cond_path)
                 else:
@@ -144,27 +239,41 @@ def build_training_dataset(root_dir, target_indices, color_tolerance=50):
                     except:
                         cond_df = pd.read_csv(cond_path, encoding='gbk')
                 
-                # 提取工艺参数（兼容不同命名格式）
+                process_params = {}
                 if 'temprature(℃)' in cond_df.columns:
-                    exp_data['Process_Temp'] = cond_df['temprature(℃)'].iloc[0]
+                    process_params['Process_Temp'] = cond_df['temprature(℃)'].iloc[0]
                 elif 'Temp' in cond_df.columns:
-                    exp_data['Process_Temp'] = cond_df['Temp'].iloc[0]
+                    process_params['Process_Temp'] = cond_df['Temp'].iloc[0]
                     
                 if 'time(h)' in cond_df.columns:
-                    exp_data['Process_Time'] = cond_df['time(h)'].iloc[0]
+                    process_params['Process_Time'] = cond_df['time(h)'].iloc[0]
                 elif 'Time' in cond_df.columns:
-                    exp_data['Process_Time'] = cond_df['Time'].iloc[0]
+                    process_params['Process_Time'] = cond_df['Time'].iloc[0]
                     
-                if 'H2' in cond_df.columns: exp_data['Process_H2'] = cond_df['H2'].iloc[0]
-                if 'Ar' in cond_df.columns: exp_data['Process_Ar'] = cond_df['Ar'].iloc[0]
+                if 'H2' in cond_df.columns: process_params['Process_H2'] = cond_df['H2'].iloc[0]
+                if 'Ar' in cond_df.columns: process_params['Process_Ar'] = cond_df['Ar'].iloc[0]
                 
-                # 计算综合产率
-                done_features = extract_macro_rgb_features(done_path, target_rgbs=target_rgbs, tolerance=color_tolerance)
-                exp_data['TARGET_Yield'] = done_features.get('TARGET_Yield', 0.0) 
+                # 为每个目标晶向方案计算产率
+                for scheme_id, scheme_info in target_schemes.items():
+                    exp_data = pre_features.copy()
+                    exp_data.update(process_params)
+                    
+                    # 设置目标晶向One-Hot编码
+                    scheme_indices = scheme_info['indices']
+                    for hkl in all_targets:
+                        key = f"Target_{hkl[0]}{hkl[1]}{hkl[2]}"
+                        exp_data[key] = 1.0 if hkl in scheme_indices else 0.0
+                    
+                    # 计算该方案的目标产率
+                    target_rgbs = [hkl_to_aztec_rgb(h, k, l) for h, k, l in scheme_indices]
+                    done_features = extract_macro_rgb_features(done_path, target_rgbs=target_rgbs, tolerance=color_tolerance)
+                    exp_data['TARGET_Yield'] = done_features.get('TARGET_Yield', 0.0)
+                    
+                    exp_data['Sample_ID'] = folder_name
+                    exp_data['Target_Scheme'] = scheme_id
+                    all_experiments.append(exp_data)
                 
-                exp_data['Sample_ID'] = folder_name
-                all_experiments.append(exp_data)
-                print(f"成功提取批次：{folder_name} (综合目标产率：{exp_data['TARGET_Yield']:.1%})")
+                print(f"成功提取批次：{folder_name} (已扩展为 {len(target_schemes)} 行数据)")
                             
             except Exception as e:
                 print(f"解析文件夹 {folder_name} 时出错：{e}")
@@ -178,68 +287,39 @@ if __name__ == "__main__":
     # ==========================
     ROOT_DATA_DIR = r"D:\毕业设计\织构数据\数据总结" 
     
-    # ==========================================
-    # 🎯 目标晶向配置区（多方案备选）
-    # ==========================================
-    # 使用说明：
-    # 1. 在下方定义多个目标晶向组合
-    # 2. 修改 CURRENT_TARGET 来选择使用哪个组合
-    # 3. 每个组合可以包含多个等价的晶向指数
-    # ==========================================
-    
-    # 方案 1: <103> 型织构（橙色系，根据实际数据推荐）
-    TARGET_SET_1 = [
-        (1, 0, 3),   # <103> - 主目标
-        (1, 0, 2),   # <102> - 相近织构
-        (3, 0, 1),   # <301> - 对称等价
-    ]
-    
-    # 方案 2: <114> 型织构（粉紫色系）
-    TARGET_SET_2 = [
-        (1, 1, 4),
-        (1, 1, 5),
-        (1, 0, 5),
-    ]
-    
-    # 方案 3: <124> 型织构（混合色）
-    TARGET_SET_3 = [
-        (1, 2, 4),
-        (1, 2, 5),
-        (2, 1, 4),
-    ]
-    
-    # 方案 4: 自定义组合（你可以自由修改）
-    TARGET_SET_4 = [
-        (1, 0, 3),
-        (1, 1, 4),
-        (1, 2, 4),
-    ]
-    
-    # 🎯 当前使用的目标晶向组合（修改这里的数字来切换方案）
-    CURRENT_TARGET = 1  # 可选值：1, 2, 3, 4
-    
-    # 根据选择加载对应的晶向组合
-    if CURRENT_TARGET == 1:
-        TARGET_INDICES = TARGET_SET_1
-        print("当前使用方案 1: <103> 型织构（橙色系）")
-    elif CURRENT_TARGET == 2:
-        TARGET_INDICES = TARGET_SET_2
-        print("当前使用方案 2: <114> 型织构（粉紫色系）")
-    elif CURRENT_TARGET == 3:
-        TARGET_INDICES = TARGET_SET_3
-        print("当前使用方案 3: <124> 型织构（混合色）")
-    else:
-        TARGET_INDICES = TARGET_SET_4
-        print("当前使用方案 4: 自定义组合")
-    
     # 色差容忍度 (0=必须纯色，50=稍微带渐变，80+=非常宽松)
-    # 根据实际数据，<103> 织构的颜色范围较宽，建议使用 80-100
     COLOR_TOLERANCE = 80 
     
-    # ==========================
-    print(f"\n目标晶向：{TARGET_INDICES}")
-    print(f" 容忍度：{COLOR_TOLERANCE}\n")
+    # 选择要计算的目标晶向方案（可以选1个或多个）
+    # 例如：只计算方案1 -> {1: TARGET_SCHEMES[1]}
+    # 例如：计算所有方案 -> TARGET_SCHEMES
+    SELECTED_SCHEMES = TARGET_SCHEMES  # 默认计算所有4个方案
     
-    training_data = build_training_dataset(ROOT_DATA_DIR, TARGET_INDICES, COLOR_TOLERANCE)
+    print("=" * 60)
+    print("多目标贝叶斯优化数据构建器")
+    print("=" * 60)
+    print(f"将为每个实验样本计算 {len(SELECTED_SCHEMES)} 种目标晶向方案的产率")
+    print(f"原始样本数 × {len(SELECTED_SCHEMES)} = 最终训练数据行数")
+    print(f"色差容忍度: {COLOR_TOLERANCE}")
+    print("=" * 60 + "\n")
+    
+    # 构建多目标训练数据集
+    training_data = build_training_dataset_multi_target(
+        ROOT_DATA_DIR, 
+        SELECTED_SCHEMES, 
+        color_tolerance=COLOR_TOLERANCE
+    )
+    
+    # 保存数据
     training_data.to_csv("Optimized_Training_Data.csv", index=False)
-    print("\n数据处理完成！文件已保存为 Optimized_Training_Data.csv")
+    
+    print("\n" + "=" * 60)
+    print("数据处理完成！")
+    print(f"原始实验批次: {training_data['Sample_ID'].nunique()}")
+    print(f"目标晶向方案数: {len(SELECTED_SCHEMES)}")
+    print(f"最终训练数据行数: {len(training_data)}")
+    print(f"特征维度: {len([c for c in training_data.columns if c.startswith('Pre_')])} Pre + " +
+          f"{len([c for c in training_data.columns if c.startswith('Target_')])} Target + " +
+          f"4 Process")
+    print(f"文件已保存: Optimized_Training_Data.csv")
+    print("=" * 60)

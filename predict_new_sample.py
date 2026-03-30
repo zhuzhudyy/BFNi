@@ -69,14 +69,15 @@ def preview_features(features, n=5):
         print(f"  ... 共 {len(features)} 个特征")
 
 
-def predict_optimal_process(data_file, pre_file, scheme_name):
+def predict_optimal_process(data_file, pre_file, scheme_name, target_orientations=None):
     """
-    主预测流程
+    主预测流程（支持多任务，可指定目标晶向列表）
     
     参数:
         data_file: 训练数据文件路径
         pre_file: 新样品的 pre.csv 文件路径
         scheme_name: 当前使用的方案名称
+        target_orientations: 目标晶向列表，如 [(1,0,3), (1,0,2), (3,0,1)]。None表示使用训练数据的目标
     """
     # 定义工艺参数搜索边界
     process_bounds = {
@@ -88,6 +89,9 @@ def predict_optimal_process(data_file, pre_file, scheme_name):
     
     print(f"\n当前使用方案: {scheme_name}")
     print(f"数据文件: {data_file}")
+    if target_orientations:
+        targets_str = [f"<{h}{k}{l}>" for h,k,l in target_orientations]
+        print(f"目标晶向: {targets_str}")
     
     # 加载并训练模型
     print("\n正在加载模型...")
@@ -99,9 +103,9 @@ def predict_optimal_process(data_file, pre_file, scheme_name):
     new_sample_features = extract_features_from_file(pre_file)
     preview_features(new_sample_features)
     
-    # 执行预测
+    # 执行预测（传入目标晶向列表）
     print("\n正在基于预处理特征推荐最优工艺...")
-    best_recipe = optimizer.recommend_next_process(new_sample_features)
+    best_recipe = optimizer.recommend_next_process(new_sample_features, target_orientations)
     
     return best_recipe
 
@@ -115,12 +119,20 @@ if __name__ == "__main__":
         4: "自定义组合"
     }
     
+    # 方案对应的主目标晶向（用于Multi-Hot编码）
+    scheme_targets = {
+        1: [(1, 0, 3), (1, 0, 2), (3, 0, 1)],   # 方案1: <103>, <102>, <301>
+        2: [(1, 1, 4), (1, 1, 5), (1, 0, 5)],   # 方案2: <114>, <115>, <105>
+        3: [(1, 2, 4), (1, 2, 5), (2, 1, 4)],   # 方案3: <124>, <125>, <214>
+        4: [(1, 0, 3), (1, 1, 4), (1, 2, 4)]    # 方案4: <103>, <114>, <124>
+    }
+    
     # 自动检测数据文件，优先使用默认文件
     default_file = "Optimized_Training_Data.csv"
     
     if os.path.exists(default_file):
         data_file = default_file
-        scheme = 1  # 默认使用方案1的名称
+        scheme = 1  # 默认使用方案1
         print(f"[*] 使用默认数据文件: {data_file}")
         print(f"[*] 使用默认方案: {scheme_names[scheme]}")
     else:
@@ -137,10 +149,14 @@ if __name__ == "__main__":
     # 获取 pre 文件路径
     pre_file = get_pre_file_path()
     
-    # 执行预测
+    # 执行预测（传入该方案的所有目标晶向用于Multi-Hot编码）
     try:
-        best_recipe = predict_optimal_process(data_file, pre_file, scheme_names[scheme])
+        target_orientations = scheme_targets[scheme]
+        print(f"[*] 目标晶向: {[f'<{h}{k}{l}>' for h,k,l in target_orientations]}")
+        best_recipe = predict_optimal_process(data_file, pre_file, scheme_names[scheme], target_orientations)
         print("\n预测完成!")
     except Exception as e:
         print(f"\n预测过程中出错: {e}")
+        import traceback
+        traceback.print_exc()
         sys.exit(1)
