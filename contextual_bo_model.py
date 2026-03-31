@@ -25,10 +25,13 @@ class ContextualBayesianOptimizer:
         self.target_cols = []  # 目标晶向One-Hot特征列
         self.target_orientations = target_orientations or []
         
-        # 定义核函数：常数核 * Matern核 + 白噪声核
+        # 定义核函数：常数核 * Matern核(启用ARD) + 白噪声核
         # Matern(nu=2.5) 适用于具有二阶可导性的物理过程拟合
-        # WhiteKernel 用于吸收实验测量中的随机系统误差（噪音）
-        kernel = ConstantKernel(1.0, (1e-3, 1e3)) * Matern(length_scale=1.0, nu=2.5) + WhiteKernel(noise_level=1e-4)
+        # ARD (Automatic Relevance Determination): 为每个特征分配独立的长度尺度
+        # 这样模型可以自动学习哪些特征更重要（长度尺度小 = 更敏感）
+        # 注意：ARD长度尺度将在train()中根据实际特征维度初始化
+        self.ard_length_scale = 1.0  # 临时值，将在train时更新
+        kernel = ConstantKernel(1.0, (1e-3, 1e3)) * Matern(length_scale=self.ard_length_scale, nu=2.5) + WhiteKernel(noise_level=1e-4)
         
         self.gpr = GaussianProcessRegressor(
             kernel=kernel, 
@@ -55,16 +58,98 @@ class ContextualBayesianOptimizer:
         X_df = self.training_df[all_feature_cols]
         y = self.training_df['TARGET_Yield'].values
         
+        n_features = len(all_feature_cols)
+        
+        # 启用 ARD: 为每个特征分配独立的长度尺度
+        # 重新构建带ARD的核函数
+        ard_length_scales = [1.0] * n_features  # 每个特征一个长度尺度参数
+        ard_bounds = [(1e-5, 1e5)] * n_features  # 每个特征独立的搜索范围
+        
+        kernel_ard = ConstantKernel(1.0, (1e-3, 1e3)) * \
+                     Matern(length_scale=ard_length_scales, length_scale_bounds=ard_bounds, nu=2.5) + \
+                     WhiteKernel(noise_level=1e-4)
+        
+        # 更新GPR的核函数
+        self.gpr.kernel = kernel_ard
+        
         # 对输入空间进行标准化处理，加速核函数收敛
         X_scaled = self.scaler_X.fit_transform(X_df)
         
         # 模型拟合
         self.gpr.fit(X_scaled, y)
+        
+        # 打印ARD分析结果
+        self._print_ard_analysis()
         print(f"代理模型训练完毕。吸收样本量: {len(self.training_df)}，总特征维度: {len(all_feature_cols)}。")
         print(f"  - EBSD预处理特征: {len(self.pre_feature_cols)} 维")
         print(f"  - 目标晶向One-Hot: {len(self.target_cols)} 维")
         print(f"  - 工艺参数: {len(self.process_cols)} 维")
         print(f"优化后核函数参数: {self.gpr.kernel_}")
+
+    def _print_ard_analysis(self):
+        """
+        打印ARD (Automatic Relevance Determination) 分析结果
+        显示每个特征的长度尺度，判断特征重要性
+        """
+        try:
+            # 从优化后的核函数中提取Matern核的长度尺度
+            kernel = self.gpr.kernel_
+            # 核函数结构: ConstantKernel * Matern + WhiteKernel
+            # 所以 kernel.k1 是 ConstantKernel * Matern, kernel.k2 是 WhiteKernel
+            matern_kernel = kernel.k1.k2  # 获取Matern核
+            length_scales = matern_kernel.length_scale
+            
+            all_feature_cols = self.pre_feature_cols + self.target_cols + self.process_cols
+            
+            print("\n" + "="*60)
+            print("           ARD 特征重要性分析 (长度尺度越小 = 越重要)")
+            print("="*60)
+            
+            # 按特征类别分组显示
+            idx = 0
+            
+            # EBSD预处理特征
+            if self.pre_feature_cols:
+                print("\n【EBSD预处理特征】")
+                for col in self.pre_feature_cols:
+                    if idx < len(length_scales):
+                        ls = length_scales[idx]
+                        importance = "★★★" if ls < 0.5 else ("★★" if ls < 1.0 else "★")
+                        print(f"  {col:25s}: length_scale = {ls:8.4f} {importance}")
+                        idx += 1
+            
+            # 目标晶向One-Hot
+            if self.target_cols:
+                print("\n【目标晶向One-Hot】")
+                for col in self.target_cols:
+                    if idx < len(length_scales):
+                        ls = length_scales[idx]
+                        importance = "★★★" if ls < 0.5 else ("★★" if ls < 1.0 else "★")
+                        print(f"  {col:25s}: length_scale = {ls:8.4f} {importance}")
+                        idx += 1
+            
+            # 工艺参数
+            if self.process_cols:
+                print("\n【工艺参数】")
+                for col in self.process_cols:
+                    if idx < len(length_scales):
+                        ls = length_scales[idx]
+                        importance = "★★★" if ls < 0.5 else ("★★" if ls < 1.0 else "★")
+                        print(f"  {col:25s}: length_scale = {ls:8.4f} {importance}")
+                        idx += 1
+            
+            # 找出最重要和最不重要的特征
+            if len(length_scales) == len(all_feature_cols):
+                sorted_indices = np.argsort(length_scales)
+                print(f"\n【ARD分析结论】")
+                print(f"  最敏感特征 (最重要): {all_feature_cols[sorted_indices[0]]} (ls={length_scales[sorted_indices[0]]:.4f})")
+                print(f"  最不敏感特征: {all_feature_cols[sorted_indices[-1]]} (ls={length_scales[sorted_indices[-1]]:.4f})")
+            
+            print("="*60)
+            
+        except Exception as e:
+            # 如果解析失败，不中断训练流程
+            print(f"\n[ARD分析] 无法解析核函数参数: {e}")
 
     def expected_improvement(self, X_process_array, x_pre_array, y_best, target_onehot=None):
         """

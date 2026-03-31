@@ -30,19 +30,25 @@ plt.rcParams['axes.unicode_minus'] = False
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from contextual_bo_model import ContextualBayesianOptimizer, select_scheme
 
-def create_output_dir():
+def create_output_dir(scheme_id=None, n_samples=None):
     """
     创建带时间戳的输出文件夹到指定路径
+    文件夹命名: D:\毕业设计\织构数据\visualization\model_visualization
+    子文件夹命名: Scheme{ID}_N{样本量}_{时间戳}
     """
     # 基础输出路径
-    base_output_path = r"D:\毕业设计\织构数据\visualization"
+    base_output_path = r"D:\毕业设计\织构数据\visualization\model_visualization"
     
     # 确保基础路径存在
     os.makedirs(base_output_path, exist_ok=True)
     
-    # 创建带时间戳的子文件夹
+    # 创建带方案ID、样本量和时间戳的子文件夹
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = os.path.join(base_output_path, f"viz_{timestamp}")
+    if scheme_id is not None and n_samples is not None:
+        folder_name = f"Scheme{scheme_id}_N{n_samples}_{timestamp}"
+    else:
+        folder_name = f"viz_{timestamp}"
+    output_dir = os.path.join(base_output_path, folder_name)
     os.makedirs(output_dir, exist_ok=True)
     
     print(f"[*] 创建可视化输出文件夹: {output_dir}")
@@ -417,10 +423,14 @@ if __name__ == "__main__":
     optimizer = ContextualBayesianOptimizer(bounds=process_bounds)
     optimizer.train(data_file)
     
+    # 获取样本数量
+    df = pd.read_csv(data_file)
+    n_samples = len(df)
+    
     # ==========================
     # 2. 创建输出文件夹
     # ==========================
-    output_dir = create_output_dir()
+    output_dir = create_output_dir(scheme_id=current_scheme, n_samples=n_samples)
     
     # ==========================
     # 3. 执行可视化绘图
