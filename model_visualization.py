@@ -31,7 +31,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from contextual_bo_model import ContextualBayesianOptimizer, select_scheme
 
 def create_output_dir(scheme_id=None, n_samples=None):
-    """
+    r"""
     创建带时间戳的输出文件夹到指定路径
     文件夹命名: D:\毕业设计\织构数据\visualization\model_visualization
     子文件夹命名: Scheme{ID}_N{样本量}_{时间戳}

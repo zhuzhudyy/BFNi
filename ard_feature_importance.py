@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 ARD (Automatic Relevance Determination) 特征重要性可视化
 
@@ -14,17 +15,34 @@ ARD (Automatic Relevance Determination) 特征重要性可视化
 
 import os
 import sys
+import io
+
+# 修复 VS Code / Windows 终端中文乱码问题
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
 import warnings
+import logging
 
+# 完全屏蔽所有警告
 warnings.filterwarnings("ignore")
+
+# 屏蔽 Matplotlib 的字体日志警告
+logging.getLogger('matplotlib.font_manager').setLevel(logging.ERROR)
+logging.getLogger('matplotlib').setLevel(logging.ERROR)
 
 # 设置中文字体
 plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'Arial Unicode MS']
 plt.rcParams['axes.unicode_minus'] = False
+
+# 使用 DejaVu Sans 作为备用字体，避免 \u2212 (减号) 警告
+plt.rcParams['font.family'] = ['sans-serif']
+plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'Arial Unicode MS', 'DejaVu Sans']
+plt.rcParams['axes.formatter.use_mathtext'] = False
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from contextual_bo_model import ContextualBayesianOptimizer
@@ -229,7 +247,14 @@ if __name__ == "__main__":
     print_top_features(df_importance, top_n=10)
     
     # 创建输出目录
-    output_dir = r"D:\毕业设计\织构数据\visualization\ard_importance"
+    # 优先使用 D:\毕业设计\织构数据\visualization，如果不存在则使用当前目录下的 visualization
+    default_path = r"D:\毕业设计\织构数据\visualization\ard_importance"
+    if os.path.exists(r"D:\毕业设计\织构数据"):
+        output_dir = default_path
+    else:
+        output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "visualization", "ard_importance")
+        print(f"[!] 未检测到 D:\毕业设计\织构数据，使用本地路径: {output_dir}")
+    
     os.makedirs(output_dir, exist_ok=True)
     
     # 绘制可视化

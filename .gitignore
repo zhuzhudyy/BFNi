@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# 虚拟环境
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 数据文件（大数据集不应提交到git）
+*.csv
+*.xls
+*.xlsx
+
+# 生成的可视化文件
+*.png
+*.jpg
+*.pdf
+visualization/
+
+# 文档
+*.docx
+*.doc
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# Lingma
+.lingma/

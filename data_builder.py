@@ -189,7 +189,7 @@ TARGET_SCHEMES = {
 }
 
 
-def build_training_dataset_multi_target(root_dir, target_schemes, color_tolerance=80, all_targets=None):
+def build_training_dataset_multi_target(root_dir, target_schemes, color_tolerance=20, all_targets=None):
     """
     构建多目标训练数据集
     
