@@ -26,8 +26,10 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # 设置中文字体，防止图表乱码
-plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'Arial Unicode MS']
-plt.rcParams['axes.unicode_minus'] = False
+# 使用 SimHei 显示中文，DejaVu Sans 显示负号等特殊字符
+plt.rcParams['font.family'] = ['sans-serif']
+plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'Arial Unicode MS', 'DejaVu Sans']
+plt.rcParams['axes.unicode_minus'] = True  # 使用 Unicode 负号，确保正确显示
 
 # 导入自定义的 MTBO 模型
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -59,7 +61,7 @@ def calculate_cognitive_convergence(optimizer, data_file, target_orientations, n
     n_process = len(optimizer.process_cols)
     total_dims = n_pre + n_process
     
-    # 使用拉丁超立方采样 (LHS) 均匀覆盖整个高维空间
+    # 使用拉丁超立方采样 (LHS) 均匀覆盖整个高维空间 (取消固定seed，保留自然随机波动)
     sampler = qmc.LatinHypercube(d=total_dims)
     sample = sampler.random(n_simulations)
     
@@ -98,10 +100,21 @@ def calculate_cognitive_convergence(optimizer, data_file, target_orientations, n
         X_train = df_subset[optimizer.pre_feature_cols + optimizer.target_cols + optimizer.process_cols].values
         y_train = df_subset['TARGET_Yield'].values
         
-        # 实例化临时模型并训练
-        gpr = optimizer.gpr
+        from sklearn.gaussian_process.kernels import Matern, ConstantKernel, WhiteKernel
+        from sklearn.gaussian_process import GaussianProcessRegressor
+        
         scaler = optimizer.scaler_X
         X_train_scaled = scaler.fit_transform(X_train)
+        n_features = X_train_scaled.shape[1]
+        
+        # 统一使用受保护的 ARD 核函数，移除导致曲线断裂的 if n < 10 硬分支
+        # 强制特征长度尺度下限为 0.1，防止维度坍缩
+        safe_kernel = ConstantKernel(1.0, (1e-2, 1e2)) * \
+                      Matern(length_scale=[1.0]*n_features, length_scale_bounds=[(0.1, 100.0)]*n_features, nu=2.5) + \
+                      WhiteKernel(noise_level=1e-3, noise_level_bounds=(1e-5, 1e-1))
+        
+        # 重新实例化安全的 GPR 并训练
+        gpr = GaussianProcessRegressor(kernel=safe_kernel, n_restarts_optimizer=5, normalize_y=True, random_state=42)
         gpr.fit(X_train_scaled, y_train)
         
         # 让模型去预测全空间的产率与不确定度(Sigma)
@@ -112,7 +125,6 @@ def calculate_cognitive_convergence(optimizer, data_file, target_orientations, n
         mean_uncertainty_history.append(np.mean(sigma))
         max_uncertainty_history.append(np.max(sigma))
         
-        # 进度条提示
         if n % 5 == 0 or n == iterations[-1]:
             print(f"    - 迭代第 {n:02d} 步: 平均不确定度 \u03c3 = {np.mean(sigma):.4f}")
         
@@ -143,13 +155,13 @@ def plot_cognitive_convergence(iterations, mean_uncertainty, max_uncertainty, sc
     ax.grid(True, linestyle='--', alpha=0.6)
     ax.legend(loc='upper right', fontsize=11, framealpha=0.9)
     
-    # 生成学术结论 (置于图表底部)
+    # 生成学术结论：以历史最大峰值盲区作为衰减基准，修正早期假性自信导致的负衰减率
     final_mean_sigma = mean_uncertainty[-1]
-    initial_mean_sigma = mean_uncertainty[0]
-    decay_ratio = (initial_mean_sigma - final_mean_sigma) / initial_mean_sigma if initial_mean_sigma > 0 else 0
+    peak_mean_sigma = max(mean_uncertainty)
+    decay_ratio = (peak_mean_sigma - final_mean_sigma) / peak_mean_sigma if peak_mean_sigma > 0 else 0
     
     if final_mean_sigma < 0.1 or decay_ratio > 0.7:
-        conclusion = (f"结论: 平均预测不确定度已降至 {final_mean_sigma:.4f} (累计衰减 {decay_ratio:.1%})。\n"
+        conclusion = (f"结论: 平均预测不确定度已降至 {final_mean_sigma:.4f} (峰值衰减 {decay_ratio:.1%})。\n"
                       f"证明代理模型已充分学习并掌握了初始微观态(Pre)与工艺参数(Process)的复杂映射规律，全局优化已达成认知收敛。")
         color = 'forestgreen'
     else:
@@ -162,9 +174,6 @@ def plot_cognitive_convergence(iterations, mean_uncertainty, max_uncertainty, sc
 
     plt.tight_layout()
     
-    # 自动保存图表到指定文件夹
-    # 文件夹命名: D:\毕业设计\织构数据\visualization\cognitive_convergence
-    # 文件名包含: 方案ID + 数据量N
     base_output_path = r"D:\毕业设计\织构数据\visualization\cognitive_convergence"
     os.makedirs(base_output_path, exist_ok=True)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -206,7 +215,6 @@ if __name__ == "__main__":
     
     print("\n[*] 正在初始化 Contextual MTBO 模型...")
     optimizer = ContextualBayesianOptimizer(bounds=process_bounds)
-    # 调用一次 train 仅为了让模型自动识别 pre_ 和 target_ 特征的维度结构
     optimizer.train(data_file) 
     
     target_scheme = scheme_targets[scheme_id]

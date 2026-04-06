@@ -23,8 +23,10 @@ from datetime import datetime
 warnings.filterwarnings("ignore")
 
 # 设置中文字体，防止图表中文字符显示为方块
-plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'Arial Unicode MS']
-plt.rcParams['axes.unicode_minus'] = False
+# 使用 SimHei 显示中文，DejaVu Sans 显示负号等特殊字符
+plt.rcParams['font.family'] = ['sans-serif']
+plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'Arial Unicode MS', 'DejaVu Sans']
+plt.rcParams['axes.unicode_minus'] = True  # 使用 Unicode 负号，确保正确显示
 
 # 导入自定义模型
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

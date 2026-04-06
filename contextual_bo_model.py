@@ -42,15 +42,66 @@ class ContextualBayesianOptimizer:
         
         self.scaler_X = StandardScaler()
         
-    def train(self, csv_path):
+    def _pre_feature_screening(self, df, pre_feature_cols, corr_threshold=0.9):
+        """
+        特征初筛：计算预处理特征间的皮尔逊相关系数矩阵
+        对于相关性极高（r > corr_threshold）的特征组，仅保留一个最具物理意义的代表
+        """
+        if len(pre_feature_cols) <= 5:
+            # 特征数已经很少，不需要筛选
+            return pre_feature_cols
+        
+        pre_df = df[pre_feature_cols]
+        corr_matrix = pre_df.corr(method='pearson')
+        
+        # 找出高相关性特征对
+        features_to_remove = set()
+        for i in range(len(corr_matrix.columns)):
+            for j in range(i+1, len(corr_matrix.columns)):
+                corr_val = corr_matrix.iloc[i, j]
+                if abs(corr_val) > corr_threshold:
+                    feat_i = corr_matrix.columns[i]
+                    feat_j = corr_matrix.columns[j]
+                    # 保留名称较短的特征
+                    if len(feat_i) <= len(feat_j):
+                        features_to_remove.add(feat_j)
+                    else:
+                        features_to_remove.add(feat_i)
+        
+        selected_features = [f for f in pre_feature_cols if f not in features_to_remove]
+        
+        print(f"\n【特征初筛】从 {len(pre_feature_cols)} 个预处理特征中筛选出 {len(selected_features)} 个")
+        if features_to_remove:
+            print(f"  移除高相关性特征: {list(features_to_remove)[:5]}...")
+        
+        return selected_features
+    
+    def train(self, csv_path, enable_feature_screening=True):
         """
         读取历史实验数据并拟合代理模型（支持多任务）
+        
+        Args:
+            csv_path: 训练数据文件路径
+            enable_feature_screening: 是否启用特征初筛（小样本时建议启用）
         """
         self.training_df = pd.read_csv(csv_path)
         
         # 自动识别各类特征列
         self.pre_feature_cols = [col for col in self.training_df.columns if col.startswith('Pre_')]
         self.target_cols = [col for col in self.training_df.columns if col.startswith('Target_')]
+        
+        # 【修复】小样本时进行特征初筛，防止维度灾难
+        n_samples = len(self.training_df)
+        n_pre_features = len(self.pre_feature_cols)
+        
+        # 强制启用特征初筛：样本数不足特征数5倍时降维
+        if enable_feature_screening and n_samples < n_pre_features * 5:
+            print(f"\n[!] 警告: 样本数({n_samples})不足预处理特征数({n_pre_features})的5倍")
+            print("    启用特征初筛以防止模型过拟合...")
+            # 提高相关性阈值，更激进地降维
+            self.pre_feature_cols = self._pre_feature_screening(
+                self.training_df, self.pre_feature_cols, corr_threshold=0.8
+            )
         
         # 构建特征矩阵 X 与目标向量 y
         # 顺序: EBSD预处理特征 + 目标晶向One-Hot + 工艺参数
@@ -63,7 +114,12 @@ class ContextualBayesianOptimizer:
         # 启用 ARD: 为每个特征分配独立的长度尺度
         # 重新构建带ARD的核函数
         ard_length_scales = [1.0] * n_features  # 每个特征一个长度尺度参数
-        ard_bounds = [(1e-5, 1e5)] * n_features  # 每个特征独立的搜索范围
+        
+        # 【修复】提高长度尺度下界，防止"长度尺度坍缩"
+        # 原设置 (1e-5, 1e5) 会导致小样本时模型退化为全局常数
+        # 设置 (1.0, 100) 强制模型保持更强的空间平滑性和泛化能力
+        # 下界1.0确保模型必须认为至少1个单位范围内的点是相关的
+        ard_bounds = [(1.0, 100.0)] * n_features  # 每个特征独立的搜索范围
         
         kernel_ard = ConstantKernel(1.0, (1e-3, 1e3)) * \
                      Matern(length_scale=ard_length_scales, length_scale_bounds=ard_bounds, nu=2.5) + \
@@ -232,7 +288,8 @@ class ContextualBayesianOptimizer:
             y_best = self.gpr.y_train_.max()
             n_matching = len(self.gpr.y_train_)
         
-        # 在多维工艺参数空间内进行蒙特卡洛随机采样
+        # ==================== 两步 EI 优化策略 ====================
+        # 步骤1: 大规模随机采样，寻找有潜力的区域
         sampled_process = np.zeros((n_random_starts, len(self.process_cols)))
         for i, col in enumerate(self.process_cols):
             low, high = self.bounds[col]
@@ -243,11 +300,72 @@ class ContextualBayesianOptimizer:
             sampled_process, x_pre, y_best, target_onehot
         )
         
-        # 锁定最大期望提升点
-        best_idx = np.argmax(ei_values)
-        best_process = sampled_process[best_idx]
-        expected_yield = mu_values[best_idx]
-        uncertainty = sigma_values[best_idx]
+        # 步骤2: 取Top 5作为初始点，进行局部梯度优化
+        from scipy.optimize import minimize
+        
+        # 获取Top 5索引
+        top5_indices = np.argsort(ei_values)[-5:][::-1]
+        top5_process = sampled_process[top5_indices]
+        top5_ei = ei_values[top5_indices]
+        
+        print(f"\n[*] 随机采样完成，Top 5 EI 值: {top5_ei}")
+        print("[*] 对Top 5点进行L-BFGS-B局部优化...")
+        
+        # 定义边界（用于L-BFGS-B）
+        bounds_list = [(self.bounds[col][0], self.bounds[col][1]) for col in self.process_cols]
+        
+        # 定义负EI函数（用于最小化）
+        def neg_ei(x_process):
+            x_process = x_process.reshape(1, -1)
+            ei, _, _ = self.expected_improvement(x_process, x_pre, y_best, target_onehot)
+            return -ei[0]  # 返回负EI用于最小化
+        
+        # 对每个Top点进行局部优化
+        optimized_results = []
+        for i, init_point in enumerate(top5_process):
+            try:
+                result = minimize(
+                    neg_ei,
+                    init_point,
+                    method='L-BFGS-B',
+                    bounds=bounds_list,
+                    options={'maxiter': 100, 'ftol': 1e-9}
+                )
+                optimized_ei = -result.fun
+                optimized_results.append({
+                    'ei': optimized_ei,
+                    'x': result.x,
+                    'init_ei': top5_ei[i],
+                    'improvement': optimized_ei - top5_ei[i],
+                    'success': result.success
+                })
+                print(f"    Top {i+1}: EI {top5_ei[i]:.6f} → {optimized_ei:.6f} "
+                      f"(提升: {optimized_ei - top5_ei[i]:.6f})")
+            except Exception as e:
+                print(f"    Top {i+1}: 优化失败 ({e})")
+                optimized_results.append({
+                    'ei': top5_ei[i],
+                    'x': init_point,
+                    'init_ei': top5_ei[i],
+                    'improvement': 0,
+                    'success': False
+                })
+        
+        # 选择优化后EI最大的点
+        best_result = max(optimized_results, key=lambda r: r['ei'])
+        best_process = best_result['x']
+        
+        # 获取最终预测值
+        _, final_mu, final_sigma = self.expected_improvement(
+            best_process.reshape(1, -1), x_pre, y_best, target_onehot
+        )
+        expected_yield = final_mu[0]
+        uncertainty = final_sigma[0]
+        
+        print(f"\n[*] 最优结果来自: Top {optimized_results.index(best_result)+1} "
+              f"(优化{'成功' if best_result['success'] else '失败'})")
+        print(f"[*] EI 改进: {best_result['init_ei']:.6f} → {best_result['ei']:.6f} "
+              f"(+{(best_result['ei']/best_result['init_ei']-1)*100:.2f}%)")
         
         recommendation = {col: best_process[i] for i, col in enumerate(self.process_cols)}
         

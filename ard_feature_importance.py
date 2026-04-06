@@ -27,6 +27,7 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 import warnings
 import logging
+from scipy.stats import pearsonr
 
 # 完全屏蔽所有警告
 warnings.filterwarnings("ignore")
@@ -36,13 +37,14 @@ logging.getLogger('matplotlib.font_manager').setLevel(logging.ERROR)
 logging.getLogger('matplotlib').setLevel(logging.ERROR)
 
 # 设置中文字体
-plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'Arial Unicode MS']
-plt.rcParams['axes.unicode_minus'] = False
-
-# 使用 DejaVu Sans 作为备用字体，避免 \u2212 (减号) 警告
+# 使用 SimHei 显示中文，DejaVu Sans 显示负号等特殊字符
 plt.rcParams['font.family'] = ['sans-serif']
 plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'Arial Unicode MS', 'DejaVu Sans']
-plt.rcParams['axes.formatter.use_mathtext'] = False
+plt.rcParams['axes.unicode_minus'] = True  # 使用 Unicode 负号，确保正确显示
+
+# 启用 Matplotlib 内置数学文本渲染（无需安装 LaTeX）
+plt.rcParams['mathtext.fontset'] = 'dejavusans'
+plt.rcParams['axes.formatter.use_mathtext'] = True
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from contextual_bo_model import ContextualBayesianOptimizer
@@ -61,6 +63,184 @@ def train_model_with_ard(data_file, scheme_id):
     optimizer.train(data_file)
     
     return optimizer
+
+
+def feature_pre_screening(df, pre_feature_cols, corr_threshold=0.9):
+    """
+    特征初筛（降维）：计算预处理特征间的皮尔逊相关系数矩阵
+    对于相关性极高（r > corr_threshold）的特征组，仅保留一个最具物理意义的代表
+    
+    Returns:
+        selected_features: 保留的特征列表
+        corr_matrix: 相关系数矩阵
+        high_corr_pairs: 高相关性特征对
+    """
+    print("\n" + "="*60)
+    print("【特征初筛】皮尔逊相关系数分析")
+    print("="*60)
+    
+    # 提取预处理特征
+    pre_df = df[pre_feature_cols]
+    
+    # 计算相关系数矩阵
+    corr_matrix = pre_df.corr(method='pearson')
+    
+    # 找出高相关性特征对（排除对角线）
+    high_corr_pairs = []
+    for i in range(len(corr_matrix.columns)):
+        for j in range(i+1, len(corr_matrix.columns)):
+            corr_val = corr_matrix.iloc[i, j]
+            if abs(corr_val) > corr_threshold:
+                high_corr_pairs.append({
+                    'feature_1': corr_matrix.columns[i],
+                    'feature_2': corr_matrix.columns[j],
+                    'correlation': corr_val
+                })
+    
+    # 打印高相关性特征对
+    if high_corr_pairs:
+        print(f"\n发现 {len(high_corr_pairs)} 组高相关性特征 (|r| > {corr_threshold}):")
+        for pair in high_corr_pairs:
+            print(f"  {pair['feature_1']} <-> {pair['feature_2']}: r = {pair['correlation']:.4f}")
+    else:
+        print(f"\n未发现高相关性特征 (|r| > {corr_threshold})")
+    
+    # 选择保留的特征（简单策略：保留每组中名称较短的特征）
+    features_to_remove = set()
+    for pair in high_corr_pairs:
+        # 保留名称较短的特征（通常更简洁）
+        if len(pair['feature_1']) <= len(pair['feature_2']):
+            features_to_remove.add(pair['feature_2'])
+        else:
+            features_to_remove.add(pair['feature_1'])
+    
+    selected_features = [f for f in pre_feature_cols if f not in features_to_remove]
+    
+    print(f"\n特征筛选结果:")
+    print(f"  原始特征数: {len(pre_feature_cols)}")
+    print(f"  移除特征数: {len(features_to_remove)}")
+    print(f"  保留特征数: {len(selected_features)}")
+    if features_to_remove:
+        print(f"  移除特征: {list(features_to_remove)}")
+    
+    return selected_features, corr_matrix, high_corr_pairs
+
+
+def permutation_importance(optimizer, X, y, feature_cols, n_repeats=10):
+    """
+    留一法置换重要性（Permutation Importance）
+    随机打乱某个特征的数值顺序，观察LOOCV中预测误差（RMSE）的增加量
+    
+    Returns:
+        perm_importance_df: 置换重要性数据框
+    """
+    print("\n" + "="*60)
+    print("【置换重要性分析】Permutation Importance")
+    print("="*60)
+    print(f"进行 {n_repeats} 次置换重复...")
+    
+    from sklearn.model_selection import LeaveOneOut
+    from sklearn.metrics import mean_squared_error
+    
+    # 基准LOOCV误差（不打乱）
+    print("\n计算基准LOOCV误差...")
+    loo = LeaveOneOut()
+    baseline_preds = []
+    baseline_trues = []
+    
+    for train_idx, test_idx in loo.split(X):
+        X_train, X_test = X[train_idx], X[test_idx]
+        y_train, y_test = y[train_idx], y[test_idx]
+        
+        # 训练临时模型
+        from sklearn.gaussian_process import GaussianProcessRegressor
+        from sklearn.gaussian_process.kernels import Matern, WhiteKernel, ConstantKernel
+        
+        kernel = ConstantKernel(1.0) * Matern(length_scale=1.0, nu=2.5) + WhiteKernel(noise_level=1e-4)
+        gpr = GaussianProcessRegressor(kernel=kernel, n_restarts_optimizer=3, normalize_y=True)
+        gpr.fit(X_train, y_train)
+        
+        y_pred = gpr.predict(X_test)
+        baseline_preds.append(y_pred[0])
+        baseline_trues.append(y_test[0])
+    
+    baseline_rmse = np.sqrt(mean_squared_error(baseline_trues, baseline_preds))
+    print(f"  基准RMSE: {baseline_rmse:.4f}")
+    
+    # 对每个特征进行置换重要性计算
+    perm_importance = []
+    n_features = len(feature_cols)
+    n_loocv = len(X)  # LOOCV的折数
+    
+    print(f"\n  总特征数: {n_features}, LOOCV折数: {n_loocv}, 置换重复: {n_repeats}")
+    print(f"  预计总模型训练次数: {n_features} x {n_repeats} x {n_loocv} = {n_features * n_repeats * n_loocv}")
+    print("  " + "-" * 60)
+    
+    # 计算总任务数用于进度条
+    total_tasks = n_features * n_repeats * n_loocv
+    current_task = 0
+    
+    for feat_idx, feat_name in enumerate(feature_cols):
+        print(f"\n  [{feat_idx+1}/{n_features}] 分析特征: {feat_name}")
+        rmse_increases = []
+        
+        for repeat in range(n_repeats):
+            # 置换该特征
+            X_permuted = X.copy()
+            np.random.shuffle(X_permuted[:, feat_idx])
+            
+            # LOOCV评估
+            perm_preds = []
+            perm_trues = []
+            
+            for fold_idx, (train_idx, test_idx) in enumerate(loo.split(X_permuted)):
+                # 更新进度
+                current_task += 1
+                progress = current_task / total_tasks * 100
+                bar_length = 30
+                filled = int(bar_length * current_task / total_tasks)
+                bar = '=' * filled + '>' + '-' * (bar_length - filled - 1) if filled < bar_length else '=' * bar_length
+                
+                # 显示进度条（在同一行更新）
+                print(f"\r    重复{repeat+1}/{n_repeats} 折{fold_idx+1}/{n_loocv} [{bar}] {progress:.1f}%", end='', flush=True)
+                
+                X_train, X_test = X_permuted[train_idx], X_permuted[test_idx]
+                y_train, y_test = y[train_idx], y[test_idx]
+                
+                kernel = ConstantKernel(1.0) * Matern(length_scale=1.0, nu=2.5) + WhiteKernel(noise_level=1e-4)
+                gpr = GaussianProcessRegressor(kernel=kernel, n_restarts_optimizer=2, normalize_y=True)
+                gpr.fit(X_train, y_train)
+                
+                y_pred = gpr.predict(X_test)
+                perm_preds.append(y_pred[0])
+                perm_trues.append(y_test[0])
+            
+            print()  # 换行
+            
+            perm_rmse = np.sqrt(mean_squared_error(perm_trues, perm_preds))
+            rmse_increase = perm_rmse - baseline_rmse
+            rmse_increases.append(rmse_increase)
+        
+        mean_increase = np.mean(rmse_increases)
+        std_increase = np.std(rmse_increases)
+        
+        perm_importance.append({
+            'feature': feat_name,
+            'rmse_increase_mean': mean_increase,
+            'rmse_increase_std': std_increase,
+            'importance_score': mean_increase / (baseline_rmse + 1e-10)  # 归一化重要性
+        })
+        print(f"    -> RMSE增加: {mean_increase:.4f} ± {std_increase:.4f}")
+    
+    perm_df = pd.DataFrame(perm_importance).sort_values('importance_score', ascending=False)
+    
+    print("\n置换重要性排名（Top 10）:")
+    print("-" * 60)
+    for idx, row in perm_df.head(10).iterrows():
+        print(f"  {row['feature']:25s}: {row['importance_score']:.4f} "
+              f"(+{row['rmse_increase_mean']:.4f} ± {row['rmse_increase_std']:.4f})")
+    
+    return perm_df
 
 
 def extract_ard_importance(optimizer):
@@ -136,28 +316,165 @@ def plot_ard_importance(df_importance, scheme_id, n_samples, output_dir):
                       for cat in ['EBSD预处理', '目标晶向', '工艺参数']]
     ax1.legend(handles=legend_elements, loc='lower right', fontsize=10)
     
-    # ========== 右图：按类别分组的箱线图 ==========
+    # ========== 右图：各类特征长度尺度对比（优化版）==========
     categories = ['EBSD预处理', '目标晶向', '工艺参数']
-    cat_data = [df_importance[df_importance['category'] == cat]['length_scale'].values 
-                for cat in categories]
     
-    bp = ax2.boxplot(cat_data, labels=categories, patch_artist=True, 
-                     notch=True, showmeans=True)
+    # 为每个类别准备数据
+    cat_data = []
+    cat_positions = []
+    position = 1
     
-    # 设置箱线图颜色
-    for patch, cat in zip(bp['boxes'], categories):
-        patch.set_facecolor(color_map[cat])
-        patch.set_alpha(0.6)
+    for cat in categories:
+        data = df_importance[df_importance['category'] == cat]['length_scale'].values
+        cat_data.append(data)
+        cat_positions.append(position)
+        position += 1
     
+    # 绘制小提琴图展示分布
+    from matplotlib.patches import Rectangle
+    try:
+        parts = ax2.violinplot(cat_data, positions=cat_positions, widths=0.6,
+                               showmeans=True, showmedians=True, showextrema=False)
+        
+        # 设置小提琴图颜色
+        for i, (pc, cat) in enumerate(zip(parts['bodies'], categories)):
+            pc.set_facecolor(color_map[cat])
+            pc.set_alpha(0.4)
+            pc.set_edgecolor(color_map[cat])
+            pc.set_linewidth(2)
+    except:
+        # 如果小提琴图失败，回退到箱线图
+        bp = ax2.boxplot(cat_data, positions=cat_positions, widths=0.6,
+                        patch_artist=True, showmeans=True)
+        for patch, cat in zip(bp['boxes'], categories):
+            patch.set_facecolor(color_map[cat])
+            patch.set_alpha(0.4)
+    
+    # 叠加散点：显示每个特征的具体位置
+    np.random.seed(42)  # 固定随机种子，保证可重复
+    
+    # 为每个点准备标注信息
+    annotations = []
+    
+    for i, (data, cat) in enumerate(zip(cat_data, categories)):
+        # 添加抖动，避免重叠
+        jitter = np.random.normal(0, 0.08, len(data))
+        x_positions = np.array([cat_positions[i]] * len(data)) + jitter
+        
+        # 根据重要性设置点的大小和颜色深浅
+        sizes = [100 if ls < 1 else 50 for ls in data]
+        alphas = [0.9 if ls < 1 else 0.5 for ls in data]
+        
+        scatter = ax2.scatter(x_positions, data, c=color_map[cat], s=sizes, 
+                   alpha=0.7, edgecolors='black', linewidth=0.5, zorder=5)
+        
+        # 收集所有点的标注信息
+        cat_df = df_importance[df_importance['category'] == cat].reset_index(drop=True)
+        for j, (x, y) in enumerate(zip(x_positions, data)):
+            if j < len(cat_df):
+                feature_name = cat_df.iloc[j]['feature']
+                # 简化特征名显示
+                short_name = feature_name.replace('Pre_', '').replace('Target_', '').replace('Process_', '')
+                importance_level = "★★★" if y < 0.5 else ("★★" if y < 1 else ("★" if y < 10 else "☆"))
+                annotations.append({
+                    'x': x, 'y': y, 'name': short_name, 
+                    'category': cat, 'importance': importance_level,
+                    'ls': y
+                })
+    
+    # 智能布局标注：按Y值分组，避免重叠
+    # 将点按重要性分层，高重要性的优先标注且更靠近点
+    high_importance = [a for a in annotations if a['ls'] < 1]  # 高重要性
+    medium_importance = [a for a in annotations if 1 <= a['ls'] < 100]  # 中等重要性
+    low_importance = [a for a in annotations if a['ls'] >= 100]  # 低重要性
+    
+    # 标注高重要性特征（左侧标注，避免遮挡）
+    for idx, ann in enumerate(high_importance):
+        offset_x = -60 if idx % 2 == 0 else -100  # 交替左右偏移
+        offset_y = 15 if idx % 3 == 0 else (-15 if idx % 3 == 1 else 0)
+        
+        ax2.annotate(f"{ann['name']}\n({ann['importance']})", 
+                    (ann['x'], ann['y']), 
+                    xytext=(offset_x, offset_y),
+                    textcoords='offset points', 
+                    fontsize=8,
+                    ha='right' if offset_x < 0 else 'left',
+                    fontweight='bold',
+                    color='darkred',
+                    bbox=dict(boxstyle='round,pad=0.3', 
+                             facecolor=color_map[ann['category']], 
+                             alpha=0.3, edgecolor='darkred', linewidth=1.5),
+                    arrowprops=dict(arrowstyle='->', color='darkred', lw=1,
+                                  connectionstyle='arc3,rad=0.1'))
+    
+    # 标注中等重要性特征（右侧标注）
+    for idx, ann in enumerate(medium_importance[:5]):  # 只显示前5个避免拥挤
+        offset_x = 40 + (idx % 2) * 30
+        offset_y = (idx % 3 - 1) * 20
+        
+        ax2.annotate(ann['name'], 
+                    (ann['x'], ann['y']), 
+                    xytext=(offset_x, offset_y),
+                    textcoords='offset points', 
+                    fontsize=7,
+                    ha='left',
+                    color='darkblue',
+                    bbox=dict(boxstyle='round,pad=0.25', 
+                             facecolor='white', 
+                             alpha=0.6, edgecolor=color_map[ann['category']]),
+                    arrowprops=dict(arrowstyle='->', color='gray', lw=0.8))
+    
+    # 标注低重要性特征（仅标注极端值）
+    if low_importance:
+        # 只标注最大值和最小值
+        low_importance_sorted = sorted(low_importance, key=lambda x: x['ls'])
+        for ann in [low_importance_sorted[0], low_importance_sorted[-1]]:
+            ax2.annotate(ann['name'], 
+                        (ann['x'], ann['y']), 
+                        xytext=(50, 0),
+                        textcoords='offset points', 
+                        fontsize=7,
+                        ha='left',
+                        style='italic',
+                        color='gray',
+                        alpha=0.7,
+                        bbox=dict(boxstyle='round,pad=0.2', 
+                                 facecolor='lightgray', 
+                                 alpha=0.3, edgecolor='gray'))
+    
+    # 添加重要性阈值线
+    ax2.axhline(y=1, color='red', linestyle='--', linewidth=2, alpha=0.7, label='重要性阈值 (ls=1)')
+    ax2.axhline(y=100, color='orange', linestyle='--', linewidth=2, alpha=0.7, label='低重要性阈值 (ls=100)')
+    
+    # 添加重要性区域标注
+    ax2.axhspan(0.001, 1, alpha=0.1, color='green', label='高重要性区域')
+    ax2.axhspan(100, 1000000, alpha=0.1, color='red', label='低重要性区域')
+    
+    ax2.set_xticks(cat_positions)
+    ax2.set_xticklabels(categories, fontsize=11)
     ax2.set_ylabel('Length Scale (对数刻度)', fontsize=12, fontweight='bold')
-    ax2.set_title('各类特征的长度尺度分布\n(越小表示越重要)', fontsize=14, fontweight='bold', pad=15)
+    ax2.set_title('各类特征长度尺度分布\n(散点=单个特征, 小提琴=分布形状)', 
+                  fontsize=14, fontweight='bold', pad=15)
     ax2.set_yscale('log')
-    ax2.grid(axis='y', alpha=0.3, linestyle='--')
+    ax2.set_ylim(0.01, 200000)
     
-    # 添加说明文字
-    ax2.text(0.5, 0.95, 'Length Scale < 1: 高重要性\nLength Scale > 100: 低重要性', 
-            transform=ax2.transAxes, fontsize=10, verticalalignment='top',
-            bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
+    # 自定义Y轴刻度标签，使用 LaTeX 格式避免 Unicode 上标乱码
+    ax2.set_yticks([0.01, 0.1, 1, 10, 100, 1000, 10000, 100000])
+    ax2.set_yticklabels([
+        r'$10^{-2}$', r'$10^{-1}$', r'$10^{0}$', r'$10^{1}$',
+        r'$10^{2}$', r'$10^{3}$', r'$10^{4}$', r'$10^{5}$'
+    ], fontsize=10)
+    
+    ax2.grid(axis='y', alpha=0.3, linestyle='--')
+    ax2.legend(loc='upper right', fontsize=9)
+    
+    # 添加右侧重要性说明
+    ax2_twin = ax2.twinx()
+    ax2_twin.set_ylim(ax2.get_ylim())
+    ax2_twin.set_yscale('log')
+    ax2_twin.set_yticks([0.1, 1, 10, 100, 10000])
+    ax2_twin.set_yticklabels(['★★★\n极重要', '★★\n重要', '★\n一般', '☆\n次要', '☆☆\n无关'], fontsize=9)
+    ax2_twin.set_ylabel('重要性评级', fontsize=11, fontweight='bold', rotation=270, labelpad=20)
     
     plt.tight_layout()
     
@@ -231,13 +548,19 @@ if __name__ == "__main__":
     
     print(f"[*] 已选择方案 {scheme_id}: {scheme_targets[scheme_id]}")
     
+    # 加载数据
+    df = pd.read_csv(data_file)
+    n_samples = len(df)
+    
+    # ========== 交叉验证 1: 特征初筛（降维）==========
+    pre_feature_cols = [col for col in df.columns if col.startswith('Pre_')]
+    selected_pre_features, corr_matrix, high_corr_pairs = feature_pre_screening(
+        df, pre_feature_cols, corr_threshold=0.9
+    )
+    
     # 训练模型
     print("\n正在训练高斯过程模型 (启用 ARD)...")
     optimizer = train_model_with_ard(data_file, scheme_id)
-    
-    # 获取样本量
-    df = pd.read_csv(data_file)
-    n_samples = len(df)
     
     # 提取 ARD 重要性
     print("\n正在提取 ARD 特征重要性...")
@@ -245,6 +568,60 @@ if __name__ == "__main__":
     
     # 打印最重要的特征
     print_top_features(df_importance, top_n=10)
+    
+    # ========== 交叉验证 2: 置换重要性分析 ==========
+    # 准备数据
+    all_feature_cols = optimizer.pre_feature_cols + optimizer.target_cols + optimizer.process_cols
+    X = df[all_feature_cols].values
+    y = df['TARGET_Yield'].values
+    
+    # 询问是否进行置换重要性（计算量较大）
+    print("\n" + "="*60)
+    print("【可选分析】置换重要性 (Permutation Importance)")
+    print("="*60)
+    print("说明: 该分析通过LOOCV计算，需要约5-10分钟")
+    print("      可以作为ARD排名的对照验证")
+    print("      输入 'y' 进行分析，直接回车跳过")
+    
+    try:
+        user_input = input("是否进行置换重要性分析? (y/n, 默认n): ").strip().lower()
+        if user_input == 'y':
+            perm_importance_df = permutation_importance(
+                optimizer, X, y, all_feature_cols, n_repeats=5
+            )
+            
+            # 对比ARD和置换重要性
+            print("\n" + "="*60)
+            print("【ARD vs 置换重要性 对比】")
+            print("="*60)
+            print(f"{'特征名':<25} {'ARD排名':<10} {'置换排名':<10} {'一致性':<10}")
+            print("-" * 60)
+            
+            ard_rank = df_importance.sort_values('importance', ascending=False).reset_index(drop=True)
+            perm_rank = perm_importance_df.reset_index(drop=True)
+            
+            for feat in ard_rank['feature'].head(10):
+                ard_pos = ard_rank[ard_rank['feature'] == feat].index[0] + 1
+                perm_match = perm_rank[perm_rank['feature'] == feat]
+                perm_pos = perm_match.index[0] + 1 if len(perm_match) > 0 else '-'
+                
+                # 判断一致性（排名差异<=3认为一致）
+                if perm_pos != '-' and abs(ard_pos - perm_pos) <= 3:
+                    consistency = "一致"
+                elif perm_pos != '-':
+                    consistency = "差异"
+                else:
+                    consistency = "-"
+                
+                print(f"{feat:<25} {ard_pos:<10} {perm_pos:<10} {consistency:<10}")
+        else:
+            print("\n跳过置换重要性分析")
+    except EOFError:
+        # 非交互式运行时的处理
+        print("\n检测到非交互式运行，跳过置换重要性分析")
+    except Exception as e:
+        print(f"\n置换重要性分析出错: {e}")
+        print("跳过此分析")
     
     # 创建输出目录
     # 优先使用 D:\毕业设计\织构数据\visualization，如果不存在则使用当前目录下的 visualization
