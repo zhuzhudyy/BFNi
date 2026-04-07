@@ -3,7 +3,188 @@ import pandas as pd
 import numpy as np
 import io
 import warnings
+import re
+import glob
 warnings.filterwarnings('ignore')
+
+def find_data_files(folder_path, prefix):
+    """
+    在文件夹中查找所有带指定前缀的数据文件
+    支持格式: prefix.csv, prefix1.csv, prefix2.csv, prefix.xls, prefix.xlsx 等
+    
+    Args:
+        folder_path: 文件夹路径
+        prefix: 前缀 (如 'pre', 'done')
+    Returns:
+        list: 匹配的文件路径列表，按文件名排序
+    """
+    if not os.path.exists(folder_path):
+        return []
+    
+    matched_files = []
+    
+    # 支持的文件扩展名
+    extensions = ['.csv', '.xls', '.xlsx']
+    
+    for ext in extensions:
+        # 查找 prefix{数字}.ext 格式的文件
+        pattern = os.path.join(folder_path, f'{prefix}*{ext}')
+        files = glob.glob(pattern)
+        
+        # 过滤掉不符合命名规则的文件（如 prefix_old.csv）
+        for f in files:
+            basename = os.path.basename(f)
+            # 匹配: pre.csv, pre1.csv, pre2.csv, done.csv, done1.csv 等
+            if re.match(rf'^{prefix}\d*\{ext}$', basename, re.IGNORECASE):
+                matched_files.append(f)
+    
+    # 按文件名排序（确保 pre1, pre2, pre10 的顺序正确）
+    def natural_sort_key(s):
+        return [int(text) if text.isdigit() else text.lower() 
+                for text in re.split(r'(\d+)', os.path.basename(s))]
+    
+    matched_files.sort(key=natural_sort_key)
+    return matched_files
+
+
+def merge_multiple_files(file_list, file_type='pre'):
+    """
+    合并多个 pre 或 done 文件的数据
+    
+    Args:
+        file_list: 文件路径列表
+        file_type: 'pre' 或 'done'
+    Returns:
+        DataFrame: 合并后的数据
+    """
+    if not file_list:
+        return None
+    
+    all_data = []
+    print(f"\n  发现 {len(file_list)} 个 {file_type} 文件:")
+    
+    for i, file_path in enumerate(file_list, 1):
+        try:
+            # 根据扩展名选择读取方式
+            if file_path.endswith('.csv'):
+                # 使用文本切割法处理 AZtec 表头
+                with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+                    lines = f.readlines()
+                
+                header_idx = 0
+                for j, line in enumerate(lines):
+                    if line.count(',') > 5 and ('Phase' in line or 'X' in line or 'Euler' in line or 'IPF' in line):
+                        header_idx = j
+                        break
+                
+                clean_csv_data = "".join(lines[header_idx:])
+                df = pd.read_csv(io.StringIO(clean_csv_data), low_memory=False)
+            else:
+                # Excel 文件
+                df = pd.read_excel(file_path)
+            
+            all_data.append(df)
+            print(f"    [{i}] {os.path.basename(file_path)}: {len(df)} 行")
+            
+        except Exception as e:
+            print(f"    [{i}] {os.path.basename(file_path)}: 读取失败 ({e})")
+    
+    if not all_data:
+        return None
+    
+    # 合并所有数据
+    merged_df = pd.concat(all_data, ignore_index=True)
+    print(f"  合并后总计: {len(merged_df)} 行")
+    
+    return merged_df
+
+
+def extract_features_from_merged_data(merged_df, target_rgbs=None, tolerance=50, prefix="Pre_"):
+    """
+    从合并后的 DataFrame 提取特征（替代 extract_macro_rgb_features）
+    
+    Args:
+        merged_df: 合并后的 DataFrame
+        target_rgbs: 目标晶向RGB列表
+        tolerance: 颜色容差
+        prefix: 特征前缀
+    Returns:
+        dict: 特征字典
+    """
+    if merged_df is None or len(merged_df) == 0:
+        return {}
+    
+    features = {}
+    df = merged_df
+    
+    # --- 1. 处理 IPF 色彩 ---
+    ipf_cols = [c for c in df.columns if 'IPF' in c and 'color' in c.lower()]
+    if ipf_cols:
+        ipf_col = ipf_cols[0]
+        rgb_df = df[ipf_col].astype(str).str.extract(r'(\d+)\s+(\d+)\s+(\d+)').astype(float)
+        rgb_df.columns = ['R', 'G', 'B']
+        rgb_df = rgb_df.dropna()
+        
+        if not target_rgbs:
+            # 提取预处理宏观特征
+            features[f'{prefix}R_Mean'] = rgb_df['R'].mean()
+            features[f'{prefix}G_Mean'] = rgb_df['G'].mean()
+            features[f'{prefix}B_Mean'] = rgb_df['B'].mean()
+            features[f'{prefix}R_Std']  = rgb_df['R'].std()
+            features[f'{prefix}G_Std']  = rgb_df['G'].std()
+            features[f'{prefix}B_Std']  = rgb_df['B'].std()
+        else:
+            # 只要像素的颜色落在【任意一个】目标晶向的容差范围内，就算作单晶化成功！
+            min_dist = pd.Series(np.inf, index=rgb_df.index)
+            for t_rgb in target_rgbs:
+                dist = np.sqrt((rgb_df['R'] - t_rgb[0])**2 + 
+                               (rgb_df['G'] - t_rgb[1])**2 + 
+                               (rgb_df['B'] - t_rgb[2])**2)
+                min_dist = np.minimum(min_dist, dist)
+                
+            features['TARGET_Yield'] = (min_dist <= tolerance).mean()
+
+    # --- 2. 连续变量处理 (GND/Half quadratic) ---
+    hq_cols = [c for c in df.columns if 'Half quadratic' in c or 'HQ' in c or 'GND' in c]
+    if hq_cols:
+        hq_col = hq_cols[0]
+        gnd_data = pd.to_numeric(df[hq_col], errors='coerce').dropna()
+        
+        if len(gnd_data) > 0:
+            # 基础统计量
+            features[f'{prefix}GND_Mean'] = gnd_data.mean()
+            features[f'{prefix}GND_Std'] = gnd_data.std()
+            
+            # 分位数特征 (捕捉分布形状)
+            features[f'{prefix}GND_Q25'] = gnd_data.quantile(0.25)
+            features[f'{prefix}GND_Q50'] = gnd_data.quantile(0.50)
+            features[f'{prefix}GND_Q75'] = gnd_data.quantile(0.75)
+            features[f'{prefix}GND_Q90'] = gnd_data.quantile(0.90)
+            features[f'{prefix}GND_Q95'] = gnd_data.quantile(0.95)
+            features[f'{prefix}GND_Q99'] = gnd_data.quantile(0.99)
+            
+            # 分布形状特征
+            features[f'{prefix}GND_IQR'] = gnd_data.quantile(0.75) - gnd_data.quantile(0.25)
+            features[f'{prefix}GND_Peak'] = gnd_data.mode().iloc[0] if len(gnd_data.mode()) > 0 else gnd_data.median()
+            features[f'{prefix}GND_Skewness'] = gnd_data.skew()
+            features[f'{prefix}GND_Kurtosis'] = gnd_data.kurtosis()
+            
+            # 变异系数 (相对离散程度)
+            mean_val = gnd_data.mean()
+            if mean_val != 0:
+                features[f'{prefix}GND_CV'] = gnd_data.std() / abs(mean_val)
+            
+            # 高低值比例 (物理意义明确)
+            q75, q25 = gnd_data.quantile(0.75), gnd_data.quantile(0.25)
+            iqr = q75 - q25
+            if iqr > 0:
+                high_threshold = q75 + 1.5 * iqr
+                low_threshold = q25 - 1.5 * iqr
+                features[f'{prefix}GND_HighRatio'] = (gnd_data > high_threshold).mean()
+                features[f'{prefix}GND_LowRatio'] = (gnd_data < low_threshold).mean()
+    
+    return features
+
 
 def hkl_to_aztec_rgb(h, k, l):
     """
@@ -218,17 +399,28 @@ def build_training_dataset_multi_target(root_dir, target_schemes, color_toleranc
     for folder_name in os.listdir(root_dir):
         folder_path = os.path.join(root_dir, folder_name)
         if not os.path.isdir(folder_path): continue
-            
-        pre_path = os.path.join(folder_path, 'pre.csv')
-        done_path = os.path.join(folder_path, 'done.csv')
+        
+        # 【新增】查找所有 pre 和 done 文件（支持多文件合并）
+        pre_files = find_data_files(folder_path, 'pre')
+        done_files = find_data_files(folder_path, 'done')
+        
+        # 查找 condition 文件（只有一组）
         cond_path = os.path.join(folder_path, 'condition.xls')
         if not os.path.exists(cond_path):
-            cond_path = os.path.join(folder_path, 'condition.csv') 
+            cond_path = os.path.join(folder_path, 'condition.csv')
+        if not os.path.exists(cond_path):
+            cond_path = os.path.join(folder_path, 'condition.xlsx')
 
-        if os.path.exists(pre_path) and os.path.exists(done_path) and os.path.exists(cond_path):
+        if pre_files and done_files and os.path.exists(cond_path):
             try:
-                # 提取预处理特征（所有方案共享相同的预处理特征）
-                pre_features = extract_macro_rgb_features(pre_path, target_rgbs=None, prefix="Pre_")
+                print(f"\n处理批次：{folder_name}")
+                
+                # 【新增】合并多个 pre 文件并提取特征
+                pre_merged = merge_multiple_files(pre_files, file_type='pre')
+                pre_features = extract_features_from_merged_data(pre_merged, target_rgbs=None, prefix="Pre_")
+                
+                # 【新增】合并多个 done 文件（用于后续产率计算）
+                done_merged = merge_multiple_files(done_files, file_type='done')
                 
                 # 读取工艺条件
                 if cond_path.endswith('.xls') or cond_path.endswith('.xlsx'):
@@ -264,19 +456,21 @@ def build_training_dataset_multi_target(root_dir, target_schemes, color_toleranc
                         key = f"Target_{hkl[0]}{hkl[1]}{hkl[2]}"
                         exp_data[key] = 1.0 if hkl in scheme_indices else 0.0
                     
-                    # 计算该方案的目标产率
+                    # 【修改】使用合并后的 done 数据计算产率
                     target_rgbs = [hkl_to_aztec_rgb(h, k, l) for h, k, l in scheme_indices]
-                    done_features = extract_macro_rgb_features(done_path, target_rgbs=target_rgbs, tolerance=color_tolerance)
+                    done_features = extract_features_from_merged_data(done_merged, target_rgbs=target_rgbs, tolerance=color_tolerance)
                     exp_data['TARGET_Yield'] = done_features.get('TARGET_Yield', 0.0)
                     
                     exp_data['Sample_ID'] = folder_name
                     exp_data['Target_Scheme'] = scheme_id
                     all_experiments.append(exp_data)
                 
-                print(f"成功提取批次：{folder_name} (已扩展为 {len(target_schemes)} 行数据)")
+                print(f"  ✓ 成功提取：{folder_name} (扩展为 {len(target_schemes)} 行数据)")
                             
             except Exception as e:
-                print(f"解析文件夹 {folder_name} 时出错：{e}")
+                print(f"  ✗ 解析文件夹 {folder_name} 时出错：{e}")
+                import traceback
+                traceback.print_exc()
 
     final_df = pd.DataFrame(all_experiments).fillna(0)
     return final_df

@@ -415,7 +415,7 @@ if __name__ == "__main__":
         print(f"[*] 使用方案 {scheme} 数据文件: {data_file}")
     
     process_bounds = {
-        'Process_Temp': (1000.0, 1500.0),  
+        'Process_Temp': (1000.0, 1400.0),  
         'Process_Time': (1.0, 30.0),       
         'Process_H2': (0.0, 160.0),        
         'Process_Ar': (0.0, 800.0)         

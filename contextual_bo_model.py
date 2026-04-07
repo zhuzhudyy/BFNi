@@ -387,6 +387,77 @@ class ContextualBayesianOptimizer:
         
         return recommendation
 
+    def save_model(self, model_path):
+        """
+        保存训练好的模型到文件
+        
+        Args:
+            model_path: 模型保存路径
+        """
+        import pickle
+        import os
+        
+        # 创建模型字典，保存所有必要的状态
+        model_state = {
+            'gpr': self.gpr,
+            'scaler_X': self.scaler_X,
+            'bounds': self.bounds,
+            'process_cols': self.process_cols,
+            'pre_feature_cols': self.pre_feature_cols,
+            'target_cols': self.target_cols,
+            'target_orientations': self.target_orientations,
+            'training_df': self.training_df if hasattr(self, 'training_df') else None
+        }
+        
+        # 确保目录存在
+        os.makedirs(os.path.dirname(model_path) if os.path.dirname(model_path) else '.', exist_ok=True)
+        
+        # 保存模型
+        with open(model_path, 'wb') as f:
+            pickle.dump(model_state, f)
+        
+        print(f"\n[*] 模型已保存至: {model_path}")
+        print(f"    包含 {len(self.training_df) if hasattr(self, 'training_df') and self.training_df is not None else 0} 个训练样本")
+    
+    def load_model(self, model_path):
+        """
+        从文件加载训练好的模型
+        
+        Args:
+            model_path: 模型文件路径
+        Returns:
+            bool: 加载是否成功
+        """
+        import pickle
+        import os
+        
+        if not os.path.exists(model_path):
+            print(f"[错误] 模型文件不存在: {model_path}")
+            return False
+        
+        try:
+            with open(model_path, 'rb') as f:
+                model_state = pickle.load(f)
+            
+            # 恢复模型状态
+            self.gpr = model_state['gpr']
+            self.scaler_X = model_state['scaler_X']
+            self.bounds = model_state['bounds']
+            self.process_cols = model_state['process_cols']
+            self.pre_feature_cols = model_state['pre_feature_cols']
+            self.target_cols = model_state['target_cols']
+            self.target_orientations = model_state['target_orientations']
+            self.training_df = model_state.get('training_df', None)
+            
+            print(f"\n[*] 模型已从 {model_path} 加载")
+            if self.training_df is not None:
+                print(f"    包含 {len(self.training_df)} 个训练样本")
+            return True
+            
+        except Exception as e:
+            print(f"[错误] 模型加载失败: {e}")
+            return False
+
 
 def add_new_data_to_training(existing_file, new_data_file):
     """
@@ -532,7 +603,7 @@ if __name__ == "__main__":
     # 请根据您的管式炉及实验安全规范严格修改此范围
     # ==========================
     process_bounds = {
-        'Process_Temp': (1000.0, 1500.0),  # 退火温度下限与上限 (℃)
+        'Process_Temp': (1000.0, 1400.0),  # 退火温度下限与上限 (℃)
         'Process_Time': (1.0, 30.0),       # 保温时间下限与上限 (h)
         'Process_H2': (0.0, 160.0),        # H2 流量下限与上限 (sccm)
         'Process_Ar': (0.0, 800.0)         # Ar 流量下限与上限 (sccm)

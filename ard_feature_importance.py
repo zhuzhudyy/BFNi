@@ -53,7 +53,7 @@ from contextual_bo_model import ContextualBayesianOptimizer
 def train_model_with_ard(data_file, scheme_id):
     """训练模型并返回优化器实例"""
     process_bounds = {
-        'Process_Temp': (1000.0, 1500.0),
+        'Process_Temp': (1000.0, 1400.0),
         'Process_Time': (1.0, 30.0),
         'Process_H2': (0.0, 160.0),
         'Process_Ar': (0.0, 800.0)
@@ -240,7 +240,156 @@ def permutation_importance(optimizer, X, y, feature_cols, n_repeats=10):
         print(f"  {row['feature']:25s}: {row['importance_score']:.4f} "
               f"(+{row['rmse_increase_mean']:.4f} ± {row['rmse_increase_std']:.4f})")
     
-    return perm_df
+    return perm_df, baseline_rmse
+
+
+def plot_loocv_permutation_importance(perm_df, scheme_id, n_samples, output_dir, baseline_rmse):
+    """
+    绘制 LOOCV 置换重要性可视化（独立保存）
+    
+    Args:
+        perm_df: 置换重要性数据框
+        scheme_id: 方案ID
+        n_samples: 样本数量
+        output_dir: 输出目录
+        baseline_rmse: 基准LOOCV RMSE
+    """
+    from datetime import datetime
+    
+    # 按重要性排序（降序）
+    df_sorted = perm_df.sort_values('importance_score', ascending=True)
+    
+    # 创建颜色映射
+    color_map = {
+        'EBSD预处理': '#3498db',  # 蓝色
+        '目标晶向': '#e74c3c',     # 红色
+        '工艺参数': '#2ecc71'      # 绿色
+    }
+    
+    # 识别特征类别
+    def get_category(feature_name):
+        if feature_name.startswith('Pre_'):
+            return 'EBSD预处理'
+        elif feature_name.startswith('Target_'):
+            return '目标晶向'
+        elif feature_name.startswith('Process_'):
+            return '工艺参数'
+        else:
+            return '其他'
+    
+    df_sorted['category'] = df_sorted['feature'].apply(get_category)
+    colors = [color_map[cat] for cat in df_sorted['category']]
+    
+    # 创建图形
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 10))
+    
+    # ========== 左图：置换重要性排序（水平条形图）==========
+    y_pos = np.arange(len(df_sorted))
+    bars = ax1.barh(y_pos, df_sorted['importance_score'], color=colors, alpha=0.8, 
+                    edgecolor='black', linewidth=0.5)
+    
+    # 添加误差线
+    ax1.errorbar(df_sorted['importance_score'], y_pos, 
+                 xerr=df_sorted['rmse_increase_std'] / (baseline_rmse + 1e-10),
+                 fmt='none', color='black', alpha=0.5, capsize=2)
+    
+    ax1.set_yticks(y_pos)
+    ax1.set_yticklabels(df_sorted['feature'], fontsize=9)
+    ax1.set_xlabel('置换重要性分数 (RMSE增加倍数)', fontsize=12, fontweight='bold')
+    ax1.set_title(f'LOOCV 置换重要性排序\n方案 {scheme_id} | 样本量 N={n_samples} | 基准RMSE={baseline_rmse:.4f}', 
+                  fontsize=14, fontweight='bold', pad=15)
+    ax1.grid(axis='x', alpha=0.3, linestyle='--')
+    
+    # 添加数值标签
+    for i, (idx, row) in enumerate(df_sorted.iterrows()):
+        ax1.text(row['importance_score'] + 0.02, i, 
+                f"+{row['rmse_increase_mean']:.3f}", 
+                va='center', fontsize=8, color='darkred')
+    
+    # 添加图例
+    from matplotlib.patches import Patch
+    legend_elements = [Patch(facecolor=color_map[cat], label=cat, alpha=0.8) 
+                      for cat in ['EBSD预处理', '目标晶向', '工艺参数']]
+    ax1.legend(handles=legend_elements, loc='lower right', fontsize=10)
+    
+    # ========== 右图：RMSE增加量分布（小提琴图+散点）==========
+    categories = ['EBSD预处理', '目标晶向', '工艺参数']
+    
+    # 为每个类别准备数据
+    cat_data = []
+    cat_positions = []
+    position = 1
+    
+    for cat in categories:
+        data = df_sorted[df_sorted['category'] == cat]['rmse_increase_mean'].values
+        if len(data) > 0:
+            cat_data.append(data)
+            cat_positions.append(position)
+            position += 1
+    
+    # 绘制小提琴图
+    if cat_data:
+        try:
+            parts = ax2.violinplot(cat_data, positions=cat_positions, widths=0.6,
+                                   showmeans=True, showmedians=True, showextrema=False)
+            
+            # 设置小提琴图颜色
+            active_cats = [cat for cat in categories 
+                          if len(df_sorted[df_sorted['category'] == cat]) > 0]
+            for i, (pc, cat) in enumerate(zip(parts['bodies'], active_cats)):
+                pc.set_facecolor(color_map[cat])
+                pc.set_alpha(0.4)
+                pc.set_edgecolor(color_map[cat])
+                pc.set_linewidth(2)
+        except:
+            # 如果小提琴图失败，回退到箱线图
+            bp = ax2.boxplot(cat_data, positions=cat_positions, widths=0.6,
+                            patch_artist=True, showmeans=True)
+            active_cats = [cat for cat in categories 
+                          if len(df_sorted[df_sorted['category'] == cat]) > 0]
+            for patch, cat in zip(bp['boxes'], active_cats):
+                patch.set_facecolor(color_map[cat])
+                patch.set_alpha(0.4)
+    
+    # 添加散点
+    np.random.seed(42)
+    for i, (cat, pos) in enumerate(zip(active_cats, cat_positions)):
+        cat_df = df_sorted[df_sorted['category'] == cat]
+        y_values = cat_df['rmse_increase_mean'].values
+        x_jitter = np.random.normal(pos, 0.08, len(y_values))
+        ax2.scatter(x_jitter, y_values, c=color_map[cat], s=50, alpha=0.7, 
+                   edgecolors='black', linewidth=0.5, zorder=5)
+        
+        # 为重要特征添加标签
+        for idx, row in cat_df.iterrows():
+            if row['importance_score'] > 0.5:  # 重要性较高的特征
+                ax2.annotate(row['feature'], 
+                           xy=(pos + np.random.normal(0, 0.1), row['rmse_increase_mean']),
+                           xytext=(10, 0), textcoords='offset points',
+                           fontsize=7, alpha=0.8,
+                           bbox=dict(boxstyle='round,pad=0.2', facecolor='white', alpha=0.7))
+    
+    ax2.set_xticks(cat_positions)
+    ax2.set_xticklabels(active_cats, fontsize=11)
+    ax2.set_ylabel('RMSE 增加量', fontsize=12, fontweight='bold')
+    ax2.set_title('各类特征置换重要性分布\n(打乱后RMSE增加量)', 
+                  fontsize=14, fontweight='bold', pad=15)
+    ax2.grid(axis='y', alpha=0.3, linestyle='--')
+    
+    # 添加基准线
+    ax2.axhline(y=0, color='gray', linestyle='--', alpha=0.5, label='基准线')
+    
+    plt.tight_layout()
+    
+    # 保存图片（独立文件）
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    save_path = os.path.join(output_dir, f"LOOCV_PermImportance_Scheme{scheme_id}_N{n_samples}_{timestamp}.png")
+    plt.savefig(save_path, dpi=300, bbox_inches='tight')
+    print(f"\n[*] LOOCV置换重要性图已保存至: {save_path}")
+    
+    plt.show()
+    
+    return save_path
 
 
 def extract_ard_importance(optimizer):
@@ -569,6 +718,17 @@ if __name__ == "__main__":
     # 打印最重要的特征
     print_top_features(df_importance, top_n=10)
     
+    # 创建输出目录（提前定义，供置换重要性可视化使用）
+    # 优先使用 D:\毕业设计\织构数据\visualization，如果不存在则使用当前目录下的 visualization
+    default_path = r"D:\毕业设计\织构数据\visualization\ard_importance"
+    if os.path.exists(r"D:\毕业设计\织构数据"):
+        output_dir = default_path
+    else:
+        output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "visualization", "ard_importance")
+        print(f"[!] 未检测到 D:\毕业设计\织构数据，使用本地路径: {output_dir}")
+    
+    os.makedirs(output_dir, exist_ok=True)
+    
     # ========== 交叉验证 2: 置换重要性分析 ==========
     # 准备数据
     all_feature_cols = optimizer.pre_feature_cols + optimizer.target_cols + optimizer.process_cols
@@ -586,7 +746,7 @@ if __name__ == "__main__":
     try:
         user_input = input("是否进行置换重要性分析? (y/n, 默认n): ").strip().lower()
         if user_input == 'y':
-            perm_importance_df = permutation_importance(
+            perm_importance_df, baseline_rmse = permutation_importance(
                 optimizer, X, y, all_feature_cols, n_repeats=5
             )
             
@@ -614,6 +774,14 @@ if __name__ == "__main__":
                     consistency = "-"
                 
                 print(f"{feat:<25} {ard_pos:<10} {perm_pos:<10} {consistency:<10}")
+            
+            # 绘制LOOCV置换重要性可视化（独立保存）
+            print("\n" + "="*60)
+            print("【生成LOOCV置换重要性可视化】")
+            print("="*60)
+            plot_loocv_permutation_importance(
+                perm_importance_df, scheme_id, n_samples, output_dir, baseline_rmse
+            )
         else:
             print("\n跳过置换重要性分析")
     except EOFError:
@@ -622,17 +790,6 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"\n置换重要性分析出错: {e}")
         print("跳过此分析")
-    
-    # 创建输出目录
-    # 优先使用 D:\毕业设计\织构数据\visualization，如果不存在则使用当前目录下的 visualization
-    default_path = r"D:\毕业设计\织构数据\visualization\ard_importance"
-    if os.path.exists(r"D:\毕业设计\织构数据"):
-        output_dir = default_path
-    else:
-        output_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "visualization", "ard_importance")
-        print(f"[!] 未检测到 D:\毕业设计\织构数据，使用本地路径: {output_dir}")
-    
-    os.makedirs(output_dir, exist_ok=True)
     
     # 绘制可视化
     print("\n正在绘制 ARD 特征重要性可视化...")
