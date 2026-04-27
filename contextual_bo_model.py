@@ -10,6 +10,37 @@ import warnings
 # 忽略高斯过程在极低方差区域可能产生的数值计算警告
 warnings.filterwarnings("ignore")
 
+# ============================================================
+# 共享常量：所有模块共用，避免重复定义
+# ============================================================
+
+ALL_TARGET_ORIENTATIONS = [
+    (1, 0, 3), (1, 0, 2), (3, 0, 1),
+    (1, 1, 4), (1, 1, 5), (1, 0, 5),
+    (1, 2, 4), (1, 2, 5), (2, 1, 4),
+]
+
+SCHEME_NAMES = {
+    1: "<103> 型织构 (橙色系)",
+    2: "<114> 型织构 (粉紫色系)",
+    3: "<124> 型织构 (混合色)",
+    4: "自定义组合",
+}
+
+SCHEME_TARGETS = {
+    1: [(1, 0, 3), (1, 0, 2), (3, 0, 1)],
+    2: [(1, 1, 4), (1, 1, 5), (1, 0, 5)],
+    3: [(1, 2, 4), (1, 2, 5), (2, 1, 4)],
+    4: [(1, 0, 3), (1, 1, 4), (1, 2, 4)],
+}
+
+DEFAULT_PROCESS_BOUNDS = {
+    'Process_Temp': (1000.0, 1400.0),
+    'Process_Time': (1.0, 30.0),
+    'Process_H2': (0.0, 160.0),
+    'Process_Ar': (0.0, 800.0),
+}
+
 class ContextualBayesianOptimizer:
     def __init__(self, bounds, target_orientations=None):
         """
@@ -207,6 +238,82 @@ class ContextualBayesianOptimizer:
             # 如果解析失败，不中断训练流程
             print(f"\n[ARD分析] 无法解析核函数参数: {e}")
 
+    def _compute_y_best(self, x_pre, target_keys, target_orientations, k_neighbors=3):
+        """
+        计算稳健的 y_best，解决三大问题:
+        1. 尺度一致: 始终使用原始尺度 (不依赖 gpr.y_train_ 的归一化值)
+        2. 上下文感知: 优先使用与当前 pre_features 相似的样本的产率参考值
+        3. 异常值保护: winsorize 到 P95，防止单个极端值 (如 y=1.0) 绑架优化
+
+        Returns:
+            y_best: 原始尺度的最优产率参考值
+            n_matching: 用于报告的匹配样本数
+            source: 来源标签 (用于诊断输出)
+        """
+        if not hasattr(self, 'training_df') or self.training_df is None:
+            return self._get_y_best_from_gpr_with_source()
+
+        df = self.training_df
+
+        # 按目标晶向筛选
+        if target_keys:
+            mask = np.ones(len(df), dtype=bool)
+            for key in target_keys:
+                if key in df.columns:
+                    mask = mask & (df[key] == 1.0)
+            df_target = df[mask].copy()
+        else:
+            df_target = df.copy()
+
+        if len(df_target) == 0:
+            return self._get_y_best_from_gpr_with_source()
+
+        # 按与当前 pre_features 的欧氏距离找 k 近邻 (在 pre 特征空间中)
+        pre_cols = self.pre_feature_cols
+        if len(pre_cols) > 0 and len(df_target) >= k_neighbors:
+            df_pre = df_target[pre_cols].values
+            x_pre_arr = np.array(x_pre).reshape(1, -1)
+            # 标准化以避免量纲影响
+            pre_std = df_pre.std(axis=0, ddof=1)
+            pre_std[pre_std < 1e-8] = 1.0
+            pre_mean = df_pre.mean(axis=0)
+            x_pre_norm = (x_pre_arr - pre_mean) / pre_std
+            df_pre_norm = (df_pre - pre_mean) / pre_std
+            distances = np.sqrt(((df_pre_norm - x_pre_norm) ** 2).sum(axis=1))
+            neighbor_idx = np.argsort(distances)[:k_neighbors]
+            neighbor_yields = df_target.iloc[neighbor_idx]['TARGET_Yield'].values
+            source = f'最近{k_neighbors}邻(距离{np.min(distances):.3f})'
+            n_matching = len(df_target)
+        else:
+            neighbor_yields = df_target['TARGET_Yield'].values
+            source = '同目标全量'
+            n_matching = len(df_target)
+
+        # Winsorize: 用 P95 截断，防止异常高值绑架 EI
+        y_max_raw = neighbor_yields.max()
+        y_p95 = np.percentile(neighbor_yields, 95)
+        y_best = min(y_max_raw, y_p95)
+
+        # 如果 y_best 过低，允许适当放宽
+        y_p50 = np.percentile(neighbor_yields, 50)
+        if y_best < y_p50:
+            y_best = y_p50
+
+        # 最终上限：确保 y_best 不超过全局原始值的合理上限
+        global_y_max = df['TARGET_Yield'].max()
+        global_y_p99 = np.percentile(df['TARGET_Yield'], 99)
+        y_best = min(y_best, global_y_p99)
+        y_best = max(y_best, global_y_max * 0.5)  # 不低于全局最大的一半
+
+        return float(y_best), n_matching, source
+
+    def _get_y_best_from_gpr_with_source(self):
+        """从 GPR 的 y_train_ 反归一化回原始尺度 (紧急回退)"""
+        if hasattr(self, 'gpr') and hasattr(self.gpr, '_y_train_std'):
+            y_raw = float(self.gpr.y_train_.max() * self.gpr._y_train_std + self.gpr._y_train_mean)
+            return y_raw, 0, 'GPR反归一化'
+        return 0.5, 0, '默认回退(0.5)'
+
     def expected_improvement(self, X_process_array, x_pre_array, y_best, target_onehot=None):
         """
         计算期望提升 (Expected Improvement, EI) 采集函数（支持多任务）
@@ -236,12 +343,13 @@ class ContextualBayesianOptimizer:
         mu, sigma = self.gpr.predict(X_scaled, return_std=True)
         
         # 计算 EI 积分
+        sigma_safe = np.maximum(sigma, 1e-12)
         with np.errstate(divide='warn'):
             imp = mu - y_best
-            Z = imp / sigma
-            ei = imp * norm.cdf(Z) + sigma * norm.pdf(Z)
-            ei[sigma == 0.0] = 0.0
-            
+            Z = imp / sigma_safe
+            ei = imp * norm.cdf(Z) + sigma_safe * norm.pdf(Z)
+            ei[sigma_safe <= 1e-12] = 0.0
+
         return ei, mu, sigma
 
     def recommend_next_process(self, new_pre_features, target_orientations=None, n_random_starts=100000):
@@ -269,24 +377,10 @@ class ContextualBayesianOptimizer:
             target_keys = []
         
         # 根据目标晶向筛选对应的历史数据，找到该目标组合下的最优产率
-        if target_keys and hasattr(self, 'training_df'):
-            # 筛选具有相同目标晶向组合的训练样本（所有指定的目标都激活）
-            mask = np.ones(len(self.training_df), dtype=bool)
-            for key in target_keys:
-                if key in self.training_df.columns:
-                    mask = mask & (self.training_df[key] == 1.0)
-            
-            if mask.any():
-                y_best = self.training_df.loc[mask, 'TARGET_Yield'].max()
-                n_matching = mask.sum()
-            else:
-                # 如果没有找到完全匹配的目标组合，使用全局最优
-                y_best = self.gpr.y_train_.max()
-                n_matching = 0
-        else:
-            # 如果没有指定目标或没有训练数据，使用全局最优
-            y_best = self.gpr.y_train_.max()
-            n_matching = len(self.gpr.y_train_)
+        # 【修复】y_best 选择策略（解决尺度不一致 + 上下文感知 + 异常值保护）
+        y_best, n_matching, y_best_source = self._compute_y_best(
+            x_pre, target_keys, target_orientations
+        )
         
         # ==================== 两步 EI 优化策略 ====================
         # 步骤1: 大规模随机采样，寻找有潜力的区域
@@ -376,7 +470,8 @@ class ContextualBayesianOptimizer:
             target_str = "当前训练目标"
         print("\n==================================================")
         print(f"目标晶向: {target_str}")
-        print(f"历史最优产率 (同目标): {y_best:.2%} (基于 {n_matching} 个样本)")
+        print(f"y_best (优化参考值): {y_best:.2%}")
+        print(f"  来源: {y_best_source} | 同目标样本: {n_matching} 个")
         print("基于当前预处理微观状态的下一轮最优工艺预测：")
         for k, v in recommendation.items():
             print(f"  > {k}: {v:.2f}")
@@ -457,6 +552,34 @@ class ContextualBayesianOptimizer:
         except Exception as e:
             print(f"[错误] 模型加载失败: {e}")
             return False
+
+    def extract_ard_importance(self):
+        """从训练好的模型中提取 ARD 长度尺度，返回 DataFrame"""
+        kernel = self.gpr.kernel_
+        matern_kernel = kernel.k1.k2
+        length_scales = matern_kernel.length_scale
+
+        all_feature_cols = self.pre_feature_cols + self.target_cols + self.process_cols
+
+        importance_data = []
+        for i, col in enumerate(all_feature_cols):
+            if i < len(length_scales):
+                ls = length_scales[i]
+                importance_score = 1.0 / (ls + 1e-10)
+                if col.startswith('Pre_'):
+                    category = 'EBSD预处理'
+                elif col.startswith('Target_'):
+                    category = '目标晶向'
+                else:
+                    category = '工艺参数'
+                importance_data.append({
+                    'feature': col,
+                    'length_scale': ls,
+                    'importance': importance_score,
+                    'category': category,
+                })
+
+        return pd.DataFrame(importance_data)
 
 
 def add_new_data_to_training(existing_file, new_data_file):
@@ -573,44 +696,24 @@ if __name__ == "__main__":
     # ==========================
     scheme = select_scheme()
     
-    # 根据方案选择对应的数据文件
-    scheme_names = {
-        1: "<103> 型织构 (橙色系)",
-        2: "<114> 型织构 (粉紫色系)",
-        3: "<124> 型织构 (混合色)",
-        4: "自定义组合"
-    }
-    
     # 数据文件命名规则: Optimized_Training_Data_方案X.csv
     data_file = f"Optimized_Training_Data_方案{scheme}.csv"
-    
+
     # 如果方案文件不存在，尝试使用默认文件
-    import os
     if not os.path.exists(data_file):
         print(f"\n注意: 未找到 {data_file}，尝试使用默认文件 Optimized_Training_Data.csv")
         data_file = "Optimized_Training_Data.csv"
-    
-    print(f"\n当前使用方案 {scheme}: {scheme_names[scheme]}")
+
+    print(f"\n当前使用方案 {scheme}: {SCHEME_NAMES[scheme]}")
     print(f"数据文件: {data_file}\n")
-    
+
     # ==========================
     # 数据管理：添加新数据或直接使用
     # ==========================
     data_file = data_management_menu(data_file)
-    
-    # ==========================
-    # 物理参数搜索边界设置
-    # 请根据您的管式炉及实验安全规范严格修改此范围
-    # ==========================
-    process_bounds = {
-        'Process_Temp': (1000.0, 1400.0),  # 退火温度下限与上限 (℃)
-        'Process_Time': (1.0, 30.0),       # 保温时间下限与上限 (h)
-        'Process_H2': (0.0, 160.0),        # H2 流量下限与上限 (sccm)
-        'Process_Ar': (0.0, 800.0)         # Ar 流量下限与上限 (sccm)
-    }
-    
+
     # 实例化并训练模型
-    optimizer = ContextualBayesianOptimizer(bounds=process_bounds)
+    optimizer = ContextualBayesianOptimizer(bounds=DEFAULT_PROCESS_BOUNDS)
     optimizer.train(data_file)
     
     print("\n模型训练完成！")

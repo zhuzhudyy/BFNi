@@ -1,0 +1,1293 @@
+{
+  "386d83b35c73c57a": [
+    {
+      "paperId": "6c552d1b470f4602f6cc0a9a34b5bb375d4a8205",
+      "externalIds": {
+        "MAG": "2884357598",
+        "DOI": "10.1007/s00170-018-2343-9",
+        "CorpusId": 117480360
+      },
+      "url": "https://www.semanticscholar.org/paper/6c552d1b470f4602f6cc0a9a34b5bb375d4a8205",
+      "title": "Microstructure and selected properties of Monel 400 alloy after laser heat treatment and laser boriding using diode laser",
+      "year": 2018,
+      "citationCount": 41,
+      "openAccessPdf": {
+        "url": "https://link.springer.com/content/pdf/10.1007%2Fs00170-018-2343-9.pdf",
+        "status": "HYBRID",
+        "license": "CCBY",
+        "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s00170-018-2343-9?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s00170-018-2343-9, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "The International Journal of Advanced Manufacturing Technology",
+        "pages": "3005 - 3017",
+        "volume": "98"
+      },
+      "authors": [
+        {
+          "authorId": "102355386",
+          "name": "M. Kukliński"
+        },
+        {
+          "authorId": "87081760",
+          "name": "A. Bartkowska"
+        },
+        {
+          "authorId": "100560246",
+          "name": "D. Przestacki"
+        }
+      ],
+      "abstract": "This study concentrates on describing effects of laser heat treatment of Monel 400 and laser alloying its surface with boron. Surfaces without and with initial boron layers of two different thicknesses (100 and 200 μm) were processed using diode laser. Laser beam power density was constant and equal to 178.3 kW/cm2. To determine the influence of laser beam scanning velocity on final properties of treated surfaces, laser beam scanning velocity was set on four different values: 5, 25, 50, and 75 m/min. Microstructures of pure Monel 400 and Monel 400 alloyed with 100 μm boron content are composed of dendrites. Areas laser alloyed with 200 μm boron layer contain mainly nickel borides. Boron addition in Monel 400 surface results in microhardness increase in which the level depends on boron content and the laser beam scanning velocity. Increasing the thickness of initial boron layer and speeding up the laser beam lead to obtain higher microhardness. On the other hand, areas laser alloyed with 200 μm boron layer using laser beam scanning velocity equal to 75 m/min contain deep cracks which propagate from the surface through the produced layer. Furthermore, it was found that the depths of laser heat-treated areas depend significantly on the boron content. As the result of differences in thermal properties between Monel 400 and boron, depth of re-melted zones in some conditions does not lower with increasing laser beam scanning velocity."
+    },
+    {
+      "paperId": "d4af7a66d82f77f1e7eeda9c476b6a3229613a1c",
+      "externalIds": {
+        "CorpusId": 208818100
+      },
+      "url": "https://www.semanticscholar.org/paper/d4af7a66d82f77f1e7eeda9c476b6a3229613a1c",
+      "title": "Eff ect of Heat Treatment on the Microstructure and Surface Properties of Ni-Based Platings",
+      "year": 2019,
+      "citationCount": 0,
+      "openAccessPdf": {
+        "url": "",
+        "status": null,
+        "license": null,
+        "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at http://www1.metalurji.org.tr/immc2018/09_STHTS/228.pdf, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": null,
+      "authors": [
+        {
+          "authorId": "3825157",
+          "name": "M. Bașkan"
+        },
+        {
+          "authorId": "143846625",
+          "name": "M. Erdogan"
+        },
+        {
+          "authorId": "91293283",
+          "name": "İ. Karakaya"
+        }
+      ],
+      "abstract": null
+    },
+    {
+      "paperId": "3e03465e105489cddc17acd5a27aac3bec043af9",
+      "externalIds": {
+        "DOI": "10.1007/s40194-022-01266-9",
+        "CorpusId": 247147474
+      },
+      "url": "https://www.semanticscholar.org/paper/3e03465e105489cddc17acd5a27aac3bec043af9",
+      "title": "An investigation of the influence of integration of steel heat treatment and brazing process on the microstructure and performance of vacuum-brazed cemented carbide/steel joints",
+      "year": 2022,
+      "citationCount": 5,
+      "openAccessPdf": {
+        "url": "https://link.springer.com/content/pdf/10.1007/s40194-022-01266-9.pdf",
+        "status": "HYBRID",
+        "license": "CCBY",
+        "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s40194-022-01266-9?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s40194-022-01266-9, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "Welding in the World",
+        "pages": "1053-1066",
+        "volume": "66"
+      },
+      "authors": [
+        {
+          "authorId": "47744224",
+          "name": "W. Tillmann"
+        },
+        {
+          "authorId": "1445343527",
+          "name": "T. Ulitzka"
+        },
+        {
+          "authorId": "91783066",
+          "name": "L. Dahl"
+        },
+        {
+          "authorId": "92327023",
+          "name": "L. Wojarski"
+        },
+        {
+          "authorId": "1445343843",
+          "name": "H. Ulitzka"
+        }
+      ],
+      "abstract": "Cemented carbides are commonly brazed to transformation hardening tool steels without taking a proper and adequate steel heat treatment into account. This publication shows the limits and possibilities of integrating a steel heat treatment, including a quenching process, into a vacuum brazing process. Therefore, copper-based filler metals are selected to ensure the steel component’s high and homogenous hardness and supply a high joint quality. In this context, the aimed steel hardness was chosen in the range between 400 and 440 HV1 based on industrial experiences. This specific hardness range for the steel component was set to avoid wear of machining tools in subsequent machining steps if the steel hardness is too high and to prevent wear and deformation of the tool itself in case of a steel hardness too low. When using the transformation hardening tool steel 1.2344, the obtained shear strength values did not exceed a threshold of 20 MPa which can be attributed to the required N 2 -quenching from brazing respectively solution annealing temperature. However, the steel components featured a hardness of 527.1 HV1 for the specimens brazed with pure copper at 1100 °C and 494.0 HV1 for those brazed with a CuGeNi filler metal at 1040 °C. This publication also shows an alternative route to manufacture long-lasting tools with a cemented carbide/steel joint by applying the difficult to wet and not well researched, but for many other reasons very suitable precipitation hardening maraging steel. Especially, the comparable low coefficient of thermal expansion (CTE) and the capability of the lath martensite to compensate large amounts of externally imposed stresses during the austenite-to-martensite transformation as well as the cooling rate independent of the hardening mechanism of the maraging steel and a pre-applied nickel coating including the corresponding diffusion processes are responsible for a sound joint with a shear strength > 300 MPa. Moreover, the subsequent tempering process at 580 °C for 3 h provides the maraging steel joining partner with a hardness of 426.6 ± 6.0 HV1."
+    },
+    {
+      "paperId": "7468ca5ec84f9c05168046a9a57b601328811283",
+      "externalIds": {
+        "MAG": "3089125249",
+        "DOI": "10.1016/J.JALLCOM.2020.157157",
+        "CorpusId": 224952338
+      },
+      "url": "https://www.semanticscholar.org/paper/7468ca5ec84f9c05168046a9a57b601328811283",
+      "title": "Interface evolution and mechanical properties of nickel coated graphene nanoflakes/pure titanium matrix composites",
+      "year": 2021,
+      "citationCount": 18,
+      "openAccessPdf": {
+        "url": "",
+        "status": null,
+        "license": null,
+        "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1016/J.JALLCOM.2020.157157?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/J.JALLCOM.2020.157157, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "Journal of Alloys and Compounds"
+      },
+      "authors": [
+        {
+          "authorId": "48471370",
+          "name": "Y. Ge"
+        },
+        {
+          "authorId": "107600766",
+          "name": "Zhang Haorui"
+        },
+        {
+          "authorId": "2222987502",
+          "name": "Xingwang Cheng"
+        },
+        {
+          "authorId": "48868050",
+          "name": "Q. Fan"
+        },
+        {
+          "authorId": "104168816",
+          "name": "Zhenheng Zhang"
+        },
+        {
+          "authorId": "113847277",
+          "name": "Mu Xiaonan"
+        },
+        {
+          "authorId": "2183691509",
+          "name": "Liu Liang"
+        },
+        {
+          "authorId": "1679704",
+          "name": "Y. Liu"
+        },
+        {
+          "authorId": "112857523",
+          "name": "Benpeng Wang"
+        }
+      ],
+      "abstract": "Abstract The uncontrollable interface reaction has always been a difficult issue in fabricating graphene reinforced titanium matrix composites during high temperature processing. To overcome the graphene nanoflakes (GNFs) agglomeration and relieve the severe C–Ti interface reaction, electroless plating method was applied to synthesize high-quality nickel coated graphene nanoflakes (Ni-GNFs) as reinforcements in Ti matrix. In the present work, the Ni-GNFs/Ti composites were fabricated by spark plasma sintering (SPS) and subsequent heat treatment (HT). The investigations of microstructure revealed that nickel-plating layer played an important role in controlling the degree of interface reaction, and the intrinsic nanostructure of GNFs was maintained after HT at 1123 K for 15min. Feather-shaped NiTi2 precipitation was generated when the nickel layer diffused into Ti matrix. A special crystallographic orientation relation of NiTi2 ( 1 ¯ 33)//Ti (100) and NiTi2 (5 1 ¯ 1 ¯ )//Ti ( 1 ¯ 11) was found between NiTi2 and Ti matrix, which accounted for the improvement of load transfer capability. The compressive tests showed that the yield strength reached to 873 MPa when the composites containing only 0.05 wt% GNFs, which was an increase of 30.1% compared to the pure titanium. This work provides a new strategy for the interface microstructure design of bulk nano-carbon/titanium composites."
+    },
+    {
+      "paperId": "c4305ec641ba59a3d60679800ed30daf20abd1a4",
+      "externalIds": {
+        "DOI": "10.1007/s11837-025-07786-1",
+        "CorpusId": 281871861
+      },
+      "url": "https://www.semanticscholar.org/paper/c4305ec641ba59a3d60679800ed30daf20abd1a4",
+      "title": "Thermal Stabilization of Nanocrystalline Nickel Through Minor Tin Addition",
+      "year": 2025,
+      "citationCount": 0,
+      "openAccessPdf": {
+        "url": "",
+        "status": null,
+        "license": null,
+        "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s11837-025-07786-1?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s11837-025-07786-1, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": [
+        "JournalArticle"
+      ],
+      "journal": {
+        "name": "JOM",
+        "pages": "9688 - 9700",
+        "volume": "77"
+      },
+      "authors": [
+        {
+          "authorId": "2128453191",
+          "name": "Alka Jangid"
+        },
+        {
+          "authorId": "144300763",
+          "name": "P. Ghosh"
+        },
+        {
+          "authorId": "2270433588",
+          "name": "Sudhanshu S. Singh"
+        },
+        {
+          "authorId": "2300311112",
+          "name": "Nilesh Badwe"
+        }
+      ],
+      "abstract": null
+    },
+    {
+      "paperId": "daba5dad645adb1f43423b66d5d6696b07c7f9ea",
+      "externalIds": {
+        "MAG": "2917678289",
+        "DOI": "10.1007/S40516-019-0079-5",
+        "CorpusId": 139846913
+      },
+      "url": "https://www.semanticscholar.org/paper/daba5dad645adb1f43423b66d5d6696b07c7f9ea",
+      "title": "Effects of Composition and Post Heat Treatment on Shape Memory Characteristics and Mechanical Properties for Laser Direct Deposited Nitinol",
+      "year": 2019,
+      "citationCount": 47,
+      "openAccessPdf": {
+        "url": "",
+        "status": "CLOSED",
+        "license": null,
+        "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/S40516-019-0079-5?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/S40516-019-0079-5, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "Lasers in Manufacturing and Materials Processing",
+        "pages": "41-58",
+        "volume": "6"
+      },
+      "authors": [
+        {
+          "authorId": "11623972",
+          "name": "Jeongwoo Lee"
+        },
+        {
+          "authorId": "34724843",
+          "name": "Y. Shin"
+        }
+      ],
+      "abstract": null
+    },
+    {
+      "paperId": "0699a309a2ac659b1a4d4523dc5c34db07a31f06",
+      "externalIds": {
+        "MAG": "2772474018",
+        "DOI": "10.1007/s12541-017-0197-y",
+        "CorpusId": 140011725
+      },
+      "url": "https://www.semanticscholar.org/paper/0699a309a2ac659b1a4d4523dc5c34db07a31f06",
+      "title": "Effects of heat treatment on microstructures and tensile properties of IN718/TiC nanocomposite fabricated by selective laser melting",
+      "year": 2017,
+      "citationCount": 82,
+      "openAccessPdf": {
+        "url": "",
+        "status": "CLOSED",
+        "license": null,
+        "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s12541-017-0197-y?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s12541-017-0197-y, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "International Journal of Precision Engineering and Manufacturing",
+        "pages": "1693 - 1701",
+        "volume": "18"
+      },
+      "authors": [
+        {
+          "authorId": "2458117",
+          "name": "X. Yao"
+        },
+        {
+          "authorId": "1934800",
+          "name": "S. K. Moon"
+        },
+        {
+          "authorId": "117986019",
+          "name": "B. Lee"
+        },
+        {
+          "authorId": "39038967",
+          "name": "G. Bi"
+        }
+      ],
+      "abstract": null
+    },
+    {
+      "paperId": "963b150216bb94ce94de4ec5bd0a61aa475079fc",
+      "externalIds": {
+        "MAG": "2022060952",
+        "DOI": "10.4028/www.scientific.net/AMR.581-582.773",
+        "CorpusId": 137095580
+      },
+      "url": "https://www.semanticscholar.org/paper/963b150216bb94ce94de4ec5bd0a61aa475079fc",
+      "title": "Effect of Heat Treatment on Microstructure and Corrosion Resistance of Ni-Cr-Mo-Fe Alloys",
+      "year": 2012,
+      "citationCount": 0,
+      "openAccessPdf": {
+        "url": "",
+        "status": "CLOSED",
+        "license": null,
+        "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.4028/www.scientific.net/AMR.581-582.773?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.4028/www.scientific.net/AMR.581-582.773, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "Advanced Materials Research",
+        "pages": "773 - 776",
+        "volume": "581-582"
+      },
+      "authors": [
+        {
+          "authorId": "2127661861",
+          "name": "Ermin Ding"
+        },
+        {
+          "authorId": "82107537",
+          "name": "Z. Man"
+        },
+        {
+          "authorId": "121719793",
+          "name": "Xin Xin Yang"
+        },
+        {
+          "authorId": "46509258",
+          "name": "Jing Zhao"
+        }
+      ],
+      "abstract": null
+    },
+    {
+      "paperId": "cc74bd0d4dcd9781b0a2b121377fb33c05ca17d4",
+      "externalIds": {
+        "MAG": "2108325825",
+        "DOI": "10.1007/s11661-015-3130-y",
+        "CorpusId": 136969474
+      },
+      "url": "https://www.semanticscholar.org/paper/cc74bd0d4dcd9781b0a2b121377fb33c05ca17d4",
+      "title": "Optimization of the Homogenization Heat Treatment of Nickel-Based Superalloys Based on Phase-Field Simulations: Numerical Methods and Experimental Validation",
+      "year": 2015,
+      "citationCount": 21,
+      "openAccessPdf": {
+        "url": "",
+        "status": "CLOSED",
+        "license": null,
+        "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s11661-015-3130-y?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s11661-015-3130-y, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "Metallurgical and Materials Transactions A",
+        "pages": "5842-5855",
+        "volume": "46"
+      },
+      "authors": [
+        {
+          "authorId": "48649549",
+          "name": "R. Rettig"
+        },
+        {
+          "authorId": "2077242919",
+          "name": "N. Ritter"
+        },
+        {
+          "authorId": "144777457",
+          "name": "F. Müller"
+        },
+        {
+          "authorId": "2106214",
+          "name": "M. Franke"
+        },
+        {
+          "authorId": "47601626",
+          "name": "R. Singer"
+        }
+      ],
+      "abstract": null
+    },
+    {
+      "paperId": "7ad03d36557d3acdc11f7df1af20a84a8536a453",
+      "externalIds": {
+        "DOI": "10.1007/s40516-019-0079-5",
+        "CorpusId": 256403353
+      },
+      "url": "https://www.semanticscholar.org/paper/7ad03d36557d3acdc11f7df1af20a84a8536a453",
+      "title": "Effects of Composition and Post Heat Treatment on Shape Memory Characteristics and Mechanical Properties for Laser Direct Deposited Nitinol",
+      "year": 2019,
+      "citationCount": 0,
+      "openAccessPdf": {
+        "url": "",
+        "status": "CLOSED",
+        "license": null,
+        "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s40516-019-0079-5?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s40516-019-0079-5, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "Lasers in Manufacturing and Materials Processing",
+        "pages": "41 - 58",
+        "volume": "6"
+      },
+      "authors": [
+        {
+          "authorId": "93281119",
+          "name": "Jeong-U Lee"
+        },
+        {
+          "authorId": "34724843",
+          "name": "Y. Shin"
+        }
+      ],
+      "abstract": null
+    },
+    {
+      "paperId": "ae7c6bb03d387f67193fb09311c4245bee4b9d21",
+      "externalIds": {
+        "DOI": "10.30684/etj.28.5.15",
+        "CorpusId": 265270457
+      },
+      "url": "https://www.semanticscholar.org/paper/ae7c6bb03d387f67193fb09311c4245bee4b9d21",
+      "title": "Studying Effect of Adding Nickel to Al-Cu Alloy Before and After Heat Treatment",
+      "year": 2010,
+      "citationCount": 0,
+      "openAccessPdf": {
+        "url": "https://etj.uotechnology.edu.iq/article_27149_1ead2704f01c9be1aae9ab99f8d1979d.pdf",
+        "status": "GOLD",
+        "license": "CCBY",
+        "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.30684/etj.28.5.15?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.30684/etj.28.5.15, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": [
+        "JournalArticle"
+      ],
+      "journal": {
+        "name": "Engineering and Technology Journal"
+      },
+      "authors": [],
+      "abstract": "In this research, the effect of adding pure nickel element in different amounts Al-4%Cu-1.5%Mg) has been studied it (to molten alloy (1-2-3-5%wt) making the heat treatment (T6) which includes solution treatment followed by artificial aging at 220 oC at different times within the range (5 min. -5 hr.)). Also the effect of nickel element on the microstructure, the grain size and the phases type which are constructed in the produced alloys by alloying before and after heat treatment by using optical microscope and X-Ray diffraction test device have been studied then the hardness and tensile test were implemented and then the result showed: the alloy with the highest adding rate (5% wt) shows a better PDF created with pdfFactory Pro trial version www.pdffactory.com دلجملا،ايجولونكتلاو ةسدنهلا ةلجم 28 ددعلا، 5 ، 2010 ةكوبسم ىلع لكينلا رصنع ةفاضا ريثأـت موينمللاا لبق ساحن ةيرارحلا ةلماعملا دعبو 123 response than the other alloys for hardening in longer time period where it have been reached to highest hardness (125 H.V) in time period (4hr) at (220 oC). While the empty alloy of nickel reached to highest hardness equals to (112 H.V) in a time period less than (2hr). The constructed phases in alloys have been specified after adding Ni element, where it indicated to the existence of the phase (Al7Cu4Ni) which is responsible for the slowliness which occurs in the alloy’s response to precipitation hardening procedure which leads to delay (longer time periode) to obtain a higher hardness. It also found that adding of nickel causes an increase and an improvement in the properties of the tensile strength, yield strength and elongation, which indicates that the presence of the nickel takes two ways part of it dissolve with Aluminum and copper to produce the phase (Al7Cu4Ni) which causes the slowing in the construction of the hardening phase (Al2CuMg), the other part causes refining grains size at the highest temperature degrees causing an increase in the strength and the hardness in a rate which is higher for the alloy’s that contain nickel in a comparison with the empty alloy of nickel. ةـمدقملا ىـقبي يـقنلا موينمللأا لامعتسا نا هـنا ذا ةيسدنهلا تاقيبطتلا يف ًادج ًادودحم ةـيكيناكيم صاوـخ وذو فيعـضو نيل تـقو ذنم ثوحبلا تهجوت اذهل ،ةضفخنم تاونـسلا يف ريبك لكشب تروطتو ليوط ةـيكيناكيملا صاوخلا نيسحت وحن ةريخلأا كيبست وا ليكشتلا قيرط نع موينمللأل عم ه نوكيلـسلاو ساـحنلا لثم ىرخا رصانع نع ًلاضف لكينلاو مويسينغملاو نيصراخلاو ةيرارحلا تلاماعملا ءارجاو ىرخا رصانع هيلع [1] . ىـلع موينمللأا يف كبسلا رصانع دجاوتت نيعون : 1 . وأ ةريغـص تاـيمكب ةدجاوتم رصانع نـكمي اذهلو اهدوجو نم رفم لاو ةليئض وش وأ تانمضتمك اهرابتعا بئا . 2 . ةمولعمو ةددحم تايمكب فاضت رصانع هذه ىعدتو ةنيعم صاوخ موينمللأا ءاطعلأ كبسلا رصانعب رصانعلا [2] . ليلاحم نيوكت ىلع لمعت رصانعلا هذه نا ةـيوقت لوـصح ىـلا يدؤـي امم ةدماج هذـهل ةـيرارحلا ةلماعملا دنعو موينمللأل ىـلا هفاضا ىرخا راوطا بسرتت كئابسلا اجلا لولحملا ةمواقم ةدايز ىلا يدؤي امم دم ةيرارحلا هلماعملا ةجيتن كئابسلا هذه . موينمللأا ةكيبس دعتو – كئابس ىدحا ساحن ثـيح لاـجملا اذه يف همهملا موينمللأا ةيرارحلا هلماعملا دعب ةكيبسلا هذه بستكت ىلع اهتيلباق ةجيتن ةيلاع ةيكيناكيم صاوخ بيـسرتلاب دلاـصلأا (precipitation hardening) [1] . نيثحابلا نم ريبك ددع ماق دقف ريثأت ةساردب ةيرارحلا ةلماعملاوةيكئابسلا رصانعلا ةفاضا صاوـــ خلاو ةــ يرهجملا ةــ ينبلا يــ ف تاكوبـسمل ةـيكيناكيملا ) Al-Cu alloys و alloys Al-Cu-Mg : ( سرد دقف ثحابلا ) M.Murayama ( [3] يـف ةـنوكتملا تاعمجتلا ليلحتب نورخاو ةكيبسلا ) Al-Cu-Mg-Ag ( ةيلمع أدب لبق ةيلمعل ةيلولأا لحارملا يف يأ اهيف بيسرتلا ـ سأب قـيتعتلا لامعت يـسجملا رـهجملا ) (Three dimensional atom probe analyses يتأي ام اوجتنتسا دقو : رورم دعب ) 5sec ( قـيتعتلا ةـيلمع ىلع دنع ةكيبسلل ) 180°C ( نم تاعمجت نوكتت ) Mg-Ag ( ةحضاو ريغ طقف لاو ملاـعملا تاعمجتلا هذه يف ساحنلا تارذل دوجو . رورم دعبو ) 120sec ( ةرارح ةجرد دنع ) 180°C ( لكـش ىـلع تاعمجتلا رهظت ىـلا اـهيف ساـحنلا زيكرت لصي حئافص ) 30% ( روطلا روهظ ىلا يدؤي اذهو ) Ω ( PDF created with pdfFactory Pro trial version www.pdffactory.com دلجملا،ايجولونكتلاو ةسدنهلا ةلجم 28 ددعلا، 5 ، 2010 ةكوبسم ىلع لكينلا رصنع ةفاضا ريثأـت موينمللاا لبق ساحن ةيرارحلا ةلماعملا دعبو 124 يئايميكلا بيكرتلا يذ ) Al2CuMg(Ag) ( نوـكت نأ ىـلا ريشي اذهو حضاو لكشب يف تاعمجتلا ببـسلا وه ىلولأا لحارملا سناـجتملا رـيغ قـيلختلا ةـيلمع يـف روطلل ) Ω ( ذا هـنوكتل ةيلولأا لحارملا يف نـم ةنوكتملا تاعمجتلا نوكت ) Mg-Ag ( قيلختلل عقاومك . روطلا نا ) Ω ( نم نسحي ةكيبـسلل ةـيرارحلاو ةيكيناكيملا صاوخلا ) Al-Cu-Mg-Ag ( مظتنملا هعيزوتل ةجيتن يئاهنلا بيكرتلا يف ةكيبسلل . دقو ثـحابلا ماق ) D.H.Xiao ( [4] رـصنع ةفاـضا ريثأـت ةساردب نورخاو ةكيبـسل ةـيكيناكيملا صاوخلا يف ساحنلا (Al-Cu-Mg-Ag) بسنب ) 4-8 % Cu ( نـم دـشلا ةمواقم يف ةدايز اوظحلا دقو ) 434 MPa ( ىلا ) 559 MPa ( ةجرد دنع نـمو ةفرغلا ةرارح ) 141 MPa ( ىـلا ) 228 MPa ( دنع ةرارـح ةجرد ° 300C ةلاطتسلأا يف فيفط ناصقن ثودح عم . نا ىـلع ةـيواحلا ةكيبـسلل ةيلاعلا ةمواقملا ) 8%Cu ( ةـيلاعلا ةفاثكلا ىلا دوعي اهببس عون نم تابسرتلل ) θ' , Ω ( نـم دـيزيو روطلا ةيرارقتسا ) Ω ( ببسب همجح لقي نكل نم ةيوناث راوطا نوكت ) θ ( بـيكرتلا يذ يئايميكلا ) Al2Cu ( ت ةـيوقت يـف ببـست ةكيبسلا . دـح قوـف ساـحنلا ةفاضا نا ةيوقتلاب طارفأب ببستي موينمللأا يف هتينابوذ ةـفرغلا ةرارح ةجرد دنع ةكيبسلل . دـقو ثــ ــحابلا سرد ) P.E.J.Rivera ( [5] لكينلا يرصنع ةفاضا ريثأت نورخاو ) Ni ( موركلاو ) Cr ( ىدـعتتلا ةبسنب ) 1% ( يرصنعو ) Si ( و ) Li ( ةبسنب ) 1% ( ىلع ةكيبسل بساورلا نيشخت ةيكرح ) Al-CuMg ( ًاريثأت موركلاو لكينلل نأب جتنتسا دقو روـط ةيرارقتـسا يف ًايباجيا ) S ( اـمنيب عيرست ىلا يدؤي مويثيللاو نوكيلسلا ةفاضا روط نيشخت ةيلمع ) S ( ىـلا يدؤـي اذهو ةناتملا ةميقب ضيفخت ) Strength ( ةبـسنب 10% . ىدـحا يلاـحلا ثحبلا دعيو تلاواـحملا ةـفلتخم بسنب لكينلا رصنع ريثأت ةساردل ) wt % 5 3 2 1 ( صاوــ خلا ىــ لع بيـسرتلاب دلاـصلأا ةيلمعو ةيكيناكيملا موينملأ ةكيبسل – ساحن – مويسينغم . دعت موينمللأا ةكيبس كئابـسلا رثكأ نم ساحن ةـيكيناكيم صاوخ كلتمت اهنا ذا ًلاامعتسأ يبـس لوا دـعت اـهنا نع ًلاضف ةديج ةك بيـسرتلاب دلاصلأا ةرهاظ اهيف تفشتكأ , ءازـجأ ةعانص يف ةكيبسلا هذه لمعتستو نابضقلاو تاكرحملاك تارئاطلا يف ةفلتخم تارئاطلا لكايه تيبثت ميشاربو .[6] ةكيبـس اـما (Al-Cu-Mg-Ni) اـهنأف تست لمع ةمواقم بلطتت يتلا تاقيبطتلا يف ةديج يـفو ةـيلاعلا ةرارحلا تاجرد دنع اسابك ـ لا تاكرحمو تلاكيسوتوملا ت د لزي تارئاطلا يف [7] . يلمعلا ءزجلا ةكيبسلا ريضحت ثحبلا يف ةلمعتسملا كئابسلا ريضحت مت يـقنلا موـينمللأا نـم عطق نزوب كلذو رـصانع نـم هل ةلباقملا ةيمكلا تبسحو ةـينزولا بـسنلا ىـلع لوصحلل كبسلا قـفو ىلع ةدح ىلع ةكيبس لكل ةبولطملا ينلا ةبسن موينمللاا رهصب كلذو ةفاضملا لك ةـيتيفارك ةقدوب لامعتسإب يزاغ نرف يف ةرارـح ةجرد دنع رهصلا ةيلمع تيرجاو ) C ° 750 ( دـعب موينمللاا رهص نامضل لكـش ىـلع يقنلا ساحنلا ةفاضا مت كلذ ءارـجا عم رهصنملا موينمللاا ىلا شيار تـيفاركلا نـم بيضقب رمتسملا كيرحتلا عيمج نابوذ نامضل موـينمللاا يف ساحنلا مـت كـلذ دعب سناجتلا ثودحو رهصنملا نم قئاقرب هفيلغت دعب لكينلا شيار ةفاضا رهـصنملا هـلوخد نامضل يقنلا موينمللاا ليلقتو ةفاضلأا ءانثا هقارتحاو هدسكأت نود مـث رمتـسملا كيرحتلا عم ةينزولا هتبسن هـفيلغت دعب يقنلا مويسنغملا شيار ةفاضا ا قئاقرب اضيا رهـصنملا طـلخيو موينمللأ تازاـغلا دراـط فاـضي مـث ًادـ يج ) Degassing ( دـيرولك ثـبخلا لـيزمو PDF created with pdfFactory Pro trial version www.pdffactory.com دلجملا،ايجولونكتلاو ةسدنهلا ةلجم 28 ددعلا، 5 ، 2010 ةكوبسم ىلع لكينلا رصنع ةفاضا ريثأـت موينمللاا لبق ساحن ةيرارحلا ةلماعملا دعبو 125 نم ثبخلا بحسي مث ًاديج طلخيو موينمللأا ةقدوبلا ةهوف . لبق بصلا بلاق نيخست متي ةرارـح ةجرد ىلا هيفرهصنملا بص C ° 200 راـحلا ققـشتلا لوصح عنم ضرغل ) Hot Cracking ( ديربت متي مث جتنملل بلاق عازتنا مث نمو رهصنملا بص دعب بصلا هلخاد نم ةبوبصملا . مت تاـنيعلا عـيطقت كمـسب صارقأ لكشب ةجتنملا ) 4.5mm ( رطقو ) 15mm ( ةـينبلا ةـسارد ضرـغل تاـيلمع ءارـجاو ةدلاـصلاو ةيرهجملا ةيرارحلا ةلماعملا . ةيرارحلا ةلماعملا عـيمجل يرارـحلا سناجتلا ةيلمع تيرجا ةـجتنملا تانيعلا ةـلماعملا ءارـجا لـبق ىلا ةيلمعلا هذه فدهت ذإ ةيلولحملا ةيرارحلا كلذـكو يرهجملا لكيهلا يف لازعنلأا عنم ىلا سناجتم عيزوت ىلع لوصحلا لجأ نم يبيبحلا مجحلا يف لوبقم دح . ءارـجا مـت ةـجردب كئابـسلل يرارحلا سناجتلا ةيلمع ) C° 340 ( ةعاس ةدم ديربت لدعمبو ةدحاو ئطب ) ب ديربت نرفلا .( ةـلمعملا تـيرجا مث ةيرارحلا T6 تلمش يتلا : 1 ةيلولحملا ةيرارحلا ةلماعملا ةلولحم ةجلاعم تانيعلا عيمج ةجلاعم تمت ةجردبو ) C ° 510 ( نارفا يف ةعاس ةدم ةـيرارحلا ةلماعملاب ةصاخ ) Electrical Resistance Furnace .( 2 اعيرـس اديربت اهديربتب تانيعلا ةيسقت مت مث و نخاـس ءاـم ضوحب ةرشابم اهئاقلإب كلذ ةجردب ) C ° 80 C ° 50 ( ثودح عنمل كلذو ءاـنثا يـف داـعبلاا يف ريغتلاو تاققشتلا ةيسقتلا . 3 يعانطصلأا قيتعتلا تاـنيعلل يعانطـصلاا قيتعتلا ءارجا مت ةلماعملا ءارجا دعب ةكابسلا تايلمعب ةجتنملا ةرـشابم نخاـس ءاـمب ةيسقتلاو ةيلولحملا ضوب ةـصاخ ةيئابرهك نارفا يف تانيعلا ع ةيرارحلا ةلماعملاب ) electric resistance oven ( قـيتعتلا ةـيلمع ءارـجا مث نمو ةرارـح ةـجردب اهيلع يعانطصلاا ) C ° 220 ( ةفلتخم ةينمز تارتفل ) 5 min-30 min-120 min-180 min-240 min300 min ( تاـنيعلا بحس متي كلذ دعبو ع ةدلاصلا صحف ءارجلا ديدحتل كلذو اهيل ىلع لوصحلا اهللاخ نم عيطتست يتلا ةدملا ةباجتـسا ىدم ديدحت كلذكو ةدلاص لضفا ةيرارحلا ةلماعملا هذهل ةجتنملا كئابسلا . ةيربتخملا تاصوحفلا ةيرهجملا ةينبلا صحف : تانيع عيطقت مت داعبأب صحفلا (15Ф x 5mm) نا دعبو راهظلأاو لقصلاو ميعنتلا تايلمع تيرجا نم نوكتي راهظا لولحم مادختسأب ) 1 % كيرولفورديهلا ضماح + 99 % ءام رطقم .( رهجملا يئوضلا رهجملا مدختسا ىلع صاخ جمانربب ةبصنم ةيمقر اريماكب ةيرهجملا ةينبلا ةساردل بوساحلا زاهج تلاماعملا ءارجا دعبو لبق تانيعلل ةيرارحلا . ةدلاصلا صحف : صـحف زاهج لمعتسا يقل ةدلاصلا ةيرهجملا ةدلاصلا سا ةقيرطب زركيف ) Vickers Hardness ( أب لامعتـس هرادقم لمح ) 500 g ( ةدم ) 10 sec ( ناكو زاـهجلا ةـشاش نم ذخؤي تاءارقلا رادقم تاءارـقلا تناكو ةرشابم ةروصب ةيمقرلا ةنيعلل تابرض ثلاث لدعمب ذخؤت . زركيف ةدلاص نأ ) Hv ( ةلداعملاب ىطعت ةيتلاا : Hv=1.854F/d Kgf/mm دشلا رابتخا : رابتخا تانيع ريضحت مت ىلع لوصحلل يكيناكيملا ليغشتلاب دشلا ةفصاوملا قفو ىلع ةيسايق تانيع ASTM [7] . قفو ىلع دشلا ةنيعل ةيسايقلا داعبلأا عون لمعتسملا زاهجلا تافصاوم ) INSTRON machine ( ةعسو ) 10 Ton ( هرادقم ىصقا دش لمح طيلستب ) 2.5 Ton ( بو ةعرس ) 0.5 mm/min ( ةجردبو ةفرغلا ةرارح . ةشقانملاو جئاتنلا ةيرهجملا ةينبلا صحف جئاتن : لكشلا ) 1 ( ةجتنملا كئابسلل ةيرهجملا بيكارتلا حضوي ًةرشابم بصلا ةيلمع دعب . جئاتنلا رهظت ذا ةيدايتعلأا فورظلاب ةكابسلاو طلخلا ةيناكما PDF creat"
+    },
+    {
+      "paperId": "ad14388072b4d7967ad8395efd606c0f0dd0ab60",
+      "externalIds": {
+        "DOI": "10.1007/s00170-023-11812-4",
+        "CorpusId": 259625221
+      },
+      "url": "https://www.semanticscholar.org/paper/ad14388072b4d7967ad8395efd606c0f0dd0ab60",
+      "title": "Effect of heat treatments on microstructure and mechanical properties of AlSi10Mg alloys fabricated by laser powder bed fusion",
+      "year": 2023,
+      "citationCount": 9,
+      "openAccessPdf": {
+        "url": "https://www.researchsquare.com/article/rs-2352574/latest.pdf",
+        "status": "GREEN",
+        "license": "CCBY",
+        "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s00170-023-11812-4?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s00170-023-11812-4, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": [
+        "JournalArticle"
+      ],
+      "journal": {
+        "name": "The International Journal of Advanced Manufacturing Technology",
+        "pages": "4211 - 4223",
+        "volume": "127"
+      },
+      "authors": [
+        {
+          "authorId": "2323713992",
+          "name": "Xiaogang Zhu"
+        },
+        {
+          "authorId": "23605518",
+          "name": "Dafan Du"
+        },
+        {
+          "authorId": "49869882",
+          "name": "A. Dong"
+        },
+        {
+          "authorId": "2112549222",
+          "name": "Qinya Sun"
+        },
+        {
+          "authorId": "2157277654",
+          "name": "Jing Sun"
+        },
+        {
+          "authorId": "2184568428",
+          "name": "Lijie Guo"
+        },
+        {
+          "authorId": "46425305",
+          "name": "Bao-de Sun"
+        },
+        {
+          "authorId": "2382049782",
+          "name": "Zhen-da Chen"
+        }
+      ],
+      "abstract": "This study investigated the microstructures and tensile properties of as-build and heat-treated (including T6, T2, and T6-T2 treatments) AlSi10Mg samples fabricated by laser powder bed fusion (LPBF). The microstructure analysis revealed that the trend of eutectic Al-Si phase distribution along grain boundaries for heat-treated samples was significantly weakened, and the eutectic Al-Si phase was transformed into Si particles which were uniformly distributed in α-Al matrix. For the T6-T2-treated specimens, the Si content in particles was the highest. Meanwhile, the T6 treatment increased the proportion of equiaxed grains on vertical section most significantly. However, in the wake of heat treatments, the average grain size on horizontal section had little change while the average grain size on vertical section was increased. The properties analysis demonstrated that the T6-T2-treated specimens obtained the best elongation and worst strength. Besides, the T6 treatment eliminated the anisotropy of the LPBFed specimens basically and synergistically obtained the best combination of strength and plasticity. The T6 treatment weakened the direction difference to the greatest extent, whereas the T2 treatment minimized the stress concentration. According to the comparative finding, the Si content in particles played an important part in properties. Besides, the relationship among inverse pole figure (IPF) maps, pole figure (PF) maps, the mass fraction and distribution of Si in Al matrix and Si particle, the grain size, kernel average misorientation (KAM), and mechanical properties under different heat treatments was established, which provided a new idea for the selection of heat treatments on LPBFed parts."
+    },
+    {
+      "paperId": "4c0e794de720af9c36c17933633a6435ee55bc4f",
+      "externalIds": {
+        "MAG": "1486318439",
+        "DOI": "10.1007/978-3-319-48764-9_257",
+        "CorpusId": 137511520
+      },
+      "url": "https://www.semanticscholar.org/paper/4c0e794de720af9c36c17933633a6435ee55bc4f",
+      "title": "Microstructural and Corrosion Characterizations of Nickel‐Titanium Coatings Produced by Electrochemical Codeposition and Heat Treatment",
+      "year": 2013,
+      "citationCount": 0,
+      "openAccessPdf": {
+        "url": "",
+        "status": "CLOSED",
+        "license": null,
+        "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/978-3-319-48764-9_257?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/978-3-319-48764-9_257, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "",
+        "pages": "2075-2082",
+        "volume": ""
+      },
+      "authors": [
+        {
+          "authorId": "114978257",
+          "name": "Pathompong Janetaisong"
+        },
+        {
+          "authorId": "30734350",
+          "name": "R. Techapiesancharoenkij"
+        },
+        {
+          "authorId": "6926492",
+          "name": "Y. Boonyongmaneerat"
+        }
+      ],
+      "abstract": null
+    },
+    {
+      "paperId": "f0242b186724161bd8a99bb24e707227f41f3021",
+      "externalIds": {
+        "DOI": "10.1007/s40194-023-01555-x",
+        "CorpusId": 259689474
+      },
+      "url": "https://www.semanticscholar.org/paper/f0242b186724161bd8a99bb24e707227f41f3021",
+      "title": "Effects of nickel layer on interfacial micro-structure distribution and macro-mechanical properties for vacuum-brazed dissimilar steel joints",
+      "year": 2023,
+      "citationCount": 4,
+      "openAccessPdf": {
+        "url": "",
+        "status": "CLOSED",
+        "license": null,
+        "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s40194-023-01555-x?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s40194-023-01555-x, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": [
+        "JournalArticle"
+      ],
+      "journal": {
+        "name": "Welding in the World",
+        "pages": "2391 - 2409",
+        "volume": "67"
+      },
+      "authors": [
+        {
+          "authorId": "2324895768",
+          "name": "Leilei Wang"
+        },
+        {
+          "authorId": "2199232480",
+          "name": "Nian Li"
+        },
+        {
+          "authorId": "97186173",
+          "name": "Xinlong Wei"
+        },
+        {
+          "authorId": "2222341643",
+          "name": "Xiang Ling"
+        },
+        {
+          "authorId": "2117788525",
+          "name": "Qingsheng Li"
+        }
+      ],
+      "abstract": null
+    },
+    {
+      "paperId": "319c6bc43001c7aee10ede14198182eac948517b",
+      "externalIds": {
+        "MAG": "1955040139",
+        "CorpusId": 93761964
+      },
+      "url": "https://www.semanticscholar.org/paper/319c6bc43001c7aee10ede14198182eac948517b",
+      "title": "Microstructural studies of cold sprayed pure nickel, copper and aluminum coatings",
+      "year": 2010,
+      "citationCount": 3,
+      "openAccessPdf": {
+        "url": "",
+        "status": null,
+        "license": null
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "Theory of Computing Systems \\/ Mathematical Systems Theory",
+        "pages": "3",
+        "volume": ""
+      },
+      "authors": [
+        {
+          "authorId": "1406165552",
+          "name": "Y. Zou"
+        }
+      ],
+      "abstract": null
+    },
+    {
+      "paperId": "b116e1f45b2b83ce75b1a4e503a390a256d24359",
+      "externalIds": {
+        "MAG": "2371292404",
+        "CorpusId": 139072089
+      },
+      "url": "https://www.semanticscholar.org/paper/b116e1f45b2b83ce75b1a4e503a390a256d24359",
+      "title": "Fabrication and wear resistance of iron-nickel alloy based on surface mechanical attrition treatment of pure iron",
+      "year": 2013,
+      "citationCount": 0,
+      "openAccessPdf": {
+        "url": "",
+        "status": null,
+        "license": null
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "Transactions of Materials and Heat Treatment",
+        "volume": ""
+      },
+      "authors": [
+        {
+          "authorId": "1506250812",
+          "name": "Duo Hua-yu"
+        }
+      ],
+      "abstract": null
+    },
+    {
+      "paperId": "4faff595ac7ccf789f3f3b9f6286c9144c5fac9d",
+      "externalIds": {
+        "MAG": "2906225556",
+        "DOI": "10.1016/J.ADDMA.2018.12.017",
+        "CorpusId": 139160403
+      },
+      "url": "https://www.semanticscholar.org/paper/4faff595ac7ccf789f3f3b9f6286c9144c5fac9d",
+      "title": "Effect of structural support on microstructure of nickel base superalloy fabricated by laser-powder bed fusion additive manufacturing",
+      "year": 2019,
+      "citationCount": 36,
+      "openAccessPdf": {
+        "url": "",
+        "status": "CLOSED",
+        "license": null,
+        "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1016/J.ADDMA.2018.12.017?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/J.ADDMA.2018.12.017, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "Additive Manufacturing"
+      },
+      "authors": [
+        {
+          "authorId": "115918488",
+          "name": "Hyeyun Song"
+        },
+        {
+          "authorId": "101489548",
+          "name": "T. Mcgaughy"
+        },
+        {
+          "authorId": "7442959",
+          "name": "A. Sadek"
+        },
+        {
+          "authorId": "145405602",
+          "name": "Wei Zhang"
+        }
+      ],
+      "abstract": "Abstract INCONEL® 718 cubes with and without structural support were built by laser-powder bed fusion (L-PBF) additive manufacturing. The effect of support on the as-built microstructure was studied based on the microstructural characteristics and micro-hardness variations. Specifically, the microstructure was examined by optical microscopy, and scanning and transmission electron microscopy. The precipitates were identified via selected area diffraction supplemented by high-resolution energy dispersive X-ray spectroscopy. Micro-hardness distributions on cross sections parallel and perpendicular to the build direction were mapped. In addition, analytical equations, taking into account various laser processing parameters, material properties and support geometries, were developed to calculate the heat build-up and cooling conditions during L-PBF. The results of microstructure characterization and analytical calculation showed a marginal effect of the support on the local microstructure and hardness due to the low heat input in L-PBF. Moreover, the comprehensive set of microstructure data is useful for future work of modelling processing-microstructure relation as well as optimizing post-fabrication heat treatment."
+    },
+    {
+      "paperId": "e29ee9e35da1ceadc0112022081955699ac15a02",
+      "externalIds": {
+        "CorpusId": 208133385
+      },
+      "url": "https://www.semanticscholar.org/paper/e29ee9e35da1ceadc0112022081955699ac15a02",
+      "title": "MICROSTRUCTURE DEVELOPMENT AND PHASE EVOLUTION OF NICKEL COATED ALUMINIUM AND HYDRONALIUM SUBSTRATES",
+      "year": 2014,
+      "citationCount": 0,
+      "openAccessPdf": {
+        "url": "",
+        "status": null,
+        "license": null,
+        "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at http://metal2014.tanger.cz/files/proceedings/17/reports/2544.pdf, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": null,
+      "authors": [
+        {
+          "authorId": "11537794",
+          "name": "L. Čelko"
+        },
+        {
+          "authorId": "13193501",
+          "name": "L. Klakurková"
+        },
+        {
+          "authorId": "103492020",
+          "name": "D. Jech"
+        },
+        {
+          "authorId": "114924887",
+          "name": "M. Juliš"
+        },
+        {
+          "authorId": "69365894",
+          "name": "K. Slámečka"
+        },
+        {
+          "authorId": "5404980",
+          "name": "J. Švejcar"
+        }
+      ],
+      "abstract": null
+    },
+    {
+      "paperId": "d7685b2956494c3e22ec1c7d7ad3553c82f1b4f9",
+      "externalIds": {
+        "MAG": "2052598591",
+        "DOI": "10.4028/www.scientific.net/AMR.716.153",
+        "CorpusId": 136114940
+      },
+      "url": "https://www.semanticscholar.org/paper/d7685b2956494c3e22ec1c7d7ad3553c82f1b4f9",
+      "title": "Microstructure and Growth Mechanism of Glucose-Carburized Nickel Substrates",
+      "year": 2013,
+      "citationCount": 0,
+      "openAccessPdf": {
+        "url": "",
+        "status": "CLOSED",
+        "license": null,
+        "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.4028/www.scientific.net/AMR.716.153?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.4028/www.scientific.net/AMR.716.153, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "Advanced Materials Research",
+        "pages": "153 - 158",
+        "volume": "716"
+      },
+      "authors": [
+        {
+          "authorId": "94136695",
+          "name": "E. M. Pechlivani"
+        },
+        {
+          "authorId": "92165570",
+          "name": "G. Stergioudis"
+        },
+        {
+          "authorId": "4514112",
+          "name": "E. Pavlidou"
+        },
+        {
+          "authorId": "92193382",
+          "name": "S. Skolianos"
+        },
+        {
+          "authorId": "98426707",
+          "name": "D. Tsipas"
+        }
+      ],
+      "abstract": null
+    },
+    {
+      "paperId": "2c53cfd9d644bb75b4b814439a30496e8ce1d64b",
+      "externalIds": {
+        "MAG": "2323537474",
+        "DOI": "10.1149/1.3489535",
+        "CorpusId": 101147598
+      },
+      "url": "https://www.semanticscholar.org/paper/2c53cfd9d644bb75b4b814439a30496e8ce1d64b",
+      "title": "Pure-Nickel-Coated Multiwalled Carbon Nanotubes Prepared by Electroless Deposition",
+      "year": 2010,
+      "citationCount": 17,
+      "openAccessPdf": {
+        "url": "https://soar-ir.repo.nii.ac.jp/record/12478/files/Pure-Nickel-Coated_Multiwalled_Carbon_Nanotubes.pdf",
+        "status": "GREEN",
+        "license": null,
+        "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1149/1.3489535?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1149/1.3489535, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "Electrochemical and Solid State Letters",
+        "volume": "13"
+      },
+      "authors": [
+        {
+          "authorId": "144521844",
+          "name": "S. Arai"
+        },
+        {
+          "authorId": "46535308",
+          "name": "Mitsuhiro Kobayashi"
+        },
+        {
+          "authorId": "144392163",
+          "name": "Tohru Yamamoto"
+        },
+        {
+          "authorId": "48443921",
+          "name": "M. Endo"
+        }
+      ],
+      "abstract": null
+    },
+    {
+      "paperId": "46103ac8b727f813914f2fd104c1f3948184ee7b",
+      "externalIds": {
+        "DOI": "10.1108/aeat-06-2022-0145",
+        "CorpusId": 258594101
+      },
+      "url": "https://www.semanticscholar.org/paper/46103ac8b727f813914f2fd104c1f3948184ee7b",
+      "title": "Influence of laser scanning power on microstructure and tribological behavior of NI-composite claddings fabricated on TC4 titanium alloy",
+      "year": 2023,
+      "citationCount": 5,
+      "openAccessPdf": {
+        "url": "",
+        "status": null,
+        "license": null,
+        "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1108/aeat-06-2022-0145?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1108/aeat-06-2022-0145, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": [
+        "JournalArticle"
+      ],
+      "journal": {
+        "name": "Aircraft Engineering and Aerospace Technology"
+      },
+      "authors": [
+        {
+          "authorId": "114816691",
+          "name": "M. Miah"
+        },
+        {
+          "authorId": "2141068304",
+          "name": "Dharmahinder Singh Chand"
+        },
+        {
+          "authorId": "2090975825",
+          "name": "Gurmail Singh Malhi"
+        },
+        {
+          "authorId": "29136977",
+          "name": "Shahrukh Khan"
+        }
+      ],
+      "abstract": "\nPurpose\nThe demand for titanium alloys has received massive attention in the aerospace and automotive industry owing to their magnificent electrochemically compatibility and corrosion resistance, high strength at elevated temperatures and high strength-to-weight ratio. Although titanium alloy has impressive mechanical properties, they are challenging to machine or metal form due to its poor heat conductivity, high chemical reactivity, low modulus of elasticity, high friction coefficient and difficult lubricant that limits its application field and increases wear. However, surface treatment coating with the strong metallurgical bond between the titanium alloy matrixes is novel technique to resolve these challenges. This research will illustrate the influence of laser scanning power on the microstructure and tribological behavior of Nickel (NI)-composite claddings fabricated on TC4 titanium alloy to realize the strong metallurgical bond between the titanium alloy and NI-composite coating.\n\n\nDesign/methodology/approach\nIn this research, TiC/TC4 alloy nanocomposites were fabricated based on different laser power and temperatures. TC4 has been selected as a base material instead of TiC for the strong metallurgical bond between the titanium alloy matrixes. Then Ni-composite coating was used as the surface treatment coating on TC4 by laser cladding (LC) technique. The Ni-based alloy coating material powder is good self-fluxing, has high-temperature resistance and is analytically pure with 200 mesh, which can easily overcome the various challenges of titanium alloy. The chemical properties of Ni composite coating include 31.2% Chromium, 8%Titenium and 3.6% Carbon. The prepared surface treatment coating characterization and microstructure behavior are analyzed using optical micrograph, X-ray diffraction, scanning electron microscopes, energy dispersive spectroscopy and electron probe micro analyzer methods.\n\n\nFindings\nIt is evident that at the beginning of the experiment, if the laser power increased, the quality of the coating increased. An optimal quality of the coating is found when the laser scanning power about 12.55 kJ/cm2. Further increased laser power diminished the quality of the coating because the material plasticity had deteriorated. The TiC ceramic particle reinforced phase is dispersed into a two-phase solid solution of β-Ti and γ-Ni. The micro-hardness of the used coating is greater than the base alloy.\n\n\nOriginality/value\nThis research has practical value in the modern aerospace and automobile industry to increase the application of titanium alloy.\n"
+    },
+    {
+      "paperId": "11d78b58d7d710692498c3dfc0618e040a84944a",
+      "externalIds": {
+        "MAG": "2058648334",
+        "DOI": "10.1016/0956-716X(93)90279-2",
+        "CorpusId": 137032141
+      },
+      "url": "https://www.semanticscholar.org/paper/11d78b58d7d710692498c3dfc0618e040a84944a",
+      "title": "Microstructural study of metal-metal composites elaborated by interdiffusion between pure nickel and devitrified FeNiMoB glasses",
+      "year": 1993,
+      "citationCount": 0,
+      "openAccessPdf": {
+        "url": "",
+        "status": "CLOSED",
+        "license": null,
+        "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1016/0956-716X(93)90279-2?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/0956-716X(93)90279-2, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "Scripta Metallurgica Et Materialia",
+        "pages": "1571-1576",
+        "volume": "29"
+      },
+      "authors": [
+        {
+          "authorId": "93832871",
+          "name": "E. Ratovondrahona"
+        },
+        {
+          "authorId": "12672427",
+          "name": "G. Bouquet"
+        },
+        {
+          "authorId": "48165746",
+          "name": "R. Portier"
+        }
+      ],
+      "abstract": null
+    },
+    {
+      "paperId": "a27446db8a7f2cb2a5eb95fdd9d435d770cf504b",
+      "externalIds": {
+        "MAG": "2519275237",
+        "DOI": "10.1002/maco.201609102",
+        "CorpusId": 138150762
+      },
+      "url": "https://www.semanticscholar.org/paper/a27446db8a7f2cb2a5eb95fdd9d435d770cf504b",
+      "title": "Effect of multipass TIG welding on the corrosion resistance and microstructure of a super duplex stainless steel",
+      "year": 2017,
+      "citationCount": 38,
+      "openAccessPdf": {
+        "url": "",
+        "status": "CLOSED",
+        "license": null,
+        "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1002/maco.201609102?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1002/maco.201609102, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "Materials and Corrosion",
+        "volume": "68"
+      },
+      "authors": [
+        {
+          "authorId": "2150513543",
+          "name": "V. A. Hosseini"
+        },
+        {
+          "authorId": "41173260",
+          "name": "K. Hurtig"
+        },
+        {
+          "authorId": "91228676",
+          "name": "L. Karlsson"
+        }
+      ],
+      "abstract": null
+    },
+    {
+      "paperId": "c083688b03b337120a0e7495791faa354490059f",
+      "externalIds": {
+        "DOI": "10.3390/cryst15100839",
+        "CorpusId": 281628133
+      },
+      "url": "https://www.semanticscholar.org/paper/c083688b03b337120a0e7495791faa354490059f",
+      "title": "Effect of Small Deformations on Optimisation of Final Crystallographic Texture and Microstructure in Non-Oriented FeSi Steels",
+      "year": 2025,
+      "citationCount": 0,
+      "openAccessPdf": {
+        "url": "",
+        "status": null,
+        "license": null,
+        "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.3390/cryst15100839?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.3390/cryst15100839, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": [
+        "JournalArticle"
+      ],
+      "journal": {
+        "name": "Crystals"
+      },
+      "authors": [
+        {
+          "authorId": "2381618559",
+          "name": "Ivan Petrišinec"
+        },
+        {
+          "authorId": "2361808380",
+          "name": "Marcela Motýľová"
+        },
+        {
+          "authorId": "1865736",
+          "name": "F. Kováč"
+        },
+        {
+          "authorId": "103451883",
+          "name": "L. Falat"
+        },
+        {
+          "authorId": "23732881",
+          "name": "V. Puchý"
+        },
+        {
+          "authorId": "50550936",
+          "name": "M. Podobová"
+        },
+        {
+          "authorId": "2268535537",
+          "name": "František Kromka"
+        }
+      ],
+      "abstract": "Improving the isotropic magnetic properties of FeSi electrical steels has traditionally focused on enhancing their crystallographic texture and microstructural morphology. Strengthening the cube texture within a ferritic matrix of optimal grain size is known to reduce core losses and increase magnetic induction. However, conventional cold rolling followed by annealing remains insufficient to optimise the magnetic performance of thin FeSi strips fully. This study explores an alternative approach based on grain boundary migration driven by temperature gradients combined with deformation gradients, either across the sheet thickness or between neighbouring grains, in thin, weakly deformed non-oriented (NO) electrical steel sheets. The concept relies on deformation-induced grain growth supported by rapid heat transport to promote the preferential formation of coarse grains with favourable orientations. Experimental material consisted of vacuum-degassed FeSi steel with low silicon content. Controlled deformation was introduced by temper rolling at room temperature with 2–40% thickness reductions, followed by rapid recrystallisation annealing at 950 °C. Microstructure, texture, and residual strain distributions were analysed using inverse pole figure (IPF) maps, kernel average misorientation (KAM) maps, and orientation distribution function (ODF) sections derived from electron backscattered diffraction (EBSD) data. This combined thermomechanical treatment produced coarse-grained microstructures with an enhanced cube texture component, reducing coercivity from 162 A/m to 65 A/m. These results demonstrate that temper rolling combined with dynamic annealing can surpass the limitations of conventional processing routes for NO FeSi steels."
+    },
+    {
+      "paperId": "9ae1ca1f3160497a363a045fb9366e4716bc5dfa",
+      "externalIds": {
+        "MAG": "2903578538",
+        "DOI": "10.31399/asm.cp.itsc2005p0240",
+        "CorpusId": 139432797
+      },
+      "url": "https://www.semanticscholar.org/paper/9ae1ca1f3160497a363a045fb9366e4716bc5dfa",
+      "title": "Effect of Heat Treatment on Properties of Cold Sprayed Coatings",
+      "year": 2005,
+      "citationCount": 2,
+      "openAccessPdf": {
+        "url": "",
+        "status": null,
+        "license": null,
+        "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.31399/asm.cp.itsc2005p0240?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.31399/asm.cp.itsc2005p0240, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": [
+        "Conference"
+      ],
+      "journal": {
+        "name": "Thermal Spray 2005: Proceedings from the International Thermal Spray Conference"
+      },
+      "authors": [
+        {
+          "authorId": "92098875",
+          "name": "J. Lagerbom"
+        },
+        {
+          "authorId": "33370736",
+          "name": "H. Mäkinen"
+        },
+        {
+          "authorId": "92248068",
+          "name": "P. Vuoristo"
+        }
+      ],
+      "abstract": "\n Cold spraying is a novel coating method in which coating is formed by mechanical deformation of sprayed metal particles. This heavy deformation causes structures, which need recrystallization heat-treatment in order to gain back the materials natural deformability. Aluminum, copper, nickel and Ni-20%Cr were cold sprayed and heat-treated at several temperatures. Coatings were sprayed using nitrogen as process gas. Substrate material was carbon steel. Heat-treatment temperatures were chosen from near room temperature to below coating materials melting temperature. As-sprayed and heat-treated coatings were characterized in microstructure, hardness, phase structure and electrical resistivity. It was found that 200ºC was enough to increase electric conductivity to 87% of pure copper. By heat treatment ductility was able to be increased and hardness subsequently decreased."
+    },
+    {
+      "paperId": "1eaa48fe677cd19d9adba5d0ce84d33c75f99c78",
+      "externalIds": {
+        "MAG": "2476173956",
+        "DOI": "10.1016/J.CORSCI.2016.07.020",
+        "CorpusId": 100335410
+      },
+      "url": "https://www.semanticscholar.org/paper/1eaa48fe677cd19d9adba5d0ce84d33c75f99c78",
+      "title": "Oxidation behaviour of the nickel-based superalloy DZ125 hot-dipped with Al coatings doped by Si",
+      "year": 2016,
+      "citationCount": 42,
+      "openAccessPdf": {
+        "url": "",
+        "status": "CLOSED",
+        "license": null,
+        "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1016/J.CORSCI.2016.07.020?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/J.CORSCI.2016.07.020, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "Corrosion Science",
+        "pages": "170-179",
+        "volume": "112"
+      },
+      "authors": [
+        {
+          "authorId": "93018106",
+          "name": "J. Zang"
+        },
+        {
+          "authorId": "50404752",
+          "name": "P. Song"
+        },
+        {
+          "authorId": "89741841",
+          "name": "Jing Feng"
+        },
+        {
+          "authorId": "93646566",
+          "name": "X. Xiong"
+        },
+        {
+          "authorId": "144593778",
+          "name": "Rong Chen"
+        },
+        {
+          "authorId": "67145341",
+          "name": "Liu Guangliang"
+        },
+        {
+          "authorId": "46279733",
+          "name": "Jiansheng Lu"
+        }
+      ],
+      "abstract": null
+    },
+    {
+      "paperId": "ae20a13a3c882a488896c2100d75a833060fcd36",
+      "externalIds": {
+        "DOI": "10.1088/2053-1591/ac9f01",
+        "CorpusId": 253291739
+      },
+      "url": "https://www.semanticscholar.org/paper/ae20a13a3c882a488896c2100d75a833060fcd36",
+      "title": "Investigation of the corrosion resistance of graphene-nickel composite micro-parts",
+      "year": 2022,
+      "citationCount": 9,
+      "openAccessPdf": {
+        "url": "https://iopscience.iop.org/article/10.1088/2053-1591/ac9f01/pdf",
+        "status": "GOLD",
+        "license": "CCBY",
+        "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1088/2053-1591/ac9f01?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1088/2053-1591/ac9f01, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "Materials Research Express",
+        "volume": "9"
+      },
+      "authors": [
+        {
+          "authorId": "2005864561",
+          "name": "Wenhua Suo"
+        },
+        {
+          "authorId": "2154458342",
+          "name": "Yi Wang"
+        },
+        {
+          "authorId": "98162389",
+          "name": "Yaotang Ji"
+        },
+        {
+          "authorId": "2144264027",
+          "name": "Zhuangzhuang Liu"
+        },
+        {
+          "authorId": "2163063943",
+          "name": "Jing Liu"
+        },
+        {
+          "authorId": "2117194212",
+          "name": "Shan Wang"
+        },
+        {
+          "authorId": "11056961",
+          "name": "H. Suo"
+        },
+        {
+          "authorId": "2112315265",
+          "name": "Min Liu"
+        }
+      ],
+      "abstract": "Nickel-based microparts possess a short lifetime owing to their rapid dissolution in corrosive environments. To mitigate this phenomenon, composite microparts of graphene/Ni were prepared using UV-LIGA technology; their corrosion behavior was examined in acid, alkali, and salt solutions as well as after subjecting them to heat-treatment processes. The microstructures were investigated with scanning electron microscopy (SEM), x-ray diffraction (XRD), electron backscatter diffraction (EBSD) and transmission electron microscopy (TEM). Corrosion resistances were characterized through various electrochemical tests and compared with those of pure Ni microparts. The results demonstrate that the surface oxidation layer (i.e.,the protective layer) of the microparts was readily destroyed in NaCl and H2SO4 solutions without the formation of a passivation film; however, a passivation film was formed in the NaOH solution. The corrosion rates of graphene/Ni in NaCl, NaOH, and H2SO4 corrosion solutions were reduced by 73%, 22%, and 84%, respectively, relative to those of pure Ni microparts. This can be primarily attributed to the homogeneous dispersion of graphene in the Ni matrix, which refined the grain size, and the impermeability and chemical stability of graphene, which lengthened the diffusion path of the corrosive medium. In addition, heat treatment of the graphene/Ni microparts at 200 °C increased the corrosion resistance by a factor of nearly one with little change in microhardness, which can be attributed to the removal of internal stress and the increased proportion of CSL grain boundares. Corrosion occurred at the interface between nickel and graphene, lengthening the corrosion path."
+    },
+    {
+      "paperId": "b207534c46d189201e05ff6fd18158654698bf9f",
+      "externalIds": {
+        "MAG": "282332870",
+        "DOI": "10.2172/7035465",
+        "CorpusId": 136685602
+      },
+      "url": "https://www.semanticscholar.org/paper/b207534c46d189201e05ff6fd18158654698bf9f",
+      "title": "Microstructure and mechanical properties of nickel aluminide powders consolidated by extrusion and hot isostatic pressing",
+      "year": 1990,
+      "citationCount": 0,
+      "openAccessPdf": {
+        "url": "https://www.osti.gov/biblio/7035465",
+        "status": "GREEN",
+        "license": null,
+        "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.2172/7035465?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.2172/7035465, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "",
+        "volume": ""
+      },
+      "authors": [
+        {
+          "authorId": "2239442480",
+          "name": "R. Wright"
+        },
+        {
+          "authorId": "92580283",
+          "name": "J. R. Knibloe"
+        },
+        {
+          "authorId": "37814218",
+          "name": "R. Williamson"
+        }
+      ],
+      "abstract": null
+    },
+    {
+      "paperId": "f6f7aeb0195d2e36334edd32927dbac47dd795cf",
+      "externalIds": {
+        "DOI": "10.1007/s12666-021-02516-y",
+        "CorpusId": 245883696
+      },
+      "url": "https://www.semanticscholar.org/paper/f6f7aeb0195d2e36334edd32927dbac47dd795cf",
+      "title": "Microstructure and Mechanical and Oxidation Properties of Multilayer Aluminide Coatings Formed Over P91 Steel",
+      "year": 2022,
+      "citationCount": 1,
+      "openAccessPdf": {
+        "url": "",
+        "status": "CLOSED",
+        "license": null,
+        "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s12666-021-02516-y?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s12666-021-02516-y, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "Transactions of the Indian Institute of Metals",
+        "pages": "887 - 893",
+        "volume": "75"
+      },
+      "authors": [
+        {
+          "authorId": "1635933259",
+          "name": "Shubham Kumar"
+        },
+        {
+          "authorId": "46707034",
+          "name": "B. Paul"
+        },
+        {
+          "authorId": "89058347",
+          "name": "J. Kishor"
+        },
+        {
+          "authorId": "113272209",
+          "name": "S. Majumdar"
+        },
+        {
+          "authorId": "30053902",
+          "name": "V. Kain"
+        }
+      ],
+      "abstract": null
+    },
+    {
+      "paperId": "1bd1a3a3bff83c800a57d527309abf411fc01755",
+      "externalIds": {
+        "MAG": "2806295001",
+        "DOI": "10.4028/www.scientific.net/MSF.922.3",
+        "CorpusId": 139424011
+      },
+      "url": "https://www.semanticscholar.org/paper/1bd1a3a3bff83c800a57d527309abf411fc01755",
+      "title": "Effect of Dealloying Process on Microstructure and Electrochemical Properties of Ni Foam",
+      "year": 2018,
+      "citationCount": 0,
+      "openAccessPdf": {
+        "url": "",
+        "status": "CLOSED",
+        "license": null,
+        "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.4028/www.scientific.net/MSF.922.3?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.4028/www.scientific.net/MSF.922.3, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+      },
+      "publicationTypes": null,
+      "journal": {
+        "name": "Materials Science Forum",
+        "pages": "3 - 7",
+        "volume": "922"
+      },
+      "authors": [
+        {
+          "authorId": "32448840",
+          "name": "Guangya Hou"
+        },
+        {
+          "authorId": "2117986517",
+          "name": "J. Li"
+        },
+        {
+          "authorId": "12892839",
+          "name": "Lian-Kui Wu"
+        },
+        {
+          "authorId": "48066359",
+          "name": "Yi-ping Tang"
+        },
+        {
+          "authorId": "6893989",
+          "name": "Huazhen Cao"
+        },
+        {
+          "authorId": "14011000",
+          "name": "G. Zheng"
+        }
+      ],
+      "abstract": null
+    }
+  ],
+  "_updated": "2026-04-27 10:17:56"
+}

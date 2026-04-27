@@ -27,7 +27,6 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 import warnings
 import logging
-from scipy.stats import pearsonr
 
 # 完全屏蔽所有警告
 warnings.filterwarnings("ignore")
@@ -47,83 +46,16 @@ plt.rcParams['mathtext.fontset'] = 'dejavusans'
 plt.rcParams['axes.formatter.use_mathtext'] = True
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from contextual_bo_model import ContextualBayesianOptimizer
+from contextual_bo_model import (
+    ContextualBayesianOptimizer, SCHEME_TARGETS, SCHEME_NAMES, DEFAULT_PROCESS_BOUNDS
+)
 
 
-def train_model_with_ard(data_file, scheme_id):
+def train_model_with_ard(data_file):
     """训练模型并返回优化器实例"""
-    process_bounds = {
-        'Process_Temp': (1000.0, 1400.0),
-        'Process_Time': (1.0, 30.0),
-        'Process_H2': (0.0, 160.0),
-        'Process_Ar': (0.0, 800.0)
-    }
-    
-    optimizer = ContextualBayesianOptimizer(bounds=process_bounds)
+    optimizer = ContextualBayesianOptimizer(bounds=DEFAULT_PROCESS_BOUNDS)
     optimizer.train(data_file)
-    
     return optimizer
-
-
-def feature_pre_screening(df, pre_feature_cols, corr_threshold=0.9):
-    """
-    特征初筛（降维）：计算预处理特征间的皮尔逊相关系数矩阵
-    对于相关性极高（r > corr_threshold）的特征组，仅保留一个最具物理意义的代表
-    
-    Returns:
-        selected_features: 保留的特征列表
-        corr_matrix: 相关系数矩阵
-        high_corr_pairs: 高相关性特征对
-    """
-    print("\n" + "="*60)
-    print("【特征初筛】皮尔逊相关系数分析")
-    print("="*60)
-    
-    # 提取预处理特征
-    pre_df = df[pre_feature_cols]
-    
-    # 计算相关系数矩阵
-    corr_matrix = pre_df.corr(method='pearson')
-    
-    # 找出高相关性特征对（排除对角线）
-    high_corr_pairs = []
-    for i in range(len(corr_matrix.columns)):
-        for j in range(i+1, len(corr_matrix.columns)):
-            corr_val = corr_matrix.iloc[i, j]
-            if abs(corr_val) > corr_threshold:
-                high_corr_pairs.append({
-                    'feature_1': corr_matrix.columns[i],
-                    'feature_2': corr_matrix.columns[j],
-                    'correlation': corr_val
-                })
-    
-    # 打印高相关性特征对
-    if high_corr_pairs:
-        print(f"\n发现 {len(high_corr_pairs)} 组高相关性特征 (|r| > {corr_threshold}):")
-        for pair in high_corr_pairs:
-            print(f"  {pair['feature_1']} <-> {pair['feature_2']}: r = {pair['correlation']:.4f}")
-    else:
-        print(f"\n未发现高相关性特征 (|r| > {corr_threshold})")
-    
-    # 选择保留的特征（简单策略：保留每组中名称较短的特征）
-    features_to_remove = set()
-    for pair in high_corr_pairs:
-        # 保留名称较短的特征（通常更简洁）
-        if len(pair['feature_1']) <= len(pair['feature_2']):
-            features_to_remove.add(pair['feature_2'])
-        else:
-            features_to_remove.add(pair['feature_1'])
-    
-    selected_features = [f for f in pre_feature_cols if f not in features_to_remove]
-    
-    print(f"\n特征筛选结果:")
-    print(f"  原始特征数: {len(pre_feature_cols)}")
-    print(f"  移除特征数: {len(features_to_remove)}")
-    print(f"  保留特征数: {len(selected_features)}")
-    if features_to_remove:
-        print(f"  移除特征: {list(features_to_remove)}")
-    
-    return selected_features, corr_matrix, high_corr_pairs
 
 
 def permutation_importance(optimizer, X, y, feature_cols, n_repeats=10):
@@ -392,39 +324,6 @@ def plot_loocv_permutation_importance(perm_df, scheme_id, n_samples, output_dir,
     return save_path
 
 
-def extract_ard_importance(optimizer):
-    """从训练好的模型中提取 ARD 长度尺度作为特征重要性"""
-    kernel = optimizer.gpr.kernel_
-    matern_kernel = kernel.k1.k2  # 获取 Matern 核
-    length_scales = matern_kernel.length_scale
-    
-    all_feature_cols = optimizer.pre_feature_cols + optimizer.target_cols + optimizer.process_cols
-    
-    # 构建特征重要性数据
-    importance_data = []
-    for i, col in enumerate(all_feature_cols):
-        if i < len(length_scales):
-            ls = length_scales[i]
-            # 重要性分数：长度尺度的倒数（越小越重要）
-            importance_score = 1.0 / (ls + 1e-10)
-            
-            # 确定特征类别
-            if col.startswith('Pre_'):
-                category = 'EBSD预处理'
-            elif col.startswith('Target_'):
-                category = '目标晶向'
-            else:
-                category = '工艺参数'
-            
-            importance_data.append({
-                'feature': col,
-                'length_scale': ls,
-                'importance': importance_score,
-                'category': category
-            })
-    
-    return pd.DataFrame(importance_data)
-
 
 def plot_ard_importance(df_importance, scheme_id, n_samples, output_dir):
     """绘制 ARD 特征重要性可视化"""
@@ -657,14 +556,6 @@ def print_top_features(df_importance, top_n=5):
 
 
 if __name__ == "__main__":
-    # 定义各方案的目标晶向
-    scheme_targets = {
-        1: [(1, 0, 3), (1, 0, 2), (3, 0, 1)],
-        2: [(1, 1, 4), (1, 1, 5), (1, 0, 5)],
-        3: [(1, 2, 4), (1, 2, 5), (2, 1, 4)],
-        4: [(1, 0, 3), (1, 1, 4), (1, 2, 4)]
-    }
-    
     # 检测数据文件
     default_file = "Optimized_Training_Data.csv"
     
@@ -695,25 +586,19 @@ if __name__ == "__main__":
         except ValueError:
             print("[!] 请输入有效的数字")
     
-    print(f"[*] 已选择方案 {scheme_id}: {scheme_targets[scheme_id]}")
+    print(f"[*] 已选择方案 {scheme_id}: {SCHEME_TARGETS[scheme_id]}")
     
     # 加载数据
     df = pd.read_csv(data_file)
     n_samples = len(df)
     
-    # ========== 交叉验证 1: 特征初筛（降维）==========
-    pre_feature_cols = [col for col in df.columns if col.startswith('Pre_')]
-    selected_pre_features, corr_matrix, high_corr_pairs = feature_pre_screening(
-        df, pre_feature_cols, corr_threshold=0.9
-    )
-    
     # 训练模型
     print("\n正在训练高斯过程模型 (启用 ARD)...")
-    optimizer = train_model_with_ard(data_file, scheme_id)
+    optimizer = train_model_with_ard(data_file)
     
     # 提取 ARD 重要性
     print("\n正在提取 ARD 特征重要性...")
-    df_importance = extract_ard_importance(optimizer)
+    df_importance = optimizer.extract_ard_importance()
     
     # 打印最重要的特征
     print_top_features(df_importance, top_n=10)

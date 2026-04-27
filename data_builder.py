@@ -7,6 +7,9 @@ import re
 import glob
 warnings.filterwarnings('ignore')
 
+# 从 contextual_bo_model 导入共享常量
+from contextual_bo_model import ALL_TARGET_ORIENTATIONS
+
 def find_data_files(folder_path, prefix):
     """
     在文件夹中查找所有带指定前缀的数据文件
@@ -334,22 +337,7 @@ def extract_macro_rgb_features(csv_path, target_rgbs=None, tolerance=50, prefix=
 
     return features
 
-# 定义所有可能的目标晶向（用于One-Hot编码）
-# 可以根据需要扩展这个列表
-ALL_TARGET_ORIENTATIONS = [
-    (1, 0, 3),   # <103>
-    (1, 0, 2),   # <102>
-    (3, 0, 1),   # <301>
-    (1, 1, 4),   # <114>
-    (1, 1, 5),   # <115>
-    (1, 0, 5),   # <105>
-    (1, 2, 4),   # <124>
-    (1, 2, 5),   # <125>
-    (2, 1, 4),   # <214>
-]
-
-
-# 定义所有目标晶向组合方案
+# 目标晶向组合方案（使用共享的 ALL_TARGET_ORIENTATIONS 替代原始重复定义）
 TARGET_SCHEMES = {
     1: {
         'name': '<103> 型织构（橙色系）',

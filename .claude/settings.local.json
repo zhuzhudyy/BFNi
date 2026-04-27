@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c ' *)",
+      "Bash(python -c \"import lit_mining; print\\('lit_mining 包导入成功'\\); from lit_mining.searcher import LiteratureSearcher; print\\('searcher OK'\\); from lit_mining.extractor import PaperDataExtractor; print\\('extractor OK'\\); from lit_mining.feature_fusion import FeatureFusion; print\\('feature_fusion OK'\\); from lit_mining.pipeline import LiteratureMiningPipeline; print\\('pipeline OK'\\)\")",
+      "WebSearch",
+      "Bash(pip install *)",
+      "Bash(python3 -c \"import pandas as pd; df=pd.read_csv\\('Optimized_Training_Data.csv'\\); print\\('Process_Temp唯一值:', sorted\\(df['Process_Temp'].unique\\(\\)\\)\\); print\\('Process_Time唯一值:', sorted\\(df['Process_Time'].unique\\(\\)\\)\\); print\\('Process_H2唯一值:', sorted\\(df['Process_H2'].unique\\(\\)\\)\\); print\\('Process_Ar唯一值:', sorted\\(df['Process_Ar'].unique\\(\\)\\)\\)\")",
+      "Bash(python -c \"import pandas as pd; df=pd.read_csv\\('Optimized_Training_Data.csv'\\); print\\('Process_Temp唯一值:', sorted\\(df['Process_Temp'].unique\\(\\)\\)\\); print\\('Process_Time唯一值:', sorted\\(df['Process_Time'].unique\\(\\)\\)\\); print\\('Process_H2唯一值:', sorted\\(df['Process_H2'].unique\\(\\)\\)\\); print\\('Process_Ar唯一值:', sorted\\(df['Process_Ar'].unique\\(\\)\\)\\); print\\('总行数:', len\\(df\\)\\)\")",
+      "Bash(python *)"
+    ]
+  }
+}

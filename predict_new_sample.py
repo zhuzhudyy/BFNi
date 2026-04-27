@@ -23,7 +23,7 @@ from data_builder import (
     merge_multiple_files, 
     extract_features_from_merged_data
 )
-from contextual_bo_model import ContextualBayesianOptimizer, select_scheme
+from contextual_bo_model import ContextualBayesianOptimizer, select_scheme, SCHEME_TARGETS, SCHEME_NAMES, DEFAULT_PROCESS_BOUNDS
 
 
 def get_pre_file_path():
@@ -103,22 +103,14 @@ def predict_optimal_process(data_file, pre_file, scheme_name, target_orientation
         model_path: 预训练模型路径（如果提供则直接加载，否则实时训练）
         save_model_path: 训练后保存模型的路径（可选）
     """
-    # 定义工艺参数搜索边界
-    process_bounds = {
-        'Process_Temp': (1000.0, 1400.0),  # 退火温度 (℃)
-        'Process_Time': (1.0, 30.0),       # 保温时间 (h)
-        'Process_H2': (0.0, 160.0),        # H2 流量 (sccm)
-        'Process_Ar': (0.0, 800.0)         # Ar 流量 (sccm)
-    }
-    
     print(f"\n当前使用方案: {scheme_name}")
     print(f"数据文件: {data_file}")
     if target_orientations:
         targets_str = [f"<{h}{k}{l}>" for h,k,l in target_orientations]
         print(f"目标晶向: {targets_str}")
-    
+
     # 初始化优化器
-    optimizer = ContextualBayesianOptimizer(bounds=process_bounds)
+    optimizer = ContextualBayesianOptimizer(bounds=DEFAULT_PROCESS_BOUNDS)
     
     # 加载或训练模型
     if model_path and os.path.exists(model_path):
@@ -150,22 +142,6 @@ def predict_optimal_process(data_file, pre_file, scheme_name, target_orientation
 
 
 if __name__ == "__main__":
-    # 方案名称映射
-    scheme_names = {
-        1: "<103> 型织构 (橙色系)",
-        2: "<114> 型织构 (粉紫色系)",
-        3: "<124> 型织构 (混合色)",
-        4: "自定义组合"
-    }
-    
-    # 方案对应的主目标晶向（用于Multi-Hot编码）
-    scheme_targets = {
-        1: [(1, 0, 3), (1, 0, 2), (3, 0, 1)],   # 方案1: <103>, <102>, <301>
-        2: [(1, 1, 4), (1, 1, 5), (1, 0, 5)],   # 方案2: <114>, <115>, <105>
-        3: [(1, 2, 4), (1, 2, 5), (2, 1, 4)],   # 方案3: <124>, <125>, <214>
-        4: [(1, 0, 3), (1, 1, 4), (1, 2, 4)]    # 方案4: <103>, <114>, <124>
-    }
-    
     # 自动检测数据文件，优先使用默认文件
     default_file = "Optimized_Training_Data.csv"
     
@@ -218,7 +194,7 @@ if __name__ == "__main__":
     else:
         data_file = f"Optimized_Training_Data_方案{scheme}.csv"
     
-    print(f"[*] 已选择方案 {scheme}: {scheme_names[scheme]}")
+    print(f"[*] 已选择方案 {scheme}: {SCHEME_NAMES[scheme]}")
     print(f"[*] 使用数据文件: {data_file}")
     
     # 模型文件路径
@@ -242,18 +218,18 @@ if __name__ == "__main__":
     
     # 执行预测（传入该方案的所有目标晶向用于Multi-Hot编码）
     try:
-        target_orientations = scheme_targets[scheme]
+        target_orientations = SCHEME_TARGETS[scheme]
         print(f"[*] 目标晶向: {[f'<{h}{k}{l}>' for h,k,l in target_orientations]}")
         
         # 根据用户选择决定是否加载模型或重新训练
         if use_existing_model:
             best_recipe = predict_optimal_process(
-                data_file, pre_file, scheme_names[scheme], 
+                data_file, pre_file, SCHEME_NAMES[scheme], 
                 target_orientations, model_path=model_path
             )
         else:
             best_recipe = predict_optimal_process(
-                data_file, pre_file, scheme_names[scheme], 
+                data_file, pre_file, SCHEME_NAMES[scheme], 
                 target_orientations, save_model_path=model_path
             )
         print("\n预测完成!")
