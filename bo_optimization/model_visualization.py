@@ -29,7 +29,7 @@ warnings.filterwarnings("ignore")
 # 使用 SimHei 显示中文，DejaVu Sans 显示负号等特殊字符
 plt.rcParams['font.family'] = ['sans-serif']
 plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'Arial Unicode MS', 'DejaVu Sans']
-plt.rcParams['axes.unicode_minus'] = True  # 使用 Unicode 负号，确保正确显示
+plt.rcParams['axes.unicode_minus'] = False  # 使用 Unicode 负号，确保正确显示
 
 from bo_optimization.contextual_bo_model import ContextualBayesianOptimizer, select_scheme, SCHEME_TARGETS, DEFAULT_PROCESS_BOUNDS
 
@@ -486,10 +486,10 @@ def plot_process_response_3d(optimizer, data_file, output_dir, grid_size=50, tar
                preds, c='darkred', s=55, edgecolor='white',
                linewidth=0.8, zorder=5, alpha=0.9, label='实验点 (模型预测)')
 
-    ax2.set_xlabel('H₂ 流量 (sccm)', fontsize=11)
+    ax2.set_xlabel('H$_2$ 流量 (sccm)', fontsize=11)
     ax2.set_ylabel('Ar 流量 (sccm)', fontsize=11)
     ax2.set_zlabel('预测产率', fontsize=11)
-    ax2.set_title(f'产率 vs H₂ & Ar{scheme_str}', fontsize=14)
+    ax2.set_title(f'产率 vs H$_2$ & Ar{scheme_str}', fontsize=14)
     ax2.view_init(elev=28, azim=135)
     fig2.colorbar(surf2, ax=ax2, shrink=0.5, aspect=10, label='产率')
     ax2.legend(fontsize=9)

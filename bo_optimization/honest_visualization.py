@@ -41,7 +41,7 @@ warnings.filterwarnings("ignore")
 
 plt.rcParams['font.family'] = ['sans-serif']
 plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'Arial Unicode MS', 'DejaVu Sans']
-plt.rcParams['axes.unicode_minus'] = True
+plt.rcParams['axes.unicode_minus'] = False
 
 from bo_optimization.contextual_bo_model import (
     ContextualBayesianOptimizer, SCHEME_TARGETS, SCHEME_NAMES, DEFAULT_PROCESS_BOUNDS
@@ -52,7 +52,7 @@ SCHEME_COLORS = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3']
 PROCESS_LABELS_CN = {
     'Process_Temp': '退火温度 (°C)',
     'Process_Time': '保温时间 (h)',
-    'Process_H2': 'H₂ 流量 (sccm)',
+    'Process_H2': 'H$_2$ 流量 (sccm)',
     'Process_Ar': 'Ar 流量 (sccm)',
 }
 
@@ -609,9 +609,9 @@ def plot_uncertainty_map(optimizer, output_dir, target_scheme=None,
     axes[1].scatter(df_plot['Process_H2'], df_plot['Process_Ar'],
                    c='black', s=40, edgecolor='white', linewidth=0.8,
                    alpha=0.8, label='训练数据点')
-    axes[1].set_xlabel('H₂ 流量 (sccm)', fontsize=11)
+    axes[1].set_xlabel('H$_2$ 流量 (sccm)', fontsize=11)
     axes[1].set_ylabel('Ar 流量 (sccm)', fontsize=11)
-    axes[1].set_title(f'模型不确定性 σ (H₂ × Ar){scheme_str}', fontsize=13)
+    axes[1].set_title(f'模型不确定性 σ (H2 × Ar){scheme_str}', fontsize=13)
     axes[1].legend(fontsize=8)
 
     fig.suptitle('模型认知不确定性: 标准差 σ 在工艺参数空间中的分布',
