@@ -24,8 +24,6 @@ import numpy as np
 from bo_optimization.data_builder import (
     extract_macro_rgb_features,
     find_data_files,
-    merge_multiple_files,
-    extract_features_from_merged_data
 )
 from bo_optimization.contextual_bo_model import (
     ContextualBayesianOptimizer, select_scheme, SCHEME_TARGETS, SCHEME_NAMES,
@@ -34,15 +32,24 @@ from bo_optimization.contextual_bo_model import (
 
 
 def extract_pre_features(pre_path):
-    """从 pre 文件或文件夹提取特征"""
+    """从 pre 文件或文件夹提取特征，返回 DataFrame（每行一个样品）"""
     if os.path.isdir(pre_path):
         pre_files = find_data_files(pre_path, 'pre')
         if not pre_files:
             raise ValueError(f"在 {pre_path} 中未找到 pre 文件")
-        pre_merged = merge_multiple_files(pre_files, file_type='pre')
-        features = extract_features_from_merged_data(pre_merged, target_rgbs=None, prefix="Pre_")
+        # 每个 pre 文件单独提取（一个文件 = 一个样品）
+        all_features = []
+        for f in pre_files:
+            feat = extract_macro_rgb_features(f, prefix="Pre_")
+            if isinstance(feat, dict):
+                all_features.append(feat)
+        if not all_features:
+            raise ValueError("未能从任何 pre 文件中提取特征")
+        features = pd.DataFrame(all_features)
+        print(f"  分别提取 {len(features)} 个样品的特征")
     else:
-        features = extract_macro_rgb_features(pre_path, prefix="Pre_")
+        feat = extract_macro_rgb_features(pre_path, prefix="Pre_")
+        features = pd.DataFrame([feat] if isinstance(feat, dict) else feat)
     return features
 
 
