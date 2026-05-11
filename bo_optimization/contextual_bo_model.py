@@ -976,6 +976,48 @@ class ContextualBayesianOptimizer:
         d_min = dists.min(axis=1)
         return d_min
 
+    def _greedy_select_mixed_score(self, X_candidates, ei_values, X_train_proc, n_select, alpha=0.5):
+        """
+        贪心选择：混合 EI + maximin distance，每选一个点后动态更新距离基准
+
+        Args:
+            X_candidates: (n_cand, d_proc) 候选点（Process_ 空间）
+            ei_values: (n_cand,) 每个候选点的 EI 值
+            X_train_proc: (n_train, d_proc) 已训练样本的 Process_ 特征
+            n_select: 需要选择的点数
+            alpha: EI 权重（0~1），(1-alpha) 为 distance 权重
+
+        Returns:
+            selected_indices: 选中的候选点索引
+            selected_points: 选中的候选点坐标
+        """
+        remaining = list(range(len(X_candidates)))
+        X_virtual = X_train_proc.copy()
+        selected_indices = []
+
+        for _ in range(min(n_select, len(remaining))):
+            # 计算当前候选点到虚拟参考集的 maximin distance
+            X_cand_remaining = X_candidates[remaining]
+            d_min = self._maximin_distance(X_cand_remaining, X_virtual,
+                                            self.process_cols[:X_candidates.shape[1]])
+
+            # 计算 rank 百分位
+            ei_remaining = ei_values[remaining]
+            ei_ranks = np.argsort(np.argsort(ei_remaining)) / max(len(ei_remaining) - 1, 1)
+            dist_ranks = np.argsort(np.argsort(d_min)) / max(len(d_min) - 1, 1)
+
+            # 混合得分
+            scores = alpha * ei_ranks + (1 - alpha) * dist_ranks
+            best_local_idx = np.argmax(scores)
+            best_global_idx = remaining[best_local_idx]
+
+            # 选中，虚拟加入参考集
+            selected_indices.append(best_global_idx)
+            X_virtual = np.vstack([X_virtual, X_candidates[best_global_idx:best_global_idx + 1]])
+            remaining.pop(best_local_idx)
+
+        return np.array(selected_indices), X_candidates[selected_indices]
+
 
 def add_new_data_to_training(existing_file, new_data_file):
     """
