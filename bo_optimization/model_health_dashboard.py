@@ -262,3 +262,78 @@ def plot_rmse_curve(ax, optimizer, n_repeats=3):
     ax.set_title('模型精度 vs 数据量', fontsize=11, fontweight='bold')
     ax.legend(fontsize=8)
     ax.grid(True, alpha=0.3)
+
+
+def plot_process_pairplot(ax_grid, optimizer, recommendations=None):
+    """
+    面板 ②：Process_ 空间 Pairplot（2×3 网格）
+
+    展示 Process_ 4 维的所有两两组合。
+    蓝色点：训练数据。橙色三角：LHS 推荐点。
+    在 H₂×Ar 子图中画约束线 Ar = 2×H₂。
+
+    Args:
+        ax_grid: 2×3 的 Axes 数组
+        optimizer: 训练好的 ContextualBayesianOptimizer
+        recommendations: suggest_space_filling() 的返回值（可选）
+    """
+    proc_cols = optimizer.process_cols
+    n_proc = len(proc_cols)
+    X_train = optimizer.training_df[proc_cols].values
+
+    # 生成所有两两组合
+    pairs = []
+    for i in range(n_proc):
+        for j in range(i + 1, n_proc):
+            pairs.append((i, j))
+
+    # 提取 LHS 推荐点
+    X_lhs = None
+    if recommendations:
+        X_lhs = np.array([[r[col] for col in proc_cols] for r in recommendations])
+
+    # 约束信息
+    h2_idx = proc_cols.index('Process_H2') if 'Process_H2' in proc_cols else None
+    ar_idx = proc_cols.index('Process_Ar') if 'Process_Ar' in proc_cols else None
+
+    for idx, (i, j) in enumerate(pairs):
+        row, col = divmod(idx, 3)
+        ax = ax_grid[row, col]
+
+        # 训练数据
+        ax.scatter(X_train[:, j], X_train[:, i], c=COLORS['primary'],
+                   s=20, alpha=0.5, label='训练数据', zorder=2)
+
+        # LHS 推荐点
+        if X_lhs is not None:
+            ax.scatter(X_lhs[:, j], X_lhs[:, i], c=COLORS['accent'],
+                       s=80, marker='^', edgecolors='red', linewidths=1.5,
+                       label='LHS 推荐', zorder=3)
+
+        # 约束线 (H₂ × Ar)
+        if h2_idx is not None and ar_idx is not None:
+            if i == h2_idx and j == ar_idx:
+                x_range = np.linspace(optimizer.bounds[proc_cols[j]][0],
+                                       optimizer.bounds[proc_cols[j]][1], 100)
+                ax.plot(x_range, x_range / 2, '--', color=COLORS['gray'],
+                        linewidth=1, label='Ar = 2×H₂')
+                ax.fill_between(x_range, 0, x_range / 2, alpha=0.05, color='red')
+
+        # 标签
+        xlabel = proc_cols[j].replace('Process_', '')
+        ylabel = proc_cols[i].replace('Process_', '')
+        ax.set_xlabel(xlabel, fontsize=8)
+        ax.set_ylabel(ylabel, fontsize=8)
+        ax.tick_params(labelsize=7)
+
+        # 相关系数
+        corr = np.corrcoef(X_train[:, i], X_train[:, j])[0, 1]
+        ax.set_title(f'r = {corr:.2f}', fontsize=8, color=COLORS['gray'])
+
+        if idx == 0:
+            ax.legend(fontsize=6, loc='upper left')
+
+    # 隐藏多余的子图
+    for idx in range(len(pairs), 6):
+        row, col = divmod(idx, 3)
+        ax_grid[row, col].axis('off')
