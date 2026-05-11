@@ -7,7 +7,45 @@
       "Bash(pip install *)",
       "Bash(python3 -c \"import pandas as pd; df=pd.read_csv\\('Optimized_Training_Data.csv'\\); print\\('Process_Temp唯一值:', sorted\\(df['Process_Temp'].unique\\(\\)\\)\\); print\\('Process_Time唯一值:', sorted\\(df['Process_Time'].unique\\(\\)\\)\\); print\\('Process_H2唯一值:', sorted\\(df['Process_H2'].unique\\(\\)\\)\\); print\\('Process_Ar唯一值:', sorted\\(df['Process_Ar'].unique\\(\\)\\)\\)\")",
       "Bash(python -c \"import pandas as pd; df=pd.read_csv\\('Optimized_Training_Data.csv'\\); print\\('Process_Temp唯一值:', sorted\\(df['Process_Temp'].unique\\(\\)\\)\\); print\\('Process_Time唯一值:', sorted\\(df['Process_Time'].unique\\(\\)\\)\\); print\\('Process_H2唯一值:', sorted\\(df['Process_H2'].unique\\(\\)\\)\\); print\\('Process_Ar唯一值:', sorted\\(df['Process_Ar'].unique\\(\\)\\)\\); print\\('总行数:', len\\(df\\)\\)\")",
-      "Bash(python *)"
+      "Bash(python *)",
+      "Bash(tasklist)",
+      "WebFetch(domain:github.com)",
+      "Bash(git clone *)",
+      "Bash(cp -r skills/cnki-skills/skills/* .claude/skills/)",
+      "Bash(cp -r skills/cnki-skills/agents/* .claude/agents/)",
+      "Bash(cp -r skills/gs-skills/skills/* .claude/skills/)",
+      "Bash(cp -r skills/gs-skills/agents/* .claude/agents/)",
+      "Bash(mkdir -p .claude/skills/)",
+      "Bash(npx -y chrome-devtools-mcp@latest --version)",
+      "Bash(zotero-mcp setup *)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(echo *)",
+      "MCP(chrome-devtools:*)",
+      "MCP(zotero:*)",
+      "Bash(mkdir -p \"C:\\\\学习\\\\超滑所\\\\毕设\\\\优化模拟\\\\.claude\\\\skills\\\\extract-rules\")",
+      "Bash(mkdir -p \"C:\\\\学习\\\\超滑所\\\\毕设\\\\优化模拟\\\\.claude\\\\skills\\\\read\")",
+      "mcp__zotero__search",
+      "Bash(dir *)",
+      "Bash(grep -E \"\\\\.py$|\\\\.pyc$\")",
+      "Bash(python3 *)",
+      "Bash(/c/学习/超滑所/毕设/优化模拟/.venv/Scripts/python -c \"import pptx; print\\('python-pptx OK'\\)\")",
+      "Bash(/c/学习/超滑所/毕设/优化模拟/.venv/Scripts/python -c \"from PIL import Image; print\\('Pillow OK'\\)\")",
+      "Bash(/c/学习/超滑所/毕设/优化模拟/.venv/Scripts/python -c \"import matplotlib; print\\('matplotlib OK'\\)\")",
+      "Bash(/c/学习/超滑所/毕设/优化模拟/.venv/Scripts/pip install *)",
+      "Bash(node -e \"require\\('pptxgenjs'\\)\")",
+      "Bash(npm install *)",
+      "Bash(node *)",
+      "Bash(markitdown *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git commit *)",
+      "Bash(ls cognitive_convergence.py)",
+      "Bash(rm cognitive_convergence.py)",
+      "Bash(git reset *)"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "chrome-devtools",
+    "zotero"
+  ]
 }

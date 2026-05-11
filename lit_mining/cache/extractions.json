@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Texture and Grain Boundary Network Evolution of Laser Powder Bed Fusion Processed Pure Ni During Post-printing Annealing",
+    "doi": "10.1007/s11661-022-06782-3",
+    "year": 2022,
+    "journal": "Metallurgical and Materials Transactions A",
+    "condition": {
+      "annealing_temperatures_C": [
+        700,
+        900,
+        1000,
+        1200
+      ],
+      "annealing_time_h": 2,
+      "atmosphere": "Ar",
+      "process": "Laser powder bed fusion (EOS M400-1, 40um layer)"
+    },
+    "pre_anneal": {
+      "grain_structure": "Elongated/coarse grains along build direction",
+      "texture": "Strong crystallographic texture (100 and/or 110)"
+    },
+    "post_anneal": {
+      "below_900C": "Modest grain growth (~10%), ~15% increase in low energy (111) boundaries",
+      "above_1000C": "Static recrystallization, equiaxed grains, Sigma3/Sigma9 boundaries >5x increase, (111) boundaries 5x increase, texture strength decrease >50%"
+    },
+    "summary_zh": "退火温度<900°C时组织变化温和；>1000°C时静态再结晶主导，通过孪晶机制显著弱化织构(>50%)并大幅增加低能晶界比例。"
+  },
+  {
+    "title": "Formation of Twins and Stacking Faults during the Primary Recrystallization of Pure Nickel",
+    "doi": "10.2320/MATERTRANS1960.11.252",
+    "year": 1970,
+    "journal": "Materials Transactions",
+    "condition": {
+      "temperatures_C": [
+        250,
+        350,
+        500
+      ],
+      "note": "厚度依赖的再结晶温度 (bulk vs thin foil)",
+      "atmosphere": "未提及"
+    },
+    "pre_anneal": {
+      "state": "96%冷轧高纯镍 (99.9975%, 总杂质约25ppm)"
+    },
+    "post_anneal": {
+      "key_finding": "退火孪晶形成强烈依赖形变织构，TEM原位观察"
+    },
+    "summary_zh": "冷轧纯镍再结晶中退火孪晶的形成取决于形变织构，薄膜样品再结晶温度显著高于块体。"
+  }
+]

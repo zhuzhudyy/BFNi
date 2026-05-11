@@ -15,8 +15,6 @@ python data_builder.py           # Build Optimized_Training_Data.csv from EBSD d
 python check_data.py             # Quick data quality check
 python contextual_bo_model.py    # Train GPR model (interactive scheme selection)
 python bo_optimization/honest_visualization.py  # Full visualization suite (9 plots, parity + PDP + ICE + ARD)
-python ard_feature_importance.py # ARD + permutation importance analysis
-python cognitive_convergence.py  # Convergence via uncertainty decay
 python predict_new_sample.py     # Predict optimal process for a new sample
 python bo_optimization/space_filling_plan.py  # Batch experiment allocation for global model improvement
 python bo_optimization/model_health_dashboard.py  # 2x2 model health dashboard (RMSE, pairplot, variance, coverage)
@@ -60,9 +58,7 @@ python -m lit_mining.pipeline --mode full     # Full auto pipeline (OA papers on
 ### Visualization & Analysis
 
 - `predict_new_sample.py`: Interactive pipeline for recommending process parameters. Supports loading pre-trained model or retraining.
-- `bo_optimization/honest_visualization.py`: Physically honest visualization suite (9 plots in 4 tiers). Tier 0: LOOCV parity plot. Tier 1: PDP (marginalizing over Pre_ distribution), yield bar charts, raw scatter. Tier 2: ICE curves, Pre_ feature space, ARD grouped comparison. Tier 3: uncertainty heatmap with Ar≥2H₂ constraint mask, process→Pre_ mediation analysis.
-- `ard_feature_importance.py`: ARD length scale visualization (bar chart + log-scale violin plot per category) + optional permutation importance via LOOCV (computationally heavy, ~5-10 min).
-- `cognitive_convergence.py`: Simulates incremental training by feeding data points chronologically, measures mean/max σ over a Latin hypercube test set covering the full (Pre_ + Process_) space.
+- `bo_optimization/honest_visualization.py`: Physically honest visualization suite (9 plots in 4 tiers). Tier 0: LOOCV parity plot. Tier 1: PDP (marginalizing over Pre_ distribution), yield bar charts, raw scatter. Tier 2: ICE curves, Pre_ feature space, ARD feature importance (dual-panel: ranked bar + log-scale violin). Tier 3: uncertainty heatmap with Ar≥2H₂ constraint mask, process→Pre_ mediation analysis.
 
 ### Literature Mining (`lit_mining/`)
 

@@ -1,0 +1,4400 @@
+[
+  {
+    "paperId": "9df8b4ab17cb2b0424c4491590061f0f25d3f9d8",
+    "externalIds": {
+      "MAG": "2062092511",
+      "DOI": "10.1016/J.MSEA.2014.11.023",
+      "CorpusId": 135634063
+    },
+    "url": "https://www.semanticscholar.org/paper/9df8b4ab17cb2b0424c4491590061f0f25d3f9d8",
+    "title": "Studies on the evolution of annealing twins during recrystallization and grain growth in highly rolled pure nickel",
+    "year": 2015,
+    "citationCount": 53,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1016/J.MSEA.2014.11.023?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/J.MSEA.2014.11.023, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Materials Science and Engineering A-structural Materials Properties Microstructure and Processing",
+      "pages": "108-113",
+      "volume": "622"
+    },
+    "authors": [
+      {
+        "authorId": "114741480",
+        "name": "X. P. Chen"
+      },
+      {
+        "authorId": "2156057544",
+        "name": "Li Li"
+      },
+      {
+        "authorId": "2158007626",
+        "name": "H. Sun"
+      },
+      {
+        "authorId": "46659480",
+        "name": "L. Wang"
+      },
+      {
+        "authorId": "2107786545",
+        "name": "Q. Liu"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "9b396aa90e25a8e5115261d9cee4e6222d3a3eb0",
+    "externalIds": {
+      "MAG": "1966463425",
+      "DOI": "10.1016/J.MSEA.2014.01.018",
+      "CorpusId": 135878690
+    },
+    "url": "https://www.semanticscholar.org/paper/9b396aa90e25a8e5115261d9cee4e6222d3a3eb0",
+    "title": "Annealing twin development during recrystallization and grain growth in pure nickel",
+    "year": 2014,
+    "citationCount": 216,
+    "openAccessPdf": {
+      "url": "https://hal-mines-paristech.archives-ouvertes.fr/hal-00945387/file/hal-00945387.pdf",
+      "status": "GREEN",
+      "license": "other-oa",
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1016/J.MSEA.2014.01.018?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/J.MSEA.2014.01.018, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Materials Science and Engineering A-structural Materials Properties Microstructure and Processing",
+      "pages": "295-303",
+      "volume": "597"
+    },
+    "authors": [
+      {
+        "authorId": "2290025909",
+        "name": "Yuan Jin"
+      },
+      {
+        "authorId": "50675571",
+        "name": "Brian Lin"
+      },
+      {
+        "authorId": "117008434",
+        "name": "M. Bernacki"
+      },
+      {
+        "authorId": "2802027",
+        "name": "G. Rohrer"
+      },
+      {
+        "authorId": "2241964660",
+        "name": "Anthony D. Rollet"
+      },
+      {
+        "authorId": "116153791",
+        "name": "N. Bozzolo"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "eac6a7a3d5bbd2f5e11174860438174604b71ecb",
+    "externalIds": {
+      "MAG": "2362073722",
+      "CorpusId": 137980831
+    },
+    "url": "https://www.semanticscholar.org/paper/eac6a7a3d5bbd2f5e11174860438174604b71ecb",
+    "title": "Study of recrystallization nuclei in heavily cold deformed nickel by using of EBSD",
+    "year": 2008,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Journal of Chinese Electron Microscopy Society",
+      "volume": ""
+    },
+    "authors": [
+      {
+        "authorId": "47394262",
+        "name": "L. Qing"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "17b58da5969b111ca1a46c1d611d6bef274410f9",
+    "externalIds": {
+      "DOI": "10.3390/ma19081608",
+      "CorpusId": 287559279
+    },
+    "url": "https://www.semanticscholar.org/paper/17b58da5969b111ca1a46c1d611d6bef274410f9",
+    "title": "Small-Angle Neutron Scattering on Grain Boundaries of Cold-Rolled Nickel",
+    "year": 2026,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.3390/ma19081608?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.3390/ma19081608, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": [
+      "JournalArticle"
+    ],
+    "journal": {
+      "name": "Materials"
+    },
+    "authors": [
+      {
+        "authorId": "2307269814",
+        "name": "Tianfu Li"
+      },
+      {
+        "authorId": "2156142157",
+        "name": "Zijun Wang"
+      },
+      {
+        "authorId": "2430720009",
+        "name": "Wenyao Hu"
+      },
+      {
+        "authorId": "2348389864",
+        "name": "Yijun Yang"
+      },
+      {
+        "authorId": "2239186914",
+        "name": "Xiaoming Du"
+      },
+      {
+        "authorId": "2380437919",
+        "name": "Shibo Yan"
+      },
+      {
+        "authorId": "2312445681",
+        "name": "Zhongping Chen"
+      },
+      {
+        "authorId": "14255750",
+        "name": "Taisen Zuo"
+      },
+      {
+        "authorId": "12484620",
+        "name": "Heming Cheng"
+      },
+      {
+        "authorId": "92107569",
+        "name": "Yongqin Chang"
+      },
+      {
+        "authorId": "2289840742",
+        "name": "Dongfeng Chen"
+      }
+    ],
+    "abstract": "The effect of grain boundaries on small-angle neutron scattering (SANS) was investigated for pure nickel. A series of annealed cold-rolled nickel samples were characterized by SANS, electron backscatter diffraction (EBSD), X-ray diffraction (XRD), and transmission electron microscopy (TEM). The experimental results indicate that the proportion of low-angle grain boundaries (LAGBs) has a noticeable influence on the scattering intensity. Cold-rolled samples exhibited a similar proportion of LAGBs, leading to only slight differences in scattering intensity. The scattering intensity was found to be dependent on annealing time and temperature. For samples with low degrees of recrystallization, a large number of LAGBs remained, resulting in high scattering intensity at low q. In contrast, samples with a high degree of recrystallization showed a significant reduction in LAGBs, which caused a noticeable decrease in SANS intensity."
+  },
+  {
+    "paperId": "2a784d7b021bb633a768f46cd243dbb94239d0c0",
+    "externalIds": {
+      "MAG": "2088370981",
+      "DOI": "10.4028/www.scientific.net/KEM.537.274",
+      "CorpusId": 136486027
+    },
+    "url": "https://www.semanticscholar.org/paper/2a784d7b021bb633a768f46cd243dbb94239d0c0",
+    "title": "Effect of Pre-Recovery on Recrystallization Texture in Nickel Substrates for Coated Conductors",
+    "year": 2013,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.4028/www.scientific.net/KEM.537.274?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.4028/www.scientific.net/KEM.537.274, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Key Engineering Materials",
+      "pages": "274 - 278",
+      "volume": "537"
+    },
+    "authors": [
+      {
+        "authorId": "2143791653",
+        "name": "X. Chen"
+      },
+      {
+        "authorId": "2145449283",
+        "name": "Xuejin Chen"
+      },
+      {
+        "authorId": "2158144171",
+        "name": "J. Zhang"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "57cdbfb0eab3073b1b132a966ebdf1144295c081",
+    "externalIds": {
+      "DOI": "10.1016/j.msea.2025.149173",
+      "CorpusId": 281587473
+    },
+    "url": "https://www.semanticscholar.org/paper/57cdbfb0eab3073b1b132a966ebdf1144295c081",
+    "title": "The behaviors and mechanisms of current-enhanced recrystallization and grain growth in as-rolled pure nickel during electrical annealing",
+    "year": 2025,
+    "citationCount": 4,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1016/j.msea.2025.149173?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/j.msea.2025.149173, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": [
+      "JournalArticle"
+    ],
+    "journal": {
+      "name": "Materials Science and Engineering: A"
+    },
+    "authors": [
+      {
+        "authorId": "2214335130",
+        "name": "Pao Yang"
+      },
+      {
+        "authorId": "2292333170",
+        "name": "Meng-Chun Chiu"
+      },
+      {
+        "authorId": "2303522693",
+        "name": "Hsuan-Cheng Huang"
+      },
+      {
+        "authorId": "2293236740",
+        "name": "Chien-Lung Liang"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "698a4bdfd9fb5fb4a7bc5245b6bf59a407d37fe5",
+    "externalIds": {
+      "PubMedCentral": "12300789",
+      "DOI": "10.3390/ma18143341",
+      "CorpusId": 280244803,
+      "PubMed": "40731551"
+    },
+    "url": "https://www.semanticscholar.org/paper/698a4bdfd9fb5fb4a7bc5245b6bf59a407d37fe5",
+    "title": "An Annealing Strategy for Inhibiting Recrystallization in Nickel-Based Single-Crystal Superalloys",
+    "year": 2025,
+    "citationCount": 2,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": "CCBY",
+      "disclaimer": "Notice: Paper or abstract available at https://pmc.ncbi.nlm.nih.gov/articles/PMC12300789, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": [
+      "JournalArticle"
+    ],
+    "journal": {
+      "name": "Materials",
+      "volume": "18"
+    },
+    "authors": [
+      {
+        "authorId": "2287001634",
+        "name": "Xing Hu"
+      },
+      {
+        "authorId": "2308621328",
+        "name": "Fuze Xu"
+      },
+      {
+        "authorId": "2287669715",
+        "name": "Menglin Gao"
+      },
+      {
+        "authorId": "2287046483",
+        "name": "Shengjun Xia"
+      },
+      {
+        "authorId": "2347912754",
+        "name": "Shuaiheng Liang"
+      },
+      {
+        "authorId": "2345283276",
+        "name": "Chunfa Huang"
+      },
+      {
+        "authorId": "2281328127",
+        "name": "Dexin Ma"
+      },
+      {
+        "authorId": "2287024008",
+        "name": "Qiulin Li"
+      }
+    ],
+    "abstract": "The inhibition of recrystallization in high-strain nickel-based single-crystal superalloys remains a critical challenge for advanced turbine blade applications. This study investigates the evolution of the primary γ’ phase and dislocation during annealing in a third-generation Re-containing single-crystal superalloy (WZ30) subjected to 5% compressive deformation. Isochronal annealing (700 to 1200 °C, 1 min) combined with scanning electron microscopy (SEM) and an electron backscatter diffraction (EBSD) analysis revealed a nonlinear variation of the geometrically necessary dislocation (GND) density, which reached a minimum of 1000 °C with 62.7% of the primary γ’ phase retained. Prolonged recovery annealing at 1000 °C for 10 h effectively inhibited recrystallization during subsequent solution heat treatment. This result provides a practical strategy for inhibiting recrystallization in single-crystal superalloys."
+  },
+  {
+    "paperId": "cd584a8943c2c95df672e4104be5d85d59d88c0d",
+    "externalIds": {
+      "MAG": "2943085031",
+      "DOI": "10.2355/TETSUTOHAGANE.TETSU-2018-135",
+      "CorpusId": 155526004
+    },
+    "url": "https://www.semanticscholar.org/paper/cd584a8943c2c95df672e4104be5d85d59d88c0d",
+    "title": "Phase-field Simulation of Recrystallization in Cold Rolling and Subsequent Annealing of Pure Iron Exploiting EBSD Data of Cold-rolled Sheet",
+    "year": 2021,
+    "citationCount": 6,
+    "openAccessPdf": {
+      "url": "https://doi.org/10.2355/tetsutohagane.tetsu-2018-135",
+      "status": "GOLD",
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.2355/TETSUTOHAGANE.TETSU-2018-135?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.2355/TETSUTOHAGANE.TETSU-2018-135, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "ISIJ International"
+    },
+    "authors": [
+      {
+        "authorId": "6920591",
+        "name": "Y. Suwa"
+      },
+      {
+        "authorId": "46542911",
+        "name": "Miho Tomita"
+      },
+      {
+        "authorId": "2024276419",
+        "name": "Yasuaki Tanaka"
+      },
+      {
+        "authorId": "92106400",
+        "name": "K. Ushioda"
+      }
+    ],
+    "abstract": "A unified theory for continuous and discontinuous annealing phenomena based on the subgrain growth mechanism was proposed by Humphreys around twenty years ago. With the developments in the unified subgrain growth theory, a number of Monte Carlo, vertex, and phase-field (PF) simulations have been carried out to investigate the nucleation and growth mechanisms of recrystallization by considering the local alignment of the subgrain structure. In this study, the effects of the microstructural inhomogeneities created in the deformed state on recrystallization kinetics and texture development were investigated. Numerical simulations of static recrystallization were performed in three-dimensional polycrystalline structures by coupling the unified subgrain growth theory with PF methodology. To prepare the initial microstructures, two-dimensional electron back scattering diffraction (EBSD) measurements were carried out on 90% and 99.8% cold-rolled pure iron. Our previous experimental study has shown that there are large differences in the texture formation processes during the recrystallization of cold-rolled iron samples. In cold-rolled iron with 90% reduction, the simulated texture exhibited nucleation and growth of γ-fiber (ND//<111>) grains at the cost of α-fiber (RD//<011>) components, where ND and RD denote normal direction and rolling direction, respectively. In contrast, the simulation results for cold-rolled iron with 99.8% reduction reproduced the high stability of the rolling texture during recrystallization. As a result, we conclude that the simulation results agreed with the experimentally observed textures in both the samples."
+  },
+  {
+    "paperId": "84e23dd1f8a17102132612d9df7d67c7a72d2071",
+    "externalIds": {
+      "MAG": "2728601828",
+      "DOI": "10.1016/J.JALLCOM.2017.07.027",
+      "CorpusId": 136114949
+    },
+    "url": "https://www.semanticscholar.org/paper/84e23dd1f8a17102132612d9df7d67c7a72d2071",
+    "title": "EBSD study of grain growth behavior and annealing twin evolution after full recrystallization in a nickel-based superalloy",
+    "year": 2017,
+    "citationCount": 148,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1016/J.JALLCOM.2017.07.027?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/J.JALLCOM.2017.07.027, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Journal of Alloys and Compounds",
+      "pages": "198-207",
+      "volume": "724"
+    },
+    "authors": [
+      {
+        "authorId": "2116124133",
+        "name": "Xiao-Min Chen"
+      },
+      {
+        "authorId": "2134198",
+        "name": "Y. Lin"
+      },
+      {
+        "authorId": "74071216",
+        "name": "Fa-deng Wu"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "c463874486ad13821f081e42773468a0527ef82d",
+    "externalIds": {
+      "DOI": "10.1007/s11771-022-5215-2",
+      "CorpusId": 257228941
+    },
+    "url": "https://www.semanticscholar.org/paper/c463874486ad13821f081e42773468a0527ef82d",
+    "title": "Continuous dynamic recrystallization nucleation mechanism and annealing twin evolution with respect to grain growth in a nickel-based superalloy",
+    "year": 2023,
+    "citationCount": 22,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s11771-022-5215-2?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s11771-022-5215-2, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Journal of Central South University",
+      "pages": "49-60",
+      "volume": "30"
+    },
+    "authors": [
+      {
+        "authorId": "2108945893",
+        "name": "Yan-jiang Wang"
+      },
+      {
+        "authorId": "116743109",
+        "name": "Z. Jia"
+      },
+      {
+        "authorId": "46517196",
+        "name": "Ze-xi Gao"
+      },
+      {
+        "authorId": "14212201",
+        "name": "De-xue Liu"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "179f70a2e720898ce63d2ede0495cd2a1b2f6db8",
+    "externalIds": {
+      "DOI": "10.1007/s11837-026-08210-y",
+      "CorpusId": 287007804
+    },
+    "url": "https://www.semanticscholar.org/paper/179f70a2e720898ce63d2ede0495cd2a1b2f6db8",
+    "title": "Double-Edge Effect of Dislocation Cell Structures on the Recrystallization of Additive Manufactured Commercially Pure Nickel",
+    "year": 2026,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s11837-026-08210-y?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s11837-026-08210-y, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": [
+      "JournalArticle"
+    ],
+    "journal": {
+      "name": "JOM"
+    },
+    "authors": [
+      {
+        "authorId": "2299490571",
+        "name": "Yen-Ting Chang"
+      },
+      {
+        "authorId": "2278946745",
+        "name": "Marie A. Charpagne"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "d3d64642338fae1b502d0c430ade7c13895e87fc",
+    "externalIds": {
+      "PubMedCentral": "12749721",
+      "DOI": "10.1038/s41598-025-29468-3",
+      "CorpusId": 283249629,
+      "PubMed": "41286489"
+    },
+    "url": "https://www.semanticscholar.org/paper/d3d64642338fae1b502d0c430ade7c13895e87fc",
+    "title": "Ultrasonic-driven grain uniformity of commercially pure nickel in continuous heat input directed energy deposition",
+    "year": 2025,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": "CCBYNCND",
+      "disclaimer": "Notice: Paper or abstract available at https://pmc.ncbi.nlm.nih.gov/articles/PMC12749721, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": [
+      "JournalArticle"
+    ],
+    "journal": {
+      "name": "Scientific Reports",
+      "volume": "15"
+    },
+    "authors": [
+      {
+        "authorId": "2389356547",
+        "name": "Chan Kyu Kim"
+      },
+      {
+        "authorId": "2336532327",
+        "name": "Gitae Park"
+      },
+      {
+        "authorId": "2395839116",
+        "name": "SeungHyeok Chung"
+      },
+      {
+        "authorId": "2140548318",
+        "name": "Y. Cho"
+      },
+      {
+        "authorId": "2354283594",
+        "name": "Seok Kim"
+      },
+      {
+        "authorId": "2277989557",
+        "name": "Sangwoo Song"
+      }
+    ],
+    "abstract": "Wire arc-based metal additive manufacturing (AM) commonly results columnar grain structures aligned with the build direction, causing anisotropic mechanical properties and performance degradation. To mitigate the formation of columnar grain structures, ultrasonic vibration (UV) at 20 kHz was applied during the continuous heat input directed energy deposition (DED) process, targeting microstrucrual refinement in high-purity Ni alloy. The application of UV disrupted thermal gradients and facilitated dynamic recrystallization, transitioning columnar grains into equiaxed grains near the substrate. Electron backscatter diffraction (EBSD) analysis revealed a marked reduction in crystallographic texture, showing randomized grain orientations in UV-treated samples, contrasting with the strong anisotropy in untreated samples. High-speed imaging revealed localized vibrations at the interface between the metal bead and molten metal, forming band-like structures that progressively refined dendrites during solidification. These findings demonstrate the potential of UV to refine grain structures, enhance isotropy, and improve the mechanical properties of AM-produced materials."
+  },
+  {
+    "paperId": "343f2f24e53464aca9bc92d6cb43c1d2c16b846d",
+    "externalIds": {
+      "DOI": "10.1007/s11665-025-12155-9",
+      "CorpusId": 281753786
+    },
+    "url": "https://www.semanticscholar.org/paper/343f2f24e53464aca9bc92d6cb43c1d2c16b846d",
+    "title": "GH4169 Simulates the Degree of Recrystallization and Grain Growth Model of Different Annealing Processes",
+    "year": 2025,
+    "citationCount": 1,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s11665-025-12155-9?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s11665-025-12155-9, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": [
+      "JournalArticle"
+    ],
+    "journal": {
+      "name": "Journal of Materials Engineering and Performance",
+      "pages": "6142 - 6153",
+      "volume": "35"
+    },
+    "authors": [
+      {
+        "authorId": "2377254069",
+        "name": "Shengxuan Zhao"
+      },
+      {
+        "authorId": "2000399763",
+        "name": "Zhicheng Cheng"
+      },
+      {
+        "authorId": "2245341470",
+        "name": "Wei Yu"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "10a00efd0792b6367f7c2e54b318c1b88dc837c7",
+    "externalIds": {
+      "DOI": "10.3390/met16010003",
+      "CorpusId": 284109641
+    },
+    "url": "https://www.semanticscholar.org/paper/10a00efd0792b6367f7c2e54b318c1b88dc837c7",
+    "title": "Study on the Recrystallization Behavior and Texture Evolution of 0.5 mm Electromagnetic Pure Iron Cold-Rolled Strip",
+    "year": 2025,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.3390/met16010003?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.3390/met16010003, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": [
+      "JournalArticle"
+    ],
+    "journal": {
+      "name": "Metals"
+    },
+    "authors": [
+      {
+        "authorId": "2386213069",
+        "name": "Qing Li"
+      },
+      {
+        "authorId": "2397048840",
+        "name": "Huaying Li"
+      },
+      {
+        "authorId": "2291705212",
+        "name": "Yinghui Wei"
+      },
+      {
+        "authorId": "2386476575",
+        "name": "Yipu Shi"
+      },
+      {
+        "authorId": "2313033718",
+        "name": "Baosheng Liu"
+      },
+      {
+        "authorId": "2386390710",
+        "name": "Yong Jiang"
+      }
+    ],
+    "abstract": "The control of recrystallization in submillimeter-gauge electromagnetic pure iron strips is critical for developing high-sensitivity electromagnetic devices, yet the microstructure–property relationship during annealing remains poorly understood. This study systematically investigates the recrystallization topology, texture evolution, and their direct links to the electromagnetic properties in an industrially produced 0.5 mm thick DT4 electromagnetic pure iron cold-rolled strip (80% reduction) during annealing at 900 °C. By combining EBSD, XRD, and VSM, we found that recrystallization initiates at shear bands after 7 s and completes within 25 s, yielding equiaxed grains with an average size of 27.5 μm. Prolonged annealing to 180 s led to grain coarsening to 64 μm. Concurrently, the fraction of low-angle grain boundaries decreased dramatically from 69.6% to 9.09%. The recrystallization texture, dominated by oriented nucleation at shear bands, showed a stable γ-fiber component (~20% volume fraction) and a significantly attenuated α-fiber component (decreasing from 66.3% to 21.5%). The Goss texture ({110}<001>) increased notably from 0.54% to 14.0%, attributable to grain boundary energy minimization in the later stages. Recrystallization kinetics obeyed the JMAK model Xrex = 1 − exp (−2.29 × 10−8 t6.434). Crucially, the completed recrystallization process reduced the coercivity (Hc) by 78.5% and increased the magnetic induction B10000 by 0.045T. These findings elucidate the recrystallization mechanism and establish a quantitative microstructure–property correlation, providing a theoretical foundation for optimizing industrial annealing processes for thin-gauge electromagnetic pure iron strips."
+  },
+  {
+    "paperId": "bac204161f342083dc267beef5149f1c19cd1d84",
+    "externalIds": {
+      "MAG": "2560918781",
+      "DOI": "10.1093/JMICRO/DFV261",
+      "CorpusId": 136366626
+    },
+    "url": "https://www.semanticscholar.org/paper/bac204161f342083dc267beef5149f1c19cd1d84",
+    "title": "B22-P-05 Observation of recrystallization behavior of shot-peened pure nickel using ECCI combined with EBSD",
+    "year": 2015,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1093/JMICRO/DFV261?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1093/JMICRO/DFV261, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Journal of Electron Microscopy",
+      "volume": "64"
+    },
+    "authors": [
+      {
+        "authorId": "96336857",
+        "name": "S. Baek"
+      },
+      {
+        "authorId": "94567076",
+        "name": "Jin-Soo Oh"
+      },
+      {
+        "authorId": "2111274021",
+        "name": "Tae-Hoon Kim"
+      },
+      {
+        "authorId": "51452255",
+        "name": "Hyun-Woo Cha"
+      },
+      {
+        "authorId": "118367077",
+        "name": "Kyu-Jin Jo"
+      },
+      {
+        "authorId": "4872436",
+        "name": "Cheol‐Woong Yang"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "99a437204fa8436dd9b261003cf6c7823fcd7799",
+    "externalIds": {
+      "DOI": "10.1134/S106183092270005X",
+      "CorpusId": 256418670
+    },
+    "url": "https://www.semanticscholar.org/paper/99a437204fa8436dd9b261003cf6c7823fcd7799",
+    "title": "Magnetic Analysis of Recrystallization Processes during Annealing of Cold-Deformed Nickel",
+    "year": 2022,
+    "citationCount": 3,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1134/S106183092270005X?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1134/S106183092270005X, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Russian Journal of Nondestructive Testing",
+      "pages": "992 - 999",
+      "volume": "58"
+    },
+    "authors": [
+      {
+        "authorId": "48992885",
+        "name": "V. Kostin"
+      },
+      {
+        "authorId": "100717877",
+        "name": "V. Perov"
+      },
+      {
+        "authorId": "2904214",
+        "name": "L. Mikhailov"
+      },
+      {
+        "authorId": "101159250",
+        "name": "E. Serbin"
+      },
+      {
+        "authorId": "40179571",
+        "name": "O. Vasilenko"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "3001b34a8bc063e5cc5a9bf1ce14ac96c084b6b4",
+    "externalIds": {
+      "PubMedCentral": "11642356",
+      "DOI": "10.3390/ma17235745",
+      "CorpusId": 274295227,
+      "PubMed": "39685181"
+    },
+    "url": "https://www.semanticscholar.org/paper/3001b34a8bc063e5cc5a9bf1ce14ac96c084b6b4",
+    "title": "An Oriented Recrystallization Nucleation Mechanism of a Cold-Rolled Pure Ti with Electric-Pulse Treatment",
+    "year": 2024,
+    "citationCount": 1,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": "CCBY",
+      "disclaimer": "Notice: Paper or abstract available at https://pmc.ncbi.nlm.nih.gov/articles/PMC11642356, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": [
+      "JournalArticle"
+    ],
+    "journal": {
+      "name": "Materials",
+      "volume": "17"
+    },
+    "authors": [
+      {
+        "authorId": "2312281322",
+        "name": "Qi Shi"
+      },
+      {
+        "authorId": "2275610919",
+        "name": "Lei Wang"
+      },
+      {
+        "authorId": "2315388197",
+        "name": "Xiu Song"
+      },
+      {
+        "authorId": "2312231312",
+        "name": "Yang Liu"
+      }
+    ],
+    "abstract": "The effect of electric-pulse treatment (EPT) on the nucleation behavior of a cold-rolled pure Ti was investigated. The specimens are subjected to EPT and then annealed at 650 °C within 10 min. Both the electron backscatter diffraction (EBSD) and transmission electron microscope (TEM) techniques were used for detailing the microstructural evolution of the specimens at the initial stage of recrystallization processing during annealing. The results show that oriented nucleation occurs in the EPTed specimen. The recrystallized grains form in a similar orientation with the deformed matrix grains, and the oriented nucleation originates from the deformed grains with <0001> poles tilted about 20° away from the normal direction (ND20 grains) in the EPTed specimen. Pyramidal  dislocations could be extensively activated in ND20 grains, while the activated dislocations were mainly on prismatic planes in the other oriented grains. Because the formation of sub-grains cannot be without the pyramidal  dislocation, oriented recrystallized grains easily form in the EPTed specimen. It is suggested that the increasing of pyramidal dislocation climbing activity is considered the key mechanism of the formation of sub-grains as well as oriented nucleation, resulting from high contents of vacancy induced by EPT."
+  },
+  {
+    "paperId": "dd60ea78f409d711143d3c501ef5131249746125",
+    "externalIds": {
+      "MAG": "3151185392",
+      "DOI": "10.1088/2053-1591/abf3e3",
+      "CorpusId": 233612525
+    },
+    "url": "https://www.semanticscholar.org/paper/dd60ea78f409d711143d3c501ef5131249746125",
+    "title": "The effect of annealing temperature on the recrystallization and mechanical properties of severe plastic deformed commercial pure aluminium during ultra-fast annealing",
+    "year": 2021,
+    "citationCount": 25,
+    "openAccessPdf": {
+      "url": "https://iopscience.iop.org/article/10.1088/2053-1591/abf3e3/pdf",
+      "status": "GOLD",
+      "license": "CCBY",
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1088/2053-1591/abf3e3?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1088/2053-1591/abf3e3, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Materials Research Express",
+      "volume": "8"
+    },
+    "authors": [
+      {
+        "authorId": "2128706497",
+        "name": "Yanjun Zhao"
+      },
+      {
+        "authorId": "2108904709",
+        "name": "Liuyang Li"
+      },
+      {
+        "authorId": "2110086966",
+        "name": "Zepeng Lu"
+      },
+      {
+        "authorId": "66341689",
+        "name": "G. Teng"
+      },
+      {
+        "authorId": "2119053231",
+        "name": "Shaocheng Liu"
+      },
+      {
+        "authorId": "15368990",
+        "name": "Zhiliu Hu"
+      },
+      {
+        "authorId": "144242994",
+        "name": "Ao-ping He"
+      }
+    ],
+    "abstract": "In the research a commercial pure aluminium was cold rolled by 98% accumulative severe plastic deformation and then ultra-fast annealed at 350 °C−520 °C with the 1000 °C/s heating rate and 1.0 s holding time. The microstructure evolution and the mechanisms of the recovery and recrystallization for the above ultra-fast annealed pure aluminium were analyzed by Gleeble 3500 thermal simulation system, electron backscatter diffraction(EBSD),and transmission electron microscopy (TEM). For the ultra-fast annealing pure aluminum, the grain size increases from 2.05 μm to 17.10 μm with the increase of annealing temperature from 410 °C to 520 °C; the tensile strength of the annealed pure aluminium decreases from 116.48 MPa to 53.43 MPa, and the uniform elongation increases from 1.20% to 39.78%. When annealing at 410 °C, the storage energy was transformed into the driving force for grain nucleation, which greatly refined the grains. When annealing at 380 °C ∼ 410 °C, the pure aluminium is in the stage of recrystallization, and the average grain size refined to 2.05 μm. When annealing at 435 °C, the number of small-angle grain boundaries (<15°) was significantly reduced and the number of large-angle grain boundaries increased. When the annealing temperature increased to 470 °C or 520 °C, the crystalline grains had merged each other, leading to the grain size grow to 17.10 μm. The annealing temperature of ultra-fast annealing should be in the range of 410 °C to 435 °C for optimizing the mechanical performances of commercial pure aluminum."
+  },
+  {
+    "paperId": "d75b6bca0346f9f98d2b4077745413cb432145b8",
+    "externalIds": {
+      "MAG": "3041860295",
+      "DOI": "10.1515/rams-2020-0016",
+      "CorpusId": 220368783
+    },
+    "url": "https://www.semanticscholar.org/paper/d75b6bca0346f9f98d2b4077745413cb432145b8",
+    "title": "Effect of cross cold rolling and annealing on microstructure and texture in pure nickel",
+    "year": 2020,
+    "citationCount": 18,
+    "openAccessPdf": {
+      "url": "https://www.degruyter.com/downloadpdf/journals/rams/59/1/article-p252.pdf",
+      "status": "GOLD",
+      "license": "CCBY",
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1515/rams-2020-0016?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1515/rams-2020-0016, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "REVIEWS ON ADVANCED MATERIALS SCIENCE",
+      "pages": "252 - 263",
+      "volume": "59"
+    },
+    "authors": [
+      {
+        "authorId": "2108631658",
+        "name": "Lixia Wang"
+      },
+      {
+        "authorId": "2118652495",
+        "name": "Xingpin Chen"
+      },
+      {
+        "authorId": "2068287504",
+        "name": "Tianhong Luo"
+      },
+      {
+        "authorId": "5425135",
+        "name": "H. Ni"
+      },
+      {
+        "authorId": "32893064",
+        "name": "L. Mei"
+      },
+      {
+        "authorId": "144280438",
+        "name": "P. Ren"
+      },
+      {
+        "authorId": "47362190",
+        "name": "Qing Liu"
+      },
+      {
+        "authorId": "49327043",
+        "name": "Yongfeng Ding"
+      },
+      {
+        "authorId": "2143383705",
+        "name": "Lijun Zhao"
+      }
+    ],
+    "abstract": "Abstract The microstructure and texture in pure nickel were investigated during multi-step cross cold rolling (CCR) and subsequent annealing. It was found that the deformation texture in the CCR nickel was dominated by Brass and rotated Brass about normal direction (ND) (BsND) texture components, along with marginal cube textures. The resulted deformation textures had a significant effect on the recrystallization behavior. Annealing of the CCR nickel at 550°C for 1 h led to the formation of dominant <012> // ND fiber accompanied by minor rotated cube textures, rather than strong cube texture. Increasing the annealing temperature up to 800°C resulted in further enhancement of <012> // ND fiber textures. The possible reasons for recrystallization behavior in annealed CCR sample were discussed based on in-situ annealing experiments from two aspects of oriented nucleation and oriented growth theories."
+  },
+  {
+    "paperId": "03a445e38b3b8c4af89605d366891f56e3bc262e",
+    "externalIds": {
+      "MAG": "2966843008",
+      "DOI": "10.1016/J.IJRMHM.2019.105047",
+      "CorpusId": 201294236
+    },
+    "url": "https://www.semanticscholar.org/paper/03a445e38b3b8c4af89605d366891f56e3bc262e",
+    "title": "Comparison of K-doped and pure cold-rolled tungsten sheets: As-rolled condition and recrystallization behaviour after isochronal annealing at different temperatures",
+    "year": 2019,
+    "citationCount": 44,
+    "openAccessPdf": {
+      "url": "https://publikationen.bibliothek.kit.edu/1000098090/138570279",
+      "status": "GREEN",
+      "license": "other-oa",
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1016/J.IJRMHM.2019.105047?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/J.IJRMHM.2019.105047, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "International Journal of Refractory Metals and Hard Materials"
+    },
+    "authors": [
+      {
+        "authorId": "2003505737",
+        "name": "P. Lied"
+      },
+      {
+        "authorId": "117108028",
+        "name": "C. Bonnekoh"
+      },
+      {
+        "authorId": "4355718",
+        "name": "W. Pantleon"
+      },
+      {
+        "authorId": "2066496192",
+        "name": "Markus Stricker"
+      },
+      {
+        "authorId": "145625869",
+        "name": "A. Hoffmann"
+      },
+      {
+        "authorId": "14955332",
+        "name": "J. Reiser"
+      }
+    ],
+    "abstract": "Abstract Severely deformed cold-rolled tungsten is a promising structural material for future fusion reactor applications due to high melting temperature and excellent mechanical properties. However, the fine-grained microstructure after deformation is not stable at temperatures above 800 °C, leading to brittle material behaviour. In this study, we utilize potassium-doping to inhibit recrystallization of tungsten sheets, a mechanism well known from incandescent lamp wires. We produced K-doped tungsten sheets by warm-rolling and subsequent cold-rolling with five different logarithmic strains up to 4.6, and equivalently rolled pure tungsten sheets. Both sets of materials are compared using EBSD and microhardness testing. In both materials, the hardness increases and the grain size along normal direction decreases with strain; the densities of low and high angle boundaries increase in particular during cold-rolling. The K-doped W sheet reaches the highest hardness with 772 ± 8 HV0.1, compared to the pure W sheet with 711 ± 14 HV0.1. All boundaries taken into account, a Hall-Petch relation describes the hardness evolution nicely, except a deviation of the K-doped tungsten sheet rolled to highest strain with its much higher hardness. The similar structural and mechanical properties of both materials in the as-rolled condition allow further studies of recrystallization behaviour of the new K-doped material with a benchmark against the equivalent pure tungsten sheets. Isochronal annealing for 1 h was performed at different temperatures between 700 °C and 2200 °C. A sharp decrease in hardness to intermediate values is observed at around 900 °C for both materials, presumably reflecting extended recovery. A second decrease is observed at 1400 °C for pure tungsten, approaching the hardness of a single crystal and indicating recrystallization and severe growth of grains. For K-doped tungsten, however, the occurrence of the second decrease is shifted to higher temperatures from 1400 °C to 1800 °C with increasing strain and an intermediate hardness is maintained up to 1800 °C. We refer this dependence of the recrystallization resistance on strain in the K-doped material to the dispersion of K-bubbles, resulting in increased Zener pinning forces retarding boundary motion."
+  },
+  {
+    "paperId": "6441776790665019bfa7ae622a7c9990c7cdcae6",
+    "externalIds": {
+      "MAG": "2802082595",
+      "DOI": "10.1016/J.NME.2018.04.004",
+      "CorpusId": 139172273
+    },
+    "url": "https://www.semanticscholar.org/paper/6441776790665019bfa7ae622a7c9990c7cdcae6",
+    "title": "Recrystallization behavior of hot-rolled pure tungsten and its alloy plates during high-temperature annealing",
+    "year": 2018,
+    "citationCount": 101,
+    "openAccessPdf": {
+      "url": "https://doi.org/10.1016/j.nme.2018.04.004",
+      "status": "GOLD",
+      "license": "CCBYNCND",
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1016/J.NME.2018.04.004?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/J.NME.2018.04.004, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Nuclear materials and energy",
+      "pages": "158-163",
+      "volume": "15"
+    },
+    "authors": [
+      {
+        "authorId": "49096192",
+        "name": "Kohei Tsuchida"
+      },
+      {
+        "authorId": "36842079",
+        "name": "T. Miyazawa"
+      },
+      {
+        "authorId": "48342384",
+        "name": "A. Hasegawa"
+      },
+      {
+        "authorId": "92356311",
+        "name": "S. Nogami"
+      },
+      {
+        "authorId": "46660494",
+        "name": "M. Fukuda"
+      }
+    ],
+    "abstract": "Abstract We aimed to clarify the behavior of change in the grain structure and hardness of hot-rolled pure W and its alloys plates developed for various properties by holding at high temperature for long and short durations in the absence of irradiation. The isothermal annealing was performed at 1100 °C for 10–3115 h. The isochronous annealing was performed for 1 h in a temperature range of 1100 to 2300 °C. After heat treatment, the grain structure was observed using electron backscatter diffraction (EBSD) and the Vickers hardness was measured in the observed plane. Pure W did not recrystallize by the heat treatment for a short duration of 1 h at 1100 °C, while the recrystallization of pure W progressed during the heat treatment for long duration of 3115 h at 1100 °C. The temperature and duration at which the recrystallization occurs increase because of the dispersion of K bubbles and solid solution of Re. Considering the actual operation period of fusion reactors, a temperature of 1100 °C can result in recrystallization. It is necessary to decrease the maximum operating temperature or to use materials having a high recrystallization temperature by alloying."
+  },
+  {
+    "paperId": "ff3b89665e217a92d81667ff077a3f3abb8befb7",
+    "externalIds": {
+      "DOI": "10.3390/met13020388",
+      "CorpusId": 256879036
+    },
+    "url": "https://www.semanticscholar.org/paper/ff3b89665e217a92d81667ff077a3f3abb8befb7",
+    "title": "Role of Grain Size and Recrystallization Texture in the Corrosion Behavior of Pure Iron in Acidic Medium",
+    "year": 2023,
+    "citationCount": 6,
+    "openAccessPdf": {
+      "url": "https://www.mdpi.com/2075-4701/13/2/388/pdf?version=1676358503",
+      "status": "GOLD",
+      "license": "CCBY",
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.3390/met13020388?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.3390/met13020388, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Metals"
+    },
+    "authors": [
+      {
+        "authorId": "2201839696",
+        "name": "S. Kar"
+      },
+      {
+        "authorId": "2087878288",
+        "name": "A. Yilmaz"
+      },
+      {
+        "authorId": "114198038",
+        "name": "Konstantina Traka"
+      },
+      {
+        "authorId": "40270061",
+        "name": "J. Sietsma"
+      },
+      {
+        "authorId": "2330845030",
+        "name": "Yaiza Gonzalez‐Garcia"
+      }
+    ],
+    "abstract": "This work investigates the role of grain size and recrystallization texture in the corrosion behavior of pure iron in 0.1 M sulfuric acid solution. Annealing heat treatment was applied to obtain samples with different average grain sizes (26, 53 and 87 µm). Optical microscopy, X-ray diffraction and electron backscatter diffraction techniques were used to characterize the microstructure. The EBSD data analysis showed ferrite phase with no inclusions and very low geometrically necessary dislocation density, indicating strain-free grains constituting all samples. The crystallographic texture analysis of the samples revealed that the 26 µm grain size sample had a high volume fraction of {111} oriented grains parallel to the sample surface, while other samples exhibited nearly random crystallographic texture. The electrochemical results from potentiodynamic polarization and electrochemical impedance spectroscopy showed a decrease in corrosion resistance from 87 µm to 53 µm grain size sample and then an increase for the 26 µm grain size sample. This increase was attributed to the dominant effect of recrystallization texture on the corrosion behavior of the sample. The cathodic hydrogen evolution reaction kinetics was found to play a decisive role in the corrosion behavior of iron."
+  },
+  {
+    "paperId": "3d237e30383423ad63c32bc1c9d66aacb60190f9",
+    "externalIds": {
+      "MAG": "1603747182",
+      "DOI": "10.1111/jmi.12034",
+      "CorpusId": 44471774,
+      "PubMed": "23521093"
+    },
+    "url": "https://www.semanticscholar.org/paper/3d237e30383423ad63c32bc1c9d66aacb60190f9",
+    "title": "EBSD coupled to SEM in situ annealing for assessing recrystallization and grain growth mechanisms in pure tantalum",
+    "year": 2013,
+    "citationCount": 22,
+    "openAccessPdf": {
+      "url": "https://hal-mines-paristech.archives-ouvertes.fr/hal-00808226/file/EBSD%20coupled%20to%20SEM%20in%20situ%20annealing%20for%20assessing%20recrystallisation%20and%20grain%20growth%20mechanisms%20in%20pure%20tantalum%20-%20avec%20figures.pdf",
+      "status": "GREEN",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1111/jmi.12034?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1111/jmi.12034, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": [
+      "JournalArticle"
+    ],
+    "journal": {
+      "name": "Journal of Microscopy",
+      "volume": "250"
+    },
+    "authors": [
+      {
+        "authorId": "11782377",
+        "name": "Christophe Kerisit"
+      },
+      {
+        "authorId": "8731455",
+        "name": "R. Logé"
+      },
+      {
+        "authorId": "12193171",
+        "name": "S. Jacomet"
+      },
+      {
+        "authorId": "2094190514",
+        "name": "V. Llorca"
+      },
+      {
+        "authorId": "116153791",
+        "name": "N. Bozzolo"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "eeafe364d0061bd28891ab705b0667c6d856076d",
+    "externalIds": {
+      "DOI": "10.3390/coatings13122093",
+      "CorpusId": 266415067
+    },
+    "url": "https://www.semanticscholar.org/paper/eeafe364d0061bd28891ab705b0667c6d856076d",
+    "title": "Microstructure and Texture of Pure Copper under Large Compression Deformation and Different Annealing Times",
+    "year": 2023,
+    "citationCount": 4,
+    "openAccessPdf": {
+      "url": "https://www.mdpi.com/2079-6412/13/12/2093/pdf?version=1702721797",
+      "status": "GOLD",
+      "license": "CCBY",
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.3390/coatings13122093?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.3390/coatings13122093, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": [
+      "JournalArticle"
+    ],
+    "journal": {
+      "name": "Coatings"
+    },
+    "authors": [
+      {
+        "authorId": "2269792213",
+        "name": "Xiuqing Li"
+      },
+      {
+        "authorId": "2145946125",
+        "name": "Qian Zhang"
+      },
+      {
+        "authorId": "2185295179",
+        "name": "W. Lou"
+      },
+      {
+        "authorId": "2139232225",
+        "name": "Fengjun Li"
+      },
+      {
+        "authorId": "2298436781",
+        "name": "Jianjun Liang"
+      },
+      {
+        "authorId": "12332816",
+        "name": "Shimin Gu"
+      }
+    ],
+    "abstract": "In this study, the plastic deformation of pure copper under room-temperature compression and different annealing times was examined, and the microstructure and texture evolution were studied via scanning electron microscopy (SEM), electron backscatter diffraction (EBSD), and microhardness tests. The results showed that when the deformation degree was 93.75%, the microhardness increased from 76 HV (Vickers hardness) before deformation to 110 HV. After annealing, the hardness decreased with increasing annealing time, and the pure copper grain size could be refined from 150 μm to 6.15 μm. An increase in annealing time did not continue to promote recrystallization, while the effect on grain refinement was weakened. The geometrically necessary dislocation (GND) density decreased from 6.0 × 1014/m2 to 4.83 × 1014/m2 after annealing, which implies that static recrystallization occurs at the cost of dislocation consumption during the annealing process. The compression deformation of pure copper produced a strong deformation weave (<001> orientation), and a portion of the deformation weave within the material was transformed into a recrystallization weave (<111> orientation) after the annealing process."
+  },
+  {
+    "paperId": "6beb73ffacf2859fee4934ff94a84650d6b81978",
+    "externalIds": {
+      "MAG": "3036780974",
+      "DOI": "10.1016/j.msea.2020.139722",
+      "CorpusId": 225403396
+    },
+    "url": "https://www.semanticscholar.org/paper/6beb73ffacf2859fee4934ff94a84650d6b81978",
+    "title": "Systematical analysis on the grain orientation evolution of pure nickel under plastic deformation by using in-situ EBSD",
+    "year": 2020,
+    "citationCount": 55,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1016/j.msea.2020.139722?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/j.msea.2020.139722, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Materials Science and Engineering A-structural Materials Properties Microstructure and Processing",
+      "pages": "139722",
+      "volume": "792"
+    },
+    "authors": [
+      {
+        "authorId": "145739804",
+        "name": "Xin Wu"
+      },
+      {
+        "authorId": "11056961",
+        "name": "H. Suo"
+      },
+      {
+        "authorId": "98162389",
+        "name": "Yaotang Ji"
+      },
+      {
+        "authorId": "2109589288",
+        "name": "Jiazhi Li"
+      },
+      {
+        "authorId": "145698307",
+        "name": "Lin Ma"
+      },
+      {
+        "authorId": "47842354",
+        "name": "Min Liu"
+      },
+      {
+        "authorId": "47438028",
+        "name": "Zili Zhang"
+      },
+      {
+        "authorId": "123451962",
+        "name": "Qiuliang Wang"
+      }
+    ],
+    "abstract": "Abstract A combination of an in-situ tensile technique and electron backscattering diffraction (EBSD) was used to investigate the changes in microstructure and texture during plastic deformation of nickel with a high cubic texture. Surprisingly, unlike most data in the literature, it was found that the grains in nickel with a high cubic texture tended to align rather than scatter under a large force; thus, a large tensile stress causes enhancement of the cubic texture. The in-situ tensile tests are allowable to observe the entire process in real-time, while the EBSD results are helpful to separate texture changes at individual-grain resolution and to uncover the regular progression. It was found that, except for tiny grains and twins, most of the recrystallized grains tended towards the pole. The only difference was that grains with a soft orientation effortlessly joined in the activation of the slip system, with the movement of dislocations playing a significant role in these grains. Conversely, the hard-orientation grains maintained the coordination of plastic deformation by means of rotation. Our results validate the in-situ tensile technique combined with EBSD as a systematic research method applied to the study of texture transformation for pure nickel."
+  },
+  {
+    "paperId": "13264b7d59efa0bea76dc0450be77eadf378e793",
+    "externalIds": {
+      "MAG": "3203297711",
+      "DOI": "10.1016/j.surfcoat.2021.127770",
+      "CorpusId": 244207428
+    },
+    "url": "https://www.semanticscholar.org/paper/13264b7d59efa0bea76dc0450be77eadf378e793",
+    "title": "Effect of annealing and irradiation on the evolution of texture and grain boundary interface in electrodeposited nanocrystalline nickel of varying grain sizes",
+    "year": 2021,
+    "citationCount": 20,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1016/j.surfcoat.2021.127770?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/j.surfcoat.2021.127770, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Surface and Coatings Technology"
+    },
+    "authors": [
+      {
+        "authorId": "52103681",
+        "name": "S. Julie"
+      },
+      {
+        "authorId": "32424233",
+        "name": "Manmath Kumar Dash"
+      },
+      {
+        "authorId": "93833299",
+        "name": "N. Wasekar"
+      },
+      {
+        "authorId": "2082440777",
+        "name": "C. David"
+      },
+      {
+        "authorId": "2058343799",
+        "name": "M. Kamruddin"
+      }
+    ],
+    "abstract": "Abstract Ni coatings applied on structural alloys of molten-salt reactors have been shown to enhance corrosion resistance. Due to inherent advantages, the application of electrodeposited (ED) nanocrystalline Ni coatings could provide a progressive upgrade. The effectiveness, however, relies on the production of favorable microstructural attributes for corrosion resistance and their stability in a high-temperature radiation environment. The present study compares the annealed microstructure of electrodeposited nanocrystalline Ni of varying grain sizes: 20 nm, 50 nm, 100 nm and 200 nm. EBSD studies of samples annealed at 650°C revealed a strong texture of //ED fiber component accompanied by the formation of Σ3 twin boundaries. A high fraction of Σ3 twin boundaries desirable for corrosion resistance is found in samples with initial grain sizes of 20 nm and 50 nm. The irradiation stability of as-deposited 20 nm and 50 nm grain-sized samples was evaluated using ion irradiation at 550°C and compared with unirradiated counterparts that had experienced annealing at the same temperature. Irradiation causes a marginal increase in grain growth and texture, and a slight decrease in Σ3 twin fractions. The desirable microstructural attributes for corrosion resistance are largely preserved up to displacement damage of 18.5 dpa in 20 nm and 50 nm grain-sized samples."
+  },
+  {
+    "paperId": "4701a0c0c36d65a8bec812e9ac94f016ea53ae18",
+    "externalIds": {
+      "MAG": "2531281969",
+      "DOI": "10.1007/s11661-016-3810-2",
+      "CorpusId": 138092276
+    },
+    "url": "https://www.semanticscholar.org/paper/4701a0c0c36d65a8bec812e9ac94f016ea53ae18",
+    "title": "Microstructure and Texture of Electrodeposited Nanocrystalline Nickel in the As-Deposited State and After In-Situ and Ex-Situ Annealing",
+    "year": 2016,
+    "citationCount": 9,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s11661-016-3810-2?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s11661-016-3810-2, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Metallurgical and Materials Transactions A",
+      "pages": "6655-6670",
+      "volume": "47"
+    },
+    "authors": [
+      {
+        "authorId": "32618117",
+        "name": "P. Čížek"
+      },
+      {
+        "authorId": "104489384",
+        "name": "A. Sankaran"
+      },
+      {
+        "authorId": "104489384",
+        "name": "A. Sankaran"
+      },
+      {
+        "authorId": "93436485",
+        "name": "E. Rauch"
+      },
+      {
+        "authorId": "93772424",
+        "name": "M. Barnett"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "470433c500390c2c4d98c98b16fb95116ac9258d",
+    "externalIds": {
+      "MAG": "1985424936",
+      "DOI": "10.4028/www.scientific.net/MSF.783-786.2573",
+      "CorpusId": 137462843
+    },
+    "url": "https://www.semanticscholar.org/paper/470433c500390c2c4d98c98b16fb95116ac9258d",
+    "title": "Formation of Multiple Twinned Structural Units in Electrodeposited Nickel after Annealing",
+    "year": 2014,
+    "citationCount": 2,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.4028/www.scientific.net/MSF.783-786.2573?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.4028/www.scientific.net/MSF.783-786.2573, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Materials Science Forum",
+      "pages": "2573 - 2578",
+      "volume": "783-786"
+    },
+    "authors": [
+      {
+        "authorId": "2524013",
+        "name": "Alexander Kahrimanidis"
+      },
+      {
+        "authorId": "37668254",
+        "name": "U. Klement"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "c8413ac1417cca2406f6384ffcfc491cf4f35afa",
+    "externalIds": {
+      "DOI": "10.1007/s11661-024-07452-2",
+      "CorpusId": 270216798
+    },
+    "url": "https://www.semanticscholar.org/paper/c8413ac1417cca2406f6384ffcfc491cf4f35afa",
+    "title": "Engineering Grain Boundary Constitution in Pulse Electrodeposited Nickel Coatings for Enhanced Resistance to Electrochemical Degradation",
+    "year": 2024,
+    "citationCount": 1,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s11661-024-07452-2?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s11661-024-07452-2, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": [
+      "JournalArticle"
+    ],
+    "journal": {
+      "name": "Metallurgical and Materials Transactions A",
+      "pages": "2977 - 2989",
+      "volume": "55"
+    },
+    "authors": [
+      {
+        "authorId": "2389340340",
+        "name": "Akhand SUNANDO BANERJEE"
+      },
+      {
+        "authorId": "2390634907",
+        "name": "Pratap Singh"
+      },
+      {
+        "authorId": "2389340105",
+        "name": "S. Roohan"
+      },
+      {
+        "authorId": "2389340034",
+        "name": "Farooq Lala"
+      },
+      {
+        "authorId": "2280794623",
+        "name": "Chandan Srivastava"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "ed258e96c1201aab50d9c019a07c55d85396125a",
+    "externalIds": {
+      "MAG": "2342440960",
+      "DOI": "10.1016/J.SURFCOAT.2016.04.068",
+      "CorpusId": 139072523
+    },
+    "url": "https://www.semanticscholar.org/paper/ed258e96c1201aab50d9c019a07c55d85396125a",
+    "title": "Texture and microstructure evolution in nickel electrodeposited from an additive-free Watts electrolyte",
+    "year": 2016,
+    "citationCount": 19,
+    "openAccessPdf": {
+      "url": "https://backend.orbit.dtu.dk/ws/files/123603010/Texture_and_microstructure_evolution.pdf",
+      "status": "GREEN",
+      "license": "other-oa",
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1016/J.SURFCOAT.2016.04.068?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/J.SURFCOAT.2016.04.068, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Surface & Coatings Technology",
+      "pages": "1-6",
+      "volume": "299"
+    },
+    "authors": [
+      {
+        "authorId": "7627053",
+        "name": "H. Alimadadi"
+      },
+      {
+        "authorId": "35581538",
+        "name": "A. Fanta"
+      },
+      {
+        "authorId": "7455779",
+        "name": "T. Kasama"
+      },
+      {
+        "authorId": "79307936",
+        "name": "M. Somers"
+      },
+      {
+        "authorId": "92784051",
+        "name": "K. Pantleon"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "c6e660e8738243d64479b42b7d2cc48a5b686bd1",
+    "externalIds": {
+      "MAG": "2603891866",
+      "DOI": "10.1016/J.JMMM.2016.12.146",
+      "CorpusId": 125939706
+    },
+    "url": "https://www.semanticscholar.org/paper/c6e660e8738243d64479b42b7d2cc48a5b686bd1",
+    "title": "Correlation between crystallographic texture, microstructure and magnetic properties of pulse electrodeposited nanocrystalline Nickel–Cobalt alloys",
+    "year": 2017,
+    "citationCount": 25,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1016/J.JMMM.2016.12.146?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/J.JMMM.2016.12.146, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Journal of Magnetism and Magnetic Materials",
+      "pages": "68-77",
+      "volume": "434"
+    },
+    "authors": [
+      {
+        "authorId": "2109647288",
+        "name": "Amit Sharma"
+      },
+      {
+        "authorId": "104258722",
+        "name": "Sumit Chhangani"
+      },
+      {
+        "authorId": "72420218",
+        "name": "R. Madhavan"
+      },
+      {
+        "authorId": "6731215",
+        "name": "S. Suwas"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "55ecb4ab7e94e65df2b5feaff12cdd960c91b857",
+    "externalIds": {
+      "MAG": "1993544561",
+      "DOI": "10.1007/s11661-013-1617-y",
+      "CorpusId": 136573972
+    },
+    "url": "https://www.semanticscholar.org/paper/55ecb4ab7e94e65df2b5feaff12cdd960c91b857",
+    "title": "Texture Evolution During Cross Rolling and Annealing of High-Purity Nickel",
+    "year": 2013,
+    "citationCount": 31,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s11661-013-1617-y?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s11661-013-1617-y, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Metallurgical and Materials Transactions A",
+      "pages": "2707-2716",
+      "volume": "44"
+    },
+    "authors": [
+      {
+        "authorId": "144003073",
+        "name": "P. Bhattacharjee"
+      },
+      {
+        "authorId": "2052142863",
+        "name": "M. Joshi"
+      },
+      {
+        "authorId": "2055477221",
+        "name": "V. Chaudhary"
+      },
+      {
+        "authorId": "116723204",
+        "name": "J. R. Gatti"
+      },
+      {
+        "authorId": "145524329",
+        "name": "M. Zaid"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "e5e779e6354f4807c68ec47b0f185433db0be01c",
+    "externalIds": {
+      "MAG": "339473159",
+      "CorpusId": 136851963
+    },
+    "url": "https://www.semanticscholar.org/paper/e5e779e6354f4807c68ec47b0f185433db0be01c",
+    "title": "Effect of annealing on microstructural development and grain orientation in electrodeposited nickel",
+    "year": 2011,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at http://publications.lib.chalmers.se/records/fulltext/140580.pdf, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "volume": ""
+    },
+    "authors": [
+      {
+        "authorId": "72946798",
+        "name": "C. Oikonomou"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "9c20172a8e6677143652c1651a210de7061f8ad7",
+    "externalIds": {
+      "MAG": "2062951827",
+      "DOI": "10.1088/1757-899X/82/1/012073",
+      "CorpusId": 55264143
+    },
+    "url": "https://www.semanticscholar.org/paper/9c20172a8e6677143652c1651a210de7061f8ad7",
+    "title": "Characterization of multiple twinned structural units in pulse-electrodeposited nickel",
+    "year": 2015,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "https://doi.org/10.1088/1757-899x/82/1/012073",
+      "status": "GOLD",
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1088/1757-899X/82/1/012073?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1088/1757-899X/82/1/012073, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "IOP Conference Series: Materials Science and Engineering",
+      "volume": "82"
+    },
+    "authors": [
+      {
+        "authorId": "37668254",
+        "name": "U. Klement"
+      },
+      {
+        "authorId": "2524013",
+        "name": "Alexander Kahrimanidis"
+      },
+      {
+        "authorId": "13117162",
+        "name": "Yiming Yao"
+      }
+    ],
+    "abstract": "The investigation was performed on pulse-electrodeposited Nickel with submicrocrystalline microstructure containing slightly elongated grains having a <110> fibre texture in growth direction. Structural units in form of groups of elongated grains possessing a common <110>-zone axis in growth direction and CSL boundaries (in some cases twins) between them have been found in the microstructure by use of EBSD. Grain growth sets in above 325°C but the texture is conserved up to at least 600°C. This means that the arrangement of twins and other CSL boundaries stabilized the structural units; there is no orientation change (by further twinning) when grain growth occurs as seen in previous studies on Ni and Ni-Fe of different initial texture. The observed structural units were characterized in detail and the occurring grains and grain boundaries are described."
+  },
+  {
+    "paperId": "04da1abc96280eeb310e83a8ad771fc4deb7e005",
+    "externalIds": {
+      "MAG": "2659497701",
+      "DOI": "10.1016/J.MSEA.2017.06.075",
+      "CorpusId": 136271799
+    },
+    "url": "https://www.semanticscholar.org/paper/04da1abc96280eeb310e83a8ad771fc4deb7e005",
+    "title": "An in-situ synchrotron study on microplastic flow of electrodeposited nanocrystalline nickel",
+    "year": 2017,
+    "citationCount": 9,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1016/J.MSEA.2017.06.075?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/J.MSEA.2017.06.075, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Materials Science and Engineering A-structural Materials Properties Microstructure and Processing",
+      "pages": "101-110",
+      "volume": "701"
+    },
+    "authors": [
+      {
+        "authorId": "144300763",
+        "name": "P. Ghosh"
+      },
+      {
+        "authorId": "39528701",
+        "name": "S. Petegem"
+      },
+      {
+        "authorId": "6440212",
+        "name": "H. Swygenhoven"
+      },
+      {
+        "authorId": "29350035",
+        "name": "A. Chokshi"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "e6a354ac8a37193fae17fddf6b072d1b48e3ad01",
+    "externalIds": {
+      "MAG": "3024142858",
+      "DOI": "10.1016/j.msea.2020.139478",
+      "CorpusId": 219457260
+    },
+    "url": "https://www.semanticscholar.org/paper/e6a354ac8a37193fae17fddf6b072d1b48e3ad01",
+    "title": "The effect of cold rolling degree on microstructure, crystallographic texture and mechanical properties of Haynes® 282® wrought nickel superalloy",
+    "year": 2020,
+    "citationCount": 37,
+    "openAccessPdf": {
+      "url": "https://doi.org/10.1016/j.msea.2020.139478",
+      "status": "HYBRID",
+      "license": "CCBY",
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1016/j.msea.2020.139478?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/j.msea.2020.139478, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Materials Science and Engineering A-structural Materials Properties Microstructure and Processing",
+      "pages": "139478",
+      "volume": "787"
+    },
+    "authors": [
+      {
+        "authorId": "115851833",
+        "name": "A. Polkowska"
+      },
+      {
+        "authorId": "97173919",
+        "name": "S. Lech"
+      },
+      {
+        "authorId": "145809418",
+        "name": "W. Polkowski"
+      }
+    ],
+    "abstract": "Abstract Haynes® 282® is a newly developed wrought gamma prime strengthened nickel-based superalloy, introduced as a direct response for the existed limitations of Inconel 718 and Waspaloy in terms of gas-turbine applications. The mechanical response of the alloy is controlled by either a cold straining processing in solid solution annealed state, as well as through a post-deformation heat treatment. Since, there is a number of works on the effect of aging parameters on the low and high temperature strength of Haynes® 282® superalloy, very limited information is available on the microstructure, crystallographic texture and mechanical properties evolution upon the applied cold deformation step. In this work, Haynes® 282® superalloy provided in the solid-solution annealed state was subjected to the cold rolling processing up to 70% of thickness reduction. The SEM/EBSD and TEM methods were applied to examine a strain-induced structural evolution of the material, while mechanical characteristics were evaluated in microhardness measurements and static tensile tests carried out by using non-standard miniaturized specimens."
+  },
+  {
+    "paperId": "4892b9807e27e4d1c9575dd41e4b1abef71fb469",
+    "externalIds": {
+      "MAG": "2168459455",
+      "DOI": "10.2320/MATERTRANS.42.316",
+      "CorpusId": 137900626
+    },
+    "url": "https://www.semanticscholar.org/paper/4892b9807e27e4d1c9575dd41e4b1abef71fb469",
+    "title": "Annealing behavior of nickel electrodeposited from sulfamate bath at different temperatures",
+    "year": 2001,
+    "citationCount": 10,
+    "openAccessPdf": {
+      "url": "https://www.jstage.jst.go.jp/article/matertrans/42/2/42_2_316/_pdf",
+      "status": "BRONZE",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.2320/MATERTRANS.42.316?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.2320/MATERTRANS.42.316, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Materials Transactions",
+      "pages": "316-322",
+      "volume": "42"
+    },
+    "authors": [
+      {
+        "authorId": "2071065",
+        "name": "Chao-Sung Lin"
+      },
+      {
+        "authorId": "4505845",
+        "name": "P. Hsu"
+      },
+      {
+        "authorId": "145591548",
+        "name": "K. Peng"
+      },
+      {
+        "authorId": "11002885",
+        "name": "L. Chang"
+      },
+      {
+        "authorId": "93353202",
+        "name": "C. H. Chen"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "ca27aa837675fb5dba4a5e1959be261515d43a76",
+    "externalIds": {
+      "MAG": "2396792115",
+      "DOI": "10.1515/HTMP-2015-0247",
+      "CorpusId": 138615037
+    },
+    "url": "https://www.semanticscholar.org/paper/ca27aa837675fb5dba4a5e1959be261515d43a76",
+    "title": "Effects of Annealing Temperature on the Microstructure and Mechanical Properties of Electrodeposited Ni-Fe Alloy Foils",
+    "year": 2016,
+    "citationCount": 5,
+    "openAccessPdf": {
+      "url": "http://www.degruyter.com/downloadpdf/j/htmp.2017.36.issue-3/htmp-2015-0247/htmp-2015-0247.xml",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1515/HTMP-2015-0247?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1515/HTMP-2015-0247, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "High Temperature Materials and Processes",
+      "pages": "223 - 232",
+      "volume": "36"
+    },
+    "authors": [
+      {
+        "authorId": "2194254807",
+        "name": "Hongwen Ren"
+      },
+      {
+        "authorId": "2291861255",
+        "name": "Lei Guo"
+      },
+      {
+        "authorId": "2261615457",
+        "name": "Zhimeng Guo"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "a5cd2e7f5104536b95203415ade4381b73ab81d8",
+    "externalIds": {
+      "MAG": "2464297658",
+      "DOI": "10.2355/ISIJINTERNATIONAL.ISIJINT-2016-110",
+      "CorpusId": 138358008
+    },
+    "url": "https://www.semanticscholar.org/paper/a5cd2e7f5104536b95203415ade4381b73ab81d8",
+    "title": "Effect of Initial Ni Plating on the Structure and Hardness of Electrodeposited Ni–W Alloys with and without Annealing",
+    "year": 2016,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "https://www.jstage.jst.go.jp/article/isijinternational/56/6/56_ISIJINT-2016-110/_pdf",
+      "status": "GOLD",
+      "license": "CCBYNCND",
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.2355/ISIJINTERNATIONAL.ISIJINT-2016-110?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.2355/ISIJINTERNATIONAL.ISIJINT-2016-110, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Isij International",
+      "pages": "1048-1056",
+      "volume": "56"
+    },
+    "authors": [
+      {
+        "authorId": "117798179",
+        "name": "Shinichiro Hayata"
+      },
+      {
+        "authorId": "7924659",
+        "name": "Satoshi Oue"
+      },
+      {
+        "authorId": "2117088505",
+        "name": "Takehiro Takahashi"
+      },
+      {
+        "authorId": "144997583",
+        "name": "Hiroaki Nakano"
+      }
+    ],
+    "abstract": "Nickel-plated steel sheets, which constitute battery cases and numerous other items, are likely to seize the plated layers and dies during press working. When hard Ni–W alloys with excellent abrasion resistance1,2) are coated onto Ni-plated steel sheets, steel sheet seizure is unlikely, and excellent consecutive press formability can be achieved. Annealing increases the hardness of the deposited Ni–W alloys, but the hardening mechanism is not clearly understood.3–8) Previously, we investigated the effect of annealing on the structure and hardness of deposited Ni–W alloys, and reported that the hardness increased regardless of alloy composition and the degree of increase particularly enhanced at W contents above 40 mass%.9) Moreover, the alloy composition that significantly changed the hardness also changed the structure of the deposits.9) To simplify the system, we previously deposited Ni–W alloys directly onto steel sheets without an initial Ni plating, and investigated the hardness and texture of the products. As the second step, the initial Ni plating was performed on steel sheets in the present study, and subsequently, we deposit the Ni–W alloys. The Effect of Initial Ni Plating on the Structure and Hardness of Electrodeposited Ni–W Alloys with and without Annealing"
+  },
+  {
+    "paperId": "b4a36b7e5a0b209781f67b1cf5f2118768b0a606",
+    "externalIds": {
+      "MAG": "2372682940",
+      "CorpusId": 138279616
+    },
+    "url": "https://www.semanticscholar.org/paper/b4a36b7e5a0b209781f67b1cf5f2118768b0a606",
+    "title": "Influence of annealing process on cube texture in deformed nickel tapes",
+    "year": 2010,
+    "citationCount": 1,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Transactions of Materials and Heat Treatment",
+      "volume": ""
+    },
+    "authors": [
+      {
+        "authorId": "47394262",
+        "name": "L. Qing"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "c6eb9484f50ca592806d25538faf3da2ec9236c5",
+    "externalIds": {
+      "MAG": "2064139893",
+      "DOI": "10.1016/J.MATCHAR.2010.11.011",
+      "CorpusId": 137310635
+    },
+    "url": "https://www.semanticscholar.org/paper/c6eb9484f50ca592806d25538faf3da2ec9236c5",
+    "title": "Characterization of electrodeposited nickel coatings from sulphamate electrolyte without additive",
+    "year": 2011,
+    "citationCount": 62,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1016/J.MATCHAR.2010.11.011?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/J.MATCHAR.2010.11.011, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Materials Characterization",
+      "pages": "164-173",
+      "volume": "62"
+    },
+    "authors": [
+      {
+        "authorId": "91747417",
+        "name": "A. Godon"
+      },
+      {
+        "authorId": "46279450",
+        "name": "J. Creus"
+      },
+      {
+        "authorId": "9721694",
+        "name": "X. Feaugas"
+      },
+      {
+        "authorId": "9694727",
+        "name": "E. Conforto"
+      },
+      {
+        "authorId": "28043027",
+        "name": "L. Pichon"
+      },
+      {
+        "authorId": "145808813",
+        "name": "C. Armand"
+      },
+      {
+        "authorId": "84040719",
+        "name": "C. Savall"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "4794c15835564b006987799421a60ba86ed6f061",
+    "externalIds": {
+      "MAG": "2981589268",
+      "DOI": "10.1080/14786435.2019.1680889",
+      "CorpusId": 210755969
+    },
+    "url": "https://www.semanticscholar.org/paper/4794c15835564b006987799421a60ba86ed6f061",
+    "title": "High-resolution EBSD characterisation of friction stir welded nickel–copper alloy: effect of the initial microstructure on microstructural evolution and mechanical properties",
+    "year": 2020,
+    "citationCount": 3,
+    "openAccessPdf": {
+      "url": "https://pure.rug.nl/ws/files/158956990/High_resolution_EBSD_characterisation_of_friction_stir_welded_nickel_copper_alloy_effect_of_the_initial_microstructure_on_microstructural_evolution.pdf",
+      "status": "GREEN",
+      "license": "other-oa",
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1080/14786435.2019.1680889?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1080/14786435.2019.1680889, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Philosophical Magazine",
+      "pages": "337 - 352",
+      "volume": "100"
+    },
+    "authors": [
+      {
+        "authorId": "11672273",
+        "name": "A. Heidarzadeh"
+      },
+      {
+        "authorId": "39663314",
+        "name": "A. Chabok"
+      },
+      {
+        "authorId": "147979231",
+        "name": "R. Taherzadeh Mousavian"
+      },
+      {
+        "authorId": "144461878",
+        "name": "Y. Pei"
+      }
+    ],
+    "abstract": "ABSTRACT The effect of the initial structure on the microstructure and texture of the friction stir welded Monel 400 alloy joints was investigated. For this aim, Monel 400 alloy of two initially treated conditions, annealed and rolled, was studied. Orientation imaging microscopy with a step size of 70 nm was used to characterise the microstructures of the joints. The mechanical properties were evaluated using Vickers hardness and nanoindentation tests. In the joint of the initial annealed alloy, continuous dynamic recrystallisation governed the grain structure formation. However, in the case of the initial rolled base material, discontinuous dynamic recrystallisation also occurred to cause more random texture, smaller grains, much more high-angle grain boundaries and higher dislocation densities. In the stir zone, the hardness and yielding strength increased respectively from 177 HV to 192 HV and 215.9 to 238.8 MPa by changing the base metal from the initial annealed to rolled condition. In addition, the microstructural features of the different zones containing the texture components and grain boundaries were scrutinised thoroughly."
+  },
+  {
+    "paperId": "8e500fa2e0fad13410ae978e41f9faf09d21822f",
+    "externalIds": {
+      "MAG": "2006744502",
+      "DOI": "10.1016/J.ACTAMAT.2015.03.028",
+      "CorpusId": 135588203
+    },
+    "url": "https://www.semanticscholar.org/paper/8e500fa2e0fad13410ae978e41f9faf09d21822f",
+    "title": "A mechanism of grain growth-assisted intergranular fatigue fracture in electrodeposited nanocrystalline nickel–phosphorus alloy",
+    "year": 2015,
+    "citationCount": 22,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1016/J.ACTAMAT.2015.03.028?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/J.ACTAMAT.2015.03.028, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Acta Materialia",
+      "pages": "70-82",
+      "volume": "91"
+    },
+    "authors": [
+      {
+        "authorId": "2597575",
+        "name": "S. Kobayashi"
+      },
+      {
+        "authorId": "153161642",
+        "name": "Akiyuki Kamata"
+      },
+      {
+        "authorId": "2110691573",
+        "name": "Tadao Watanabe"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "d4a562f5705e62d78cce5e41a69e80afc17ba567",
+    "externalIds": {
+      "PubMedCentral": "6200827",
+      "MAG": "2898314256",
+      "DOI": "10.1186/s11671-018-2749-1",
+      "CorpusId": 53023350,
+      "PubMed": "30357722"
+    },
+    "url": "https://www.semanticscholar.org/paper/d4a562f5705e62d78cce5e41a69e80afc17ba567",
+    "title": "Comparative Study on Microstructural Stability of Pre-annealed Electrodeposited Nanocrystalline Nickel During Pack Rolling",
+    "year": 2018,
+    "citationCount": 2,
+    "openAccessPdf": {
+      "url": "https://nanoscalereslett.springeropen.com/track/pdf/10.1186/s11671-018-2749-1",
+      "status": "GOLD",
+      "license": "CCBY",
+      "disclaimer": "Notice: Paper or abstract available at https://pmc.ncbi.nlm.nih.gov/articles/PMC6200827, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": [
+      "JournalArticle"
+    ],
+    "journal": {
+      "name": "Nanoscale Research Letters",
+      "volume": "13"
+    },
+    "authors": [
+      {
+        "authorId": "5425135",
+        "name": "H. Ni"
+      },
+      {
+        "authorId": "47897166",
+        "name": "Haiyang Lv"
+      },
+      {
+        "authorId": "2144712757",
+        "name": "Zhaodong Wang"
+      },
+      {
+        "authorId": "144869436",
+        "name": "Jiang Zhu"
+      },
+      {
+        "authorId": "2135820484",
+        "name": "Xi-Yan Zhang"
+      }
+    ],
+    "abstract": "Microstructural stability is an important issue for nanocrystalline materials to be practically used in many fields. The present work shows how microstructure evolves with rolling strain in pre-annealed electrodeposited nanocrystalline nickel containing an initial strong fiber texture, on the basis of X-ray diffraction line profile analysis as well as transmission electron microscopy observation. The influence of shear strain on microstructural stability of the metal/roll contact interface is compared with that of the metal/metal contact interface; the latter would be closer to deformation in plane strain compression. From the statistical microstructural information, together with experimentally observed microstructure of deformed grains after the final rolling pass, it seems fair to conclude that the microstructure of the metal/metal contact interface is more stable during pack rolling than that of the metal/roll interface."
+  },
+  {
+    "paperId": "c35aeb6cc158558868cdd8d70a27db5a80beb9d2",
+    "externalIds": {
+      "MAG": "2107636127",
+      "DOI": "10.1007/s11661-013-2006-2",
+      "CorpusId": 136691894
+    },
+    "url": "https://www.semanticscholar.org/paper/c35aeb6cc158558868cdd8d70a27db5a80beb9d2",
+    "title": "Microstructural Changes by Annealing in Ultrafine-Grained Electrodeposited Pure Iron",
+    "year": 2014,
+    "citationCount": 4,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s11661-013-2006-2?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s11661-013-2006-2, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Metallurgical and Materials Transactions A",
+      "pages": "990-1000",
+      "volume": "45"
+    },
+    "authors": [
+      {
+        "authorId": "2218205191",
+        "name": "Yuhua Su"
+      },
+      {
+        "authorId": "48377825",
+        "name": "Y. Tomota"
+      },
+      {
+        "authorId": "16317604",
+        "name": "S. Harjo"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "2a5768664d517cc9e1580b87afd22e8f851b6288",
+    "externalIds": {
+      "DOI": "10.1007/s11661-022-06605-5",
+      "CorpusId": 246704610
+    },
+    "url": "https://www.semanticscholar.org/paper/2a5768664d517cc9e1580b87afd22e8f851b6288",
+    "title": "Correlation Between Texture, Grain Boundary Constitution, and Corrosion Behavior of Ni-Cu Coatings",
+    "year": 2022,
+    "citationCount": 12,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s11661-022-06605-5?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s11661-022-06605-5, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Metallurgical and Materials Transactions A",
+      "pages": "1440 - 1449",
+      "volume": "53"
+    },
+    "authors": [
+      {
+        "authorId": "2035416203",
+        "name": "A. Aliyu"
+      },
+      {
+        "authorId": "122132633",
+        "name": "Abhay Gupta"
+      },
+      {
+        "authorId": "38038117",
+        "name": "C. Srivastava"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "a705540f7aaddb89d19826a3949a09befcc12341",
+    "externalIds": {
+      "MAG": "1994089727",
+      "DOI": "10.1016/J.SURFCOAT.2013.06.111",
+      "CorpusId": 136541680
+    },
+    "url": "https://www.semanticscholar.org/paper/a705540f7aaddb89d19826a3949a09befcc12341",
+    "title": "Characterization of the microstructure and texture of functionally graded nickel-Al2O3 nano composite coating produced by pulse deposition",
+    "year": 2013,
+    "citationCount": 29,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1016/J.SURFCOAT.2013.06.111?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/J.SURFCOAT.2013.06.111, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Surface & Coatings Technology",
+      "pages": "851-859",
+      "volume": "232"
+    },
+    "authors": [
+      {
+        "authorId": "30506197",
+        "name": "S. Lajevardi"
+      },
+      {
+        "authorId": "91239713",
+        "name": "T. Shahrabi"
+      },
+      {
+        "authorId": "31795242",
+        "name": "J. Szpunar"
+      },
+      {
+        "authorId": "15781535",
+        "name": "A. S. Rouhaghdam"
+      },
+      {
+        "authorId": "40306484",
+        "name": "S. Sanjabi"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "84a1381d95f5d5a37385a354f1e445b2866d80df",
+    "externalIds": {
+      "MAG": "2008150085",
+      "DOI": "10.1002/adem.201200253",
+      "CorpusId": 136377546
+    },
+    "url": "https://www.semanticscholar.org/paper/84a1381d95f5d5a37385a354f1e445b2866d80df",
+    "title": "Microstructural Parameters and Their Effect on the Indentation Hardness of Electrodeposited and Annealed Nickel–Iron Micro‐Specimens",
+    "year": 2013,
+    "citationCount": 4,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1002/adem.201200253?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1002/adem.201200253, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Advanced Engineering Materials",
+      "volume": "15"
+    },
+    "authors": [
+      {
+        "authorId": "102590882",
+        "name": "M. Schmitt"
+      },
+      {
+        "authorId": "35873174",
+        "name": "J. Hoffmann"
+      },
+      {
+        "authorId": "2765669",
+        "name": "D. Eifler"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "829203f4dec4ae073d1036bd3ac2b6f30789c810",
+    "externalIds": {
+      "PubMedCentral": "10096122",
+      "DOI": "10.3390/ma16072888",
+      "CorpusId": 258003247,
+      "PubMed": "37049182"
+    },
+    "url": "https://www.semanticscholar.org/paper/829203f4dec4ae073d1036bd3ac2b6f30789c810",
+    "title": "In Situ Study of the Microstructural Evolution of Nickel-Based Alloy with High Proportional Twin Boundaries Obtained by High-Temperature Annealing",
+    "year": 2023,
+    "citationCount": 7,
+    "openAccessPdf": {
+      "url": "https://www.mdpi.com/1996-1944/16/7/2888/pdf?version=1680745698",
+      "status": "GOLD",
+      "license": "CCBY",
+      "disclaimer": "Notice: Paper or abstract available at https://pmc.ncbi.nlm.nih.gov/articles/PMC10096122, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": [
+      "JournalArticle"
+    ],
+    "journal": {
+      "name": "Materials",
+      "volume": "16"
+    },
+    "authors": [
+      {
+        "authorId": "4863224",
+        "name": "Chaolei Zhang"
+      },
+      {
+        "authorId": "2287792430",
+        "name": "Ming Sun"
+      },
+      {
+        "authorId": "94157455",
+        "name": "Ruhan Ya"
+      },
+      {
+        "authorId": "2145612349",
+        "name": "Lulu Li"
+      },
+      {
+        "authorId": "2048917242",
+        "name": "J. Cui"
+      },
+      {
+        "authorId": "2130343974",
+        "name": "Zhipeng Li"
+      },
+      {
+        "authorId": "11785221",
+        "name": "W. Tian"
+      }
+    ],
+    "abstract": "In this paper, we report an in situ study regarding the microstructural evolution of a nickel-based alloy with high proportional twin boundaries by using electron backscatter diffraction techniques combined with the uniaxial tensile test. The study mainly focuses on the evolution of substructure, geometrically necessary dislocation, multiple types of grain boundaries (especially twin boundaries), and grain orientation. The results show that the Cr20Ni80 alloy can be obtained with up to 73% twin boundaries by annealing at 1100 °C for 30 min. During this deformation, dislocations preferentially accumulate near the twin boundary, and the strain also localizes at the twin boundary. With the increasing strain, dislocation interaction with grain boundaries leads to a decreasing trend of twin boundaries. However, when the strain is 0.024, the twin boundary is found to increase slightly. Meanwhile, the grain orientation gradually rotates to a stable direction and forms a Copper, S texture, and α-fiber <110>. Above all, during this deformation process, the alloy is deformed mainly by two deformation mechanisms: mechanical twinning and dislocation slip."
+  },
+  {
+    "paperId": "72f7dc401f4aa4eb70b53335c073b1144c7dc509",
+    "externalIds": {
+      "MAG": "2015179758",
+      "DOI": "10.1134/S0031918X11050140",
+      "CorpusId": 67805975
+    },
+    "url": "https://www.semanticscholar.org/paper/72f7dc401f4aa4eb70b53335c073b1144c7dc509",
+    "title": "Effect of recrystallization annealing on the formation of a perfect cube texture in FCC nickel alloys",
+    "year": 2011,
+    "citationCount": 14,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1134/S0031918X11050140?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1134/S0031918X11050140, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "The Physics of Metals and Metallography",
+      "pages": "601-611",
+      "volume": "111"
+    },
+    "authors": [
+      {
+        "authorId": "103180684",
+        "name": "D. Rodionov"
+      },
+      {
+        "authorId": "102776614",
+        "name": "I. V. Gervas’eva"
+      },
+      {
+        "authorId": "92527881",
+        "name": "Yu. V. Khlebnikova"
+      },
+      {
+        "authorId": "29936849",
+        "name": "V. Kazantsev"
+      },
+      {
+        "authorId": "66625741",
+        "name": "N. Vinogradova"
+      },
+      {
+        "authorId": "91644930",
+        "name": "V. Sazonova"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "140247f31e552e374a6b43152b7ae11fc705417a",
+    "externalIds": {
+      "MAG": "1976474959",
+      "DOI": "10.1134/S0031918X13020075",
+      "CorpusId": 137684995
+    },
+    "url": "https://www.semanticscholar.org/paper/140247f31e552e374a6b43152b7ae11fc705417a",
+    "title": "Formation of cube texture during annealing of rolled tapes from alloys Ni95.3Mo4.7 and Ni48.8Fe51.2",
+    "year": 2013,
+    "citationCount": 11,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1134/S0031918X13020075?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1134/S0031918X13020075, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "The Physics of Metals and Metallography",
+      "pages": "171-179",
+      "volume": "114"
+    },
+    "authors": [
+      {
+        "authorId": "102776614",
+        "name": "I. V. Gervas’eva"
+      },
+      {
+        "authorId": "92527881",
+        "name": "Yu. V. Khlebnikova"
+      },
+      {
+        "authorId": "103180684",
+        "name": "D. Rodionov"
+      },
+      {
+        "authorId": "103257073",
+        "name": "E. S. Belosludtseva"
+      },
+      {
+        "authorId": "97043234",
+        "name": "V. Milyutin"
+      },
+      {
+        "authorId": "93455798",
+        "name": "T. R. Suaridze"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "bf3806ed0dd930ed35ab448123b9c64b6dde31b4",
+    "externalIds": {
+      "MAG": "2019759246",
+      "DOI": "10.4028/www.scientific.net/MSF.702-703.928",
+      "CorpusId": 119095471
+    },
+    "url": "https://www.semanticscholar.org/paper/bf3806ed0dd930ed35ab448123b9c64b6dde31b4",
+    "title": "Influence of Additives on Texture Development of Submicro- and Nanocrystalline Nickel",
+    "year": 2011,
+    "citationCount": 5,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.4028/www.scientific.net/MSF.702-703.928?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.4028/www.scientific.net/MSF.702-703.928, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Materials Science Forum",
+      "pages": "928 - 931",
+      "volume": "702-703"
+    },
+    "authors": [
+      {
+        "authorId": "37668254",
+        "name": "U. Klement"
+      },
+      {
+        "authorId": "72946798",
+        "name": "C. Oikonomou"
+      },
+      {
+        "authorId": "2243132261",
+        "name": "R. Chulist"
+      },
+      {
+        "authorId": "3708737",
+        "name": "B. Beausir"
+      },
+      {
+        "authorId": "91991911",
+        "name": "L. Hollang"
+      },
+      {
+        "authorId": "3787144",
+        "name": "W. Skrotzki"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "b0d7a9f8eeac0c1b5da5d0282df97b50c56e4bc8",
+    "externalIds": {
+      "MAG": "2036757415",
+      "DOI": "10.1111/j.1365-2818.2005.01422.x",
+      "CorpusId": 32779983,
+      "PubMed": "15683413"
+    },
+    "url": "https://www.semanticscholar.org/paper/b0d7a9f8eeac0c1b5da5d0282df97b50c56e4bc8",
+    "title": "Time evolution of sigma 3 annealing twins in secondary recrystallized nickel",
+    "year": 2005,
+    "citationCount": 12,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1111/j.1365-2818.2005.01422.x?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1111/j.1365-2818.2005.01422.x, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": [
+      "JournalArticle"
+    ],
+    "journal": {
+      "name": "Journal of Microscopy",
+      "volume": "217"
+    },
+    "authors": [
+      {
+        "authorId": "2071800360",
+        "name": "M. Booth"
+      },
+      {
+        "authorId": "48120737",
+        "name": "V. Randlè"
+      },
+      {
+        "authorId": "145048888",
+        "name": "G. Owen"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "5a0d40268004488b619cdedf2b68939abbdce07f",
+    "externalIds": {
+      "MAG": "2015589998",
+      "DOI": "10.4028/www.scientific.net/KEM.353-358.703",
+      "CorpusId": 135949924
+    },
+    "url": "https://www.semanticscholar.org/paper/5a0d40268004488b619cdedf2b68939abbdce07f",
+    "title": "The Influence of Pre-Annealing on Recrystallization in Heavily Cold-Rolled Nickel",
+    "year": 2007,
+    "citationCount": 1,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.4028/www.scientific.net/KEM.353-358.703?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.4028/www.scientific.net/KEM.353-358.703, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Key Engineering Materials",
+      "pages": "703 - 706",
+      "volume": "353-358"
+    },
+    "authors": [
+      {
+        "authorId": "1690956404",
+        "name": "Zhang Cheng"
+      },
+      {
+        "authorId": "80146932",
+        "name": "A. Godfrey"
+      },
+      {
+        "authorId": "49889271",
+        "name": "Y. Zhang"
+      },
+      {
+        "authorId": "49663247",
+        "name": "Wei Liu"
+      },
+      {
+        "authorId": "2154973510",
+        "name": "Qing Liu"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "8fdd1d40ed06d17d71c625a92db6f9c0652d9452",
+    "externalIds": {
+      "MAG": "2184990563",
+      "DOI": "10.1155/TSM.28.71",
+      "CorpusId": 136750384
+    },
+    "url": "https://www.semanticscholar.org/paper/8fdd1d40ed06d17d71c625a92db6f9c0652d9452",
+    "title": "The Effects of Strain Annealing on Grain Boundary Distribution and Hardening in Superpure Nickel",
+    "year": 1996,
+    "citationCount": 4,
+    "openAccessPdf": {
+      "url": "https://doi.org/10.1155/tsm.28.71",
+      "status": "GOLD",
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1155/TSM.28.71?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1155/TSM.28.71, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Texture, Stress, and Microstructure",
+      "pages": "71-79",
+      "volume": "28"
+    },
+    "authors": [
+      {
+        "authorId": "144999939",
+        "name": "C. B. Thomson"
+      },
+      {
+        "authorId": "48120737",
+        "name": "V. Randlè"
+      }
+    ],
+    "abstract": "Electron backscatter diffraction is applied to the study of texture and mesotexture in superpure nickel. Low level strain annealing is shown to influence the grain boundary population such that greater proportions of special boundaries exist. It is found that variations in the texture of a specimen are not reflected by characteristic changes in the grain boundary population, indicating that texture analysis cannot be applied to the prediction of special boundary densities. Mechanisms active during the evolution of special boundaries are discussed and compared to those involved under similar conditions in commercially pure nickel. It is shown that alnnealing twin formation need not be prevalent for a high level of special boundaries to form. Differences in the hardness of various boundary types are identified, such that low angle boundaries and ∑3 boundaries close to exact misorientation can be categorized separately to other boundaries, in that they show minimal hardening."
+  },
+  {
+    "paperId": "7e353a8be35df3ff002d53b64def4748020c99ff",
+    "externalIds": {
+      "MAG": "2035418561",
+      "DOI": "10.4028/www.scientific.net/MSF.715-716.387",
+      "CorpusId": 135757409
+    },
+    "url": "https://www.semanticscholar.org/paper/7e353a8be35df3ff002d53b64def4748020c99ff",
+    "title": "Thermal Behavior of Nickel Deformed to Ultra-High Strain by High Pressure Torsion",
+    "year": 2012,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.4028/www.scientific.net/MSF.715-716.387?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.4028/www.scientific.net/MSF.715-716.387, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Materials Science Forum",
+      "pages": "387 - 392",
+      "volume": "715-716"
+    },
+    "authors": [
+      {
+        "authorId": "2146244147",
+        "name": "H. Zhang"
+      },
+      {
+        "authorId": "46422965",
+        "name": "Xiao Xu Huang"
+      },
+      {
+        "authorId": "2194539850",
+        "name": "R. Pippan"
+      },
+      {
+        "authorId": "103241099",
+        "name": "N. Hansen"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "cad6189bf11494252a8b4ed94e0e648953f2781b",
+    "externalIds": {
+      "MAG": "2019492594",
+      "DOI": "10.1088/1757-899X/82/1/012044",
+      "CorpusId": 41461180
+    },
+    "url": "https://www.semanticscholar.org/paper/cad6189bf11494252a8b4ed94e0e648953f2781b",
+    "title": "Orientations of recrystallization nuclei developed in columnar-grained Ni at triple junctions",
+    "year": 2007,
+    "citationCount": 38,
+    "openAccessPdf": {
+      "url": "https://iopscience.iop.org/article/10.1088/1757-899X/82/1/012044/pdf",
+      "status": "GOLD",
+      "license": "CCBY",
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1088/1757-899X/82/1/012044?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1088/1757-899X/82/1/012044, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "IOP Conference Series: Materials Science and Engineering",
+      "volume": "82"
+    },
+    "authors": [
+      {
+        "authorId": "2204646349",
+        "name": "C. Xu"
+      },
+      {
+        "authorId": "2204646349",
+        "name": "C. Xu"
+      },
+      {
+        "authorId": "2157631875",
+        "name": "S. Huang"
+      },
+      {
+        "authorId": "1591144666",
+        "name": "Yubin Zhang"
+      },
+      {
+        "authorId": "9490043",
+        "name": "Guilin Wu"
+      },
+      {
+        "authorId": "2289659",
+        "name": "Q. Liu"
+      },
+      {
+        "authorId": "46194068",
+        "name": "D. Jensen"
+      }
+    ],
+    "abstract": "A high purity columnar grained nickel sample with a strong <001> fiber texture was cold rolled to 50% reduction in thickness, followed by annealing at different temperatures. Optical microscopy was used to depict the grain boundaries prior to annealing and to detect nuclei formed on grain boundaries after annealing. Electron backscatter diffraction was performed to characterize the orientations of the nuclei and the deformed grains. Hardness tests were conducted at deformed grains. The potentials of triple junctions as preferential nucleation sites, the influence of deformation differences between adjacent grains on nucleation and orientation relationships between nuclei and parent matrix are analyzed."
+  },
+  {
+    "paperId": "7270511662f207f3a0048f5ff85ba7cafa055fdf",
+    "externalIds": {
+      "MAG": "3023644306",
+      "DOI": "10.1016/j.jmrt.2020.04.026",
+      "CorpusId": 218952840
+    },
+    "url": "https://www.semanticscholar.org/paper/7270511662f207f3a0048f5ff85ba7cafa055fdf",
+    "title": "Evolution of shear texture during the asymmetric rolling and its annealing behavior in a twin-roll casting AA6016 sheet: an ex-situ electron backscatter diffraction study",
+    "year": 2020,
+    "citationCount": 21,
+    "openAccessPdf": {
+      "url": "https://doi.org/10.1016/j.jmrt.2020.04.026",
+      "status": "GOLD",
+      "license": "CCBYNCND",
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1016/j.jmrt.2020.04.026?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/j.jmrt.2020.04.026, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Journal of materials research and technology",
+      "pages": "6420-6433",
+      "volume": "9"
+    },
+    "authors": [
+      {
+        "authorId": "113427768",
+        "name": "Xianwei Ren"
+      },
+      {
+        "authorId": "2000252535",
+        "name": "Xieyi Zhang"
+      },
+      {
+        "authorId": "48355787",
+        "name": "Yuan-chun Huang"
+      },
+      {
+        "authorId": "2146400567",
+        "name": "Yu Liu"
+      },
+      {
+        "authorId": "9154268",
+        "name": "Likai Zhao"
+      },
+      {
+        "authorId": "49373946",
+        "name": "Wenlong Zhou"
+      }
+    ],
+    "abstract": "Abstract To better understand the enhanced formability of Al–Mg–Si alloy automotive outer panels by introducing shear texture F{111} orientations, we investigate the shear texture evolution of a twin-roll casting AA6016 sheet with an initial R-cube and E texture during asymmetric rolling (ASR). The macro-textures of the sheet with a deformation of 30%, 50%, and 85% are studied using X-ray diffraction. Results show that the initial R-cube evolved to Dillamore/copper with the increase in strain, whereas the initial E texture is weakened accompanying the enhancement of the F texture during ASR. Moreover, the local recrystallization textures are analyzed using the sheet that has been annealed at 330 °C at different times via the ex-situ electron backscatter diffraction. The F texture is dominant for the ASR sheet, which could be attributed to the rapid nucleation and grain growth of grains with F orientation (F-grains). Furthermore, the spatial relationship at 19.7° [ 1 ¯ 10 ] between the grain with copper orientation and F-grains is another important reason to promote the F orientation development. Finally, the formability of the ASR sheet is found to significantly improve."
+  },
+  {
+    "paperId": "a07e57e50aed8cb21ee4be830bbe734b52f2216b",
+    "externalIds": {
+      "DOI": "10.3390/met12040569",
+      "CorpusId": 247888642
+    },
+    "url": "https://www.semanticscholar.org/paper/a07e57e50aed8cb21ee4be830bbe734b52f2216b",
+    "title": "Electron Backscatter Diffraction (EBSD) Analysis of Machinable Lead-Free Brass Alloys: Connecting Texture with Fracture",
+    "year": 2022,
+    "citationCount": 12,
+    "openAccessPdf": {
+      "url": "https://www.mdpi.com/2075-4701/12/4/569/pdf?version=1648458396",
+      "status": "GOLD",
+      "license": "CCBY",
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.3390/met12040569?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.3390/met12040569, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Metals"
+    },
+    "authors": [
+      {
+        "authorId": "97566659",
+        "name": "A. Vazdirvanidis"
+      },
+      {
+        "authorId": "97909443",
+        "name": "A. Rikos"
+      },
+      {
+        "authorId": "98431640",
+        "name": "A. Toulfatzis"
+      },
+      {
+        "authorId": "100627129",
+        "name": "G. Pantazopoulos"
+      }
+    ],
+    "abstract": "The current paper is related to the study of the microstructure and texture of two machinable lead-free brass alloys, namely CuZn42 (CW510L) and CuZn38As (CW511L), which were evaluated in the as-drawn and post heat treated condition. Electron backscatter diffraction (EBSD) was employed for the examination of the brass rods’ crystallographic properties in order to correlate the effect of post processing heat treatment on the evolution of phase structure and texture towards the interpretation of dynamic (impact) fracture properties. It is shown that α- and β-phase volume fractions, mean grain size, and grain boundary misorientation are the most influential factors altering the fracture resistance of single- and dual-phase brass alloy rods. The role of grain boundary engineering, through the formation of coincidence site lattice (CSL) boundaries and their evolution during thermomechanical processing, is of major importance for the design of the mechanical behaviour of new eco-friendly machinable brass alloys."
+  },
+  {
+    "paperId": "3f84776e4e80df67230bcec71c767a5fbcd4eb86",
+    "externalIds": {
+      "DOI": "10.54254/2977-3903/10/2024099",
+      "CorpusId": 272676508
+    },
+    "url": "https://www.semanticscholar.org/paper/3f84776e4e80df67230bcec71c767a5fbcd4eb86",
+    "title": "A review of the preparation methods and techniques of electron backscatter diffraction (EBSD) samples",
+    "year": 2024,
+    "citationCount": 5,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.54254/2977-3903/10/2024099?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.54254/2977-3903/10/2024099, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": [
+      "JournalArticle",
+      "Review"
+    ],
+    "journal": {
+      "name": "Advances in Engineering Innovation"
+    },
+    "authors": [
+      {
+        "authorId": "2052685462",
+        "name": "Rui Hong"
+      }
+    ],
+    "abstract": "In the field of materials science, Electron Backscatter Diffraction (EBSD) technology has become a powerful tool for microstructure analysis, demonstrating unique advantages in the study of material texture, grain size, and orientation distribution. Recognizing that the quality of EBSD sample preparation directly impacts the accuracy and reliability of data, this paper delves into the principles of EBSD technology and explores optimized methodologies for sample preparation. By examining the influence of different preparation techniques on EBSD data quality, this study systematically summarizes best practices for critical steps such as surface treatment, polishing, and electrolytic polishing. The research reveals that meticulous sample preparation significantly enhances the quality of EBSD images, thereby improving the resolution and precision of diffraction data. Additionally, addressing the challenges and limitations encountered in practical applications of EBSD technology, a series of improvement measures are proposed to facilitate the widespread application of EBSD in materials science. In summary, this paper aims to provide researchers with a comprehensive EBSD sample preparation guideline, fostering advanced research and practical applications in the field of material analysis."
+  },
+  {
+    "paperId": "f79031564cb8a42f4a11fee857362e224d558487",
+    "externalIds": {
+      "MAG": "2553641241",
+      "DOI": "10.1016/J.MATCHAR.2016.11.019",
+      "CorpusId": 138659501
+    },
+    "url": "https://www.semanticscholar.org/paper/f79031564cb8a42f4a11fee857362e224d558487",
+    "title": "Electron backscatter and X-ray diffraction studies on the deformation and annealing textures of austenitic stainless steel 310S",
+    "year": 2017,
+    "citationCount": 45,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1016/J.MATCHAR.2016.11.019?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/J.MATCHAR.2016.11.019, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Materials Characterization",
+      "pages": "115-127",
+      "volume": "123"
+    },
+    "authors": [
+      {
+        "authorId": "91931525",
+        "name": "M. Nezakat"
+      },
+      {
+        "authorId": "91996162",
+        "name": "Hamed Akhiani"
+      },
+      {
+        "authorId": "26379060",
+        "name": "S. M. Sabet"
+      },
+      {
+        "authorId": "31795242",
+        "name": "J. Szpunar"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "add892d0f6bd4c106953f8dc3cf06c6ae85228af",
+    "externalIds": {
+      "MAG": "2901309163",
+      "DOI": "10.1016/J.SURFCOAT.2018.11.019",
+      "CorpusId": 139784047
+    },
+    "url": "https://www.semanticscholar.org/paper/add892d0f6bd4c106953f8dc3cf06c6ae85228af",
+    "title": "Phase interaction induced texture in a plasma sprayed-remelted NiCrBSi coating during solidification: An electron backscatter diffraction study",
+    "year": 2019,
+    "citationCount": 55,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1016/J.SURFCOAT.2018.11.019?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/J.SURFCOAT.2018.11.019, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Surface and Coatings Technology"
+    },
+    "authors": [
+      {
+        "authorId": "49329813",
+        "name": "Liangyu Chen"
+      },
+      {
+        "authorId": "2844721",
+        "name": "Tianxiang Xu"
+      },
+      {
+        "authorId": "2144218304",
+        "name": "Haiyang Wang"
+      },
+      {
+        "authorId": "2400819568",
+        "name": "Peng Sang"
+      },
+      {
+        "authorId": "2115340709",
+        "name": "Sheng Lu"
+      },
+      {
+        "authorId": "33953423",
+        "name": "Ze-xin Wang"
+      },
+      {
+        "authorId": "3358485",
+        "name": "Shujin Chen"
+      },
+      {
+        "authorId": "35036866",
+        "name": "Lai‐Chang Zhang"
+      }
+    ],
+    "abstract": "Abstract Although considerable endeavors have been dedicated to investigate the microstructures of the remelting-enhanced NiCrBSi coatings, the textures in the remelted coatings, which may result in property anisotropy, are rarely studied. In this work, the recrystallized fractions, grain orientations and interphase boundaries for Ni, Ni3B and CrB in a plasma sprayed-remelted NiCrBSi coating were investigated by electron backscatter diffraction. The results demonstrate that the texture is induced by phase interaction during solidification. Cooling from the liquid, the firstly formed Ni grains possess a cube fiber texture of {001}〈001〉. The successively formed Ni3B colonies are randomly oriented and keep specific orientation relationships with the surrounding Ni grains, resulting in formation of some weak texture components of Ni. The finally formed CrB grains have a considerably high frequency (40.8%) of lattice correlation boundary of (002)Ni//(040)CrB, but no specific orientation relationships with Ni3B grains. Hence, the interaction of Ni and CrB grains leads to the formation of more texture components of Ni. As such, the phase interaction induced texture forms in the remelted NiCrBSi coating. This work would give an insight into the anisotropy in the remelted NiCrBSi coatings and provide a theoretical basis of further optimizing the remelting process technologies."
+  },
+  {
+    "paperId": "7bfdcdfabcf288e25ecf1f2ffbae3c38c0ebd1a8",
+    "externalIds": {
+      "MAG": "2958919251",
+      "DOI": "10.1016/J.JMPS.2019.07.011",
+      "CorpusId": 199154018
+    },
+    "url": "https://www.semanticscholar.org/paper/7bfdcdfabcf288e25ecf1f2ffbae3c38c0ebd1a8",
+    "title": "Evaluation of single crystal elastic stiffness coefficients of a nickel-based superalloy by electron backscatter diffraction and nanoindentation",
+    "year": 2019,
+    "citationCount": 29,
+    "openAccessPdf": {
+      "url": "https://lirias.kuleuven.be/bitstream/123456789/681703/2/preprint.pdf",
+      "status": "GREEN",
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1016/J.JMPS.2019.07.011?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/J.JMPS.2019.07.011, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Journal of the Mechanics and Physics of Solids"
+    },
+    "authors": [
+      {
+        "authorId": "114619324",
+        "name": "J. Everaerts"
+      },
+      {
+        "authorId": "47969985",
+        "name": "C. Papadaki"
+      },
+      {
+        "authorId": "2157335862",
+        "name": "Wei Li"
+      },
+      {
+        "authorId": "1871874",
+        "name": "A. Korsunsky"
+      }
+    ],
+    "abstract": "Abstract A new methodology was developed in order to obtain single crystal elastic coefficients from nanoindentation experiments on a cubic polycrystal. The method consists of locating grains that are oriented with a 〈100〉, 〈110〉 or 〈111〉 direction near-parallel to the sample surface normal by means of electron backscattering diffraction. The reduced Young's moduli of the selected grains are then determined by nanoindentation. Finally, the average reduced modulus and Euler angles of each grain are used as input for a least-squares optimisation to calculate the three independent stiffness coefficients, which can then be used to obtain Young's modulus in any crystallographic direction. This technique, which was validated on a single crystal nickel-based superalloy (CMSX-4) with known elastic coefficients, was applied to a polycrystalline nickel-based superalloy (RR1000) with unknown elastic coefficients, resulting in a correct prediction of the general trend of increasing Young's modulus from the 〈100〉 to the 〈110〉 to the 〈111〉 direction. The stiffness coefficients C11, C12 and C44 were found to be 282, 121 and 108 GPa, respectively. These results, which are representative of the γ/γ’ structure as a whole, are in good agreement with literature data on similar superalloys. By constructing a visual representation of the elastic anisotropy based on the crystallographic factor, it is shown that the observed anisotropy is lower compared to other alloys."
+  },
+  {
+    "paperId": "3de38648300b024ff4ca31020fd089abd2d461f3",
+    "externalIds": {
+      "MAG": "2804898346",
+      "DOI": "10.1016/J.GCA.2018.05.014",
+      "CorpusId": 133898548
+    },
+    "url": "https://www.semanticscholar.org/paper/3de38648300b024ff4ca31020fd089abd2d461f3",
+    "title": "Electron backscatter diffraction (EBSD) study of seven heavily metamorphosed chondrites: Deformation systematics and variations in pre-shock temperature and post-shock annealing",
+    "year": 2018,
+    "citationCount": 30,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1016/J.GCA.2018.05.014?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/J.GCA.2018.05.014, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Geochimica et Cosmochimica Acta"
+    },
+    "authors": [
+      {
+        "authorId": "3901165",
+        "name": "A. Ruzicka"
+      },
+      {
+        "authorId": "47928368",
+        "name": "R. Hugo"
+      }
+    ],
+    "abstract": "Abstract We used electron backscatter diffraction (EBSD) methods to study the crystallography of olivine and other minerals in seven heavily metamorphosed (petrographic type 6 or 6/7) but variably shocked ordinary chondrites from the H (Kernouve, Portales Valley), L (Leedey, Bruderheim, Morrow County, Park) and LL (Miller Range (MIL) 99301) groups. MIL 99301 contains a large clast that was analyzed separately. Mesoscale (EBSD) data support and extend inferences based on microscale (TEM) observations and provide good evidence that chondrites were shock-deformed at different temperatures and were variably annealed (sintered) after deformation. Various EBSD deformation intensity metrics adequately and quantitatively represent olivine deformation in meteorites on different scales and in different ways. Mean Grain Orientation Spread (GOS, the average misorientation in a grain) is a robust statistic for overall deformation. We developed an EBSD deformation temperature metric based on olivine misorientation rotation axis data, and an EBSD post-shock annealing metric based on the skewness of olivine GOS distributions. The two parameters together define three groups among the meteorites studied, and these are related to shock stages and 40Ar/39Ar ages that record impact times. Group 1 includes cold-deformed and little-annealed but high-shock-stage (S4 and S5) chondrites (Leedey, Bruderheim, Morrow County) that were affected by impacts at a time ( 4425 Ma, assuming the older of two published ages for MIL 99301 corresponds to host). Group 3 chondrites must have been shocked while warm at the time of impact, at temperatures estimated as >700–800 °C and up to ∼1000 °C, i.e., at conditions generally corresponding to thermal metamorphism associated with petrographic type 6 grade, and were subsequently buried and annealed in warm parent bodies. Impact at elevated pre-shock temperature resulted in partly recrystallized troilite in Park and metallic liquids that crystallized as coarse troilite interstitial to silicates in Portales Valley. For Group 3, data are consistent with impact-redistribution on warm parent bodies that were hot at depth, and support a model of early collisional processing of endogenically-heated chondritic planetesimals. In general, EBSD deformation signatures in each of the meteorites studied are dominated by the effects of the prevailing impact, although there is some evidence for multiple impact effects."
+  },
+  {
+    "paperId": "0265d49acdc4e58639c608232a2ddb6edca32a8e",
+    "externalIds": {
+      "MAG": "2544014606",
+      "DOI": "10.1016/J.MATDES.2016.10.060",
+      "CorpusId": 138623727
+    },
+    "url": "https://www.semanticscholar.org/paper/0265d49acdc4e58639c608232a2ddb6edca32a8e",
+    "title": "In situ electron backscatter diffraction study of twinning in commercially pure titanium during tension-compression deformation and annealing",
+    "year": 2017,
+    "citationCount": 35,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1016/J.MATDES.2016.10.060?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/J.MATDES.2016.10.060, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Materials & Design",
+      "pages": "686-693",
+      "volume": "116"
+    },
+    "authors": [
+      {
+        "authorId": "46534709",
+        "name": "S. Sinha"
+      },
+      {
+        "authorId": "5767254",
+        "name": "N. Gurao"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "657ddca33e75db9c7f567a9d621be81f23e3f402",
+    "externalIds": {
+      "MAG": "2801514582",
+      "DOI": "10.1017/S0885715618000350",
+      "CorpusId": 103866941
+    },
+    "url": "https://www.semanticscholar.org/paper/657ddca33e75db9c7f567a9d621be81f23e3f402",
+    "title": "Spatially resolved texture and microstructure evolution of additively manufactured and gas gun deformed 304L stainless steel investigated by neutron diffraction and electron backscatter diffraction",
+    "year": 2018,
+    "citationCount": 10,
+    "openAccessPdf": {
+      "url": "https://www.osti.gov/biblio/1440473",
+      "status": "GREEN",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1017/S0885715618000350?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1017/S0885715618000350, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Powder Diffraction",
+      "pages": "141 - 146",
+      "volume": "33"
+    },
+    "authors": [
+      {
+        "authorId": "93844701",
+        "name": "S. Takajo"
+      },
+      {
+        "authorId": "145842987",
+        "name": "D. Brown"
+      },
+      {
+        "authorId": "40556461",
+        "name": "B. Clausen"
+      },
+      {
+        "authorId": "145748103",
+        "name": "G. Gray"
+      },
+      {
+        "authorId": "73114868",
+        "name": "C. Knapp"
+      },
+      {
+        "authorId": "144935055",
+        "name": "D. Martinez"
+      },
+      {
+        "authorId": "50098381",
+        "name": "C. Trujillo"
+      },
+      {
+        "authorId": "48678991",
+        "name": "S. Vogel"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "d9959c5676ea60a3877195a0e0898fdbe39175ef",
+    "externalIds": {
+      "DOI": "10.1007/s11665-021-05559-w",
+      "CorpusId": 232164354
+    },
+    "url": "https://www.semanticscholar.org/paper/d9959c5676ea60a3877195a0e0898fdbe39175ef",
+    "title": "Texture and Special Grain Boundary Distribution of C71500 Copper-Nickel Alloy Tubes at Different Annealing Temperatures",
+    "year": 2021,
+    "citationCount": 6,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s11665-021-05559-w?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s11665-021-05559-w, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Journal of Materials Engineering and Performance",
+      "pages": "2365 - 2373",
+      "volume": "30"
+    },
+    "authors": [
+      {
+        "authorId": "1878475584",
+        "name": "Xin Gao"
+      },
+      {
+        "authorId": "89056244",
+        "name": "Hui-bin Wu"
+      },
+      {
+        "authorId": "151122180",
+        "name": "Ming Liu"
+      },
+      {
+        "authorId": "2005954304",
+        "name": "Yuanxiang Zhang"
+      },
+      {
+        "authorId": "2204859774",
+        "name": "Feng Gao"
+      },
+      {
+        "authorId": "2006174808",
+        "name": "Xiang-dong Zhou"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "bd29320d867c4f0e10955df4a78f3549c32c886f",
+    "externalIds": {
+      "MAG": "3119289415",
+      "DOI": "10.1007/s10694-020-01076-9",
+      "CorpusId": 234301325
+    },
+    "url": "https://www.semanticscholar.org/paper/bd29320d867c4f0e10955df4a78f3549c32c886f",
+    "title": "New Approach to Distinguish Copper Molten Marks Based on Quantitative Microstructure Analysis Using Electron Backscatter Diffraction",
+    "year": 2021,
+    "citationCount": 11,
+    "openAccessPdf": {
+      "url": "https://link.springer.com/content/pdf/10.1007/s10694-020-01076-9.pdf",
+      "status": "HYBRID",
+      "license": "CCBY",
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s10694-020-01076-9?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s10694-020-01076-9, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Fire Technology",
+      "pages": "1667 - 1682",
+      "volume": "57"
+    },
+    "authors": [
+      {
+        "authorId": "2115957966",
+        "name": "Jinyoung Park"
+      },
+      {
+        "authorId": "5880700",
+        "name": "Joo-Hee Kang"
+      },
+      {
+        "authorId": "93931293",
+        "name": "Eui-Pyeong Lee"
+      },
+      {
+        "authorId": "8944108",
+        "name": "Y. Ko"
+      },
+      {
+        "authorId": "1575632119",
+        "name": "Suntaek Bang"
+      }
+    ],
+    "abstract": "Molten marks identified at a fire site can aid in determining the cause of a fire. Quantitative analysis of such molten marks has not yet been reported, despite several identification methods for molten marks being proposed based on optical micrographs. Herein, we propose a new methodology to establish the quantitative microstructure parameters of the molten marks using electron backscatter diffraction (EBSD). The globules were generated by heating the copper conductor to 1100°C in a non-energized state. Then, the arc beads were prepared by shorting the copper wire at 25°C and 900°C in an energized state. The globules did not show evident demarcation lines and indicated that the microstructure consisted of globular or dendritic grains; this demonstrated that their characteristics were distinctly different from those of arc beads. However, the primary arc beads (PABs) shorted at 25°C exhibited a strong (001) texture perpendicular to the demarcation line and comprised large fractions of columnar grains with a small grain aspect ratio (GAR). The microstructure of secondary arc beads (SABs) shorted at 900°C presented a mixture of elongated and equiaxed grains with a large GAR and no specific development of texture. The GAR and (001) fraction perpendicular to the demarcation line could be discriminant parameters of PABs and SABs. Consequently, EBSD methods can be newly applied for the classification of globules, PABs, and SABs based on the quantitative microstructure information and orientation distribution."
+  },
+  {
+    "paperId": "8141a1cc7c5f1decebbd4d8b499f2051268307d6",
+    "externalIds": {
+      "DOI": "10.1007/s40192-021-00224-5",
+      "CorpusId": 237219060,
+      "PubMed": "36936346"
+    },
+    "url": "https://www.semanticscholar.org/paper/8141a1cc7c5f1decebbd4d8b499f2051268307d6",
+    "title": "MAUD Rietveld Refinement Software for Neutron Diffraction Texture Studies of Single- and Dual-Phase Materials",
+    "year": 2021,
+    "citationCount": 64,
+    "openAccessPdf": {
+      "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10020996",
+      "status": "GREEN",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s40192-021-00224-5?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s40192-021-00224-5, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": [
+      "JournalArticle"
+    ],
+    "journal": {
+      "name": "Integrating Materials and Manufacturing Innovation",
+      "pages": "461 - 487",
+      "volume": "10"
+    },
+    "authors": [
+      {
+        "authorId": "114199495",
+        "name": "A. Saville"
+      },
+      {
+        "authorId": "19194657",
+        "name": "A. Creuziger"
+      },
+      {
+        "authorId": "49688977",
+        "name": "Emily B. Mitchell"
+      },
+      {
+        "authorId": "48678991",
+        "name": "S. Vogel"
+      },
+      {
+        "authorId": "115812243",
+        "name": "J. Benzing"
+      },
+      {
+        "authorId": "1416493804",
+        "name": "J. Klemm-Toole"
+      },
+      {
+        "authorId": "46887994",
+        "name": "K. Clarke"
+      },
+      {
+        "authorId": "47849770",
+        "name": "A. Clarke"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "c22a62a4a4bd5dfc371f4a314e8bdd5c3917bd90",
+    "externalIds": {
+      "MAG": "2093183454",
+      "DOI": "10.1016/J.APSUSC.2013.10.152",
+      "CorpusId": 135584356
+    },
+    "url": "https://www.semanticscholar.org/paper/c22a62a4a4bd5dfc371f4a314e8bdd5c3917bd90",
+    "title": "Electron backscatter diffraction characterization of laser-induced periodic surface structures on nickel surface",
+    "year": 2014,
+    "citationCount": 24,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1016/J.APSUSC.2013.10.152?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1016/J.APSUSC.2013.10.152, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Applied Surface Science",
+      "pages": "114-117",
+      "volume": "302"
+    },
+    "authors": [
+      {
+        "authorId": "8885286",
+        "name": "X. Sedao"
+      },
+      {
+        "authorId": "78666337",
+        "name": "C. Maurice"
+      },
+      {
+        "authorId": "94098359",
+        "name": "F. Garrelie"
+      },
+      {
+        "authorId": "115246217",
+        "name": "J. Colombier"
+      },
+      {
+        "authorId": "50207060",
+        "name": "S. Reynaud"
+      },
+      {
+        "authorId": "4398291",
+        "name": "R. Quey"
+      },
+      {
+        "authorId": "2053371971",
+        "name": "G. Blanc"
+      },
+      {
+        "authorId": "66907761",
+        "name": "F. Pigeon"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "fd4ed7e71cced3646ed5971339c7aad46db0a0bb",
+    "externalIds": {
+      "MAG": "2751646965",
+      "DOI": "10.2138/am-2017-6062",
+      "CorpusId": 53508804
+    },
+    "url": "https://www.semanticscholar.org/paper/fd4ed7e71cced3646ed5971339c7aad46db0a0bb",
+    "title": "Quantitative electron backscatter diffraction (EBSD) data analyses using the dictionary indexing (DI) approach: Overcoming indexing difficulties on geological materials",
+    "year": 2017,
+    "citationCount": 36,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.2138/am-2017-6062?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.2138/am-2017-6062, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "American Mineralogist",
+      "pages": "1843 - 1855",
+      "volume": "102"
+    },
+    "authors": [
+      {
+        "authorId": "93642049",
+        "name": "K. Marquardt"
+      },
+      {
+        "authorId": "134381892",
+        "name": "M. De Graef"
+      },
+      {
+        "authorId": "2108309954",
+        "name": "Saransh Singh"
+      },
+      {
+        "authorId": "48202877",
+        "name": "H. Marquardt"
+      },
+      {
+        "authorId": "144550263",
+        "name": "A. Rosenthal"
+      },
+      {
+        "authorId": "151394312",
+        "name": "Sanae Koizuimi"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "28e87ff78719ed720aa02b96425c22b1dfe6cf69",
+    "externalIds": {
+      "MAG": "2904825472",
+      "DOI": "10.1007/s40195-018-0865-7",
+      "CorpusId": 139524837
+    },
+    "url": "https://www.semanticscholar.org/paper/28e87ff78719ed720aa02b96425c22b1dfe6cf69",
+    "title": "In Situ Electron Backscatter Diffraction Analysis for Microstructure Evolution and Deformation Models of Mg–Ce Alloy During Uniaxial Loading",
+    "year": 2018,
+    "citationCount": 19,
+    "openAccessPdf": {
+      "url": "https://www.amse.org.cn/EN/article/downloadArticleFile.do?attachType=PDF&id=27467",
+      "status": "BRONZE",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s40195-018-0865-7?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s40195-018-0865-7, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Acta Metallurgica Sinica (English Letters)",
+      "pages": "263-268",
+      "volume": "32"
+    },
+    "authors": [
+      {
+        "authorId": "117273190",
+        "name": "Fangwei Jiao"
+      },
+      {
+        "authorId": "144372747",
+        "name": "Li Jin"
+      },
+      {
+        "authorId": "26362135",
+        "name": "Jie Dong"
+      },
+      {
+        "authorId": "48630763",
+        "name": "Fenghua Wang"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "7fa4cae4d4b3b65ec2d2cb59db36158d97ed5f7b",
+    "externalIds": {
+      "MAG": "2542215014",
+      "CorpusId": 217787331
+    },
+    "url": "https://www.semanticscholar.org/paper/7fa4cae4d4b3b65ec2d2cb59db36158d97ed5f7b",
+    "title": "低居里温度立方织构Ni-Cr-Mo合金薄带及其性能",
+    "year": 2016,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "pages": "1-5",
+      "volume": "45"
+    },
+    "authors": [
+      {
+        "authorId": "1698038559",
+        "name": "黄宏川"
+      },
+      {
+        "authorId": "1694012768",
+        "name": "刘二微"
+      },
+      {
+        "authorId": "67202471",
+        "name": "王均安"
+      },
+      {
+        "authorId": "1671602706",
+        "name": "张植权"
+      },
+      {
+        "authorId": "2101793134",
+        "name": "贺英"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "426d537815bd4f16d4de49e5a8fee1deb6a143bd",
+    "externalIds": {
+      "MAG": "2509093699",
+      "CorpusId": 208660940
+    },
+    "url": "https://www.semanticscholar.org/paper/426d537815bd4f16d4de49e5a8fee1deb6a143bd",
+    "title": "双辊薄带连铸1.7%Si无取向硅钢组织与织构",
+    "year": 2016,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "pages": "52-56",
+      "volume": "37"
+    },
+    "authors": [
+      {
+        "authorId": "70570455",
+        "name": "马良"
+      },
+      {
+        "authorId": "94735491",
+        "name": "薛艳春"
+      },
+      {
+        "authorId": "73518691",
+        "name": "赵烁"
+      },
+      {
+        "authorId": "67294712",
+        "name": "闫涛"
+      },
+      {
+        "authorId": "72078694",
+        "name": "薛涛"
+      },
+      {
+        "authorId": "1445510813",
+        "name": "张喜亮"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "e530ba2b912864f7833f37edf214741f2df5e1b2",
+    "externalIds": {
+      "MAG": "2336523230",
+      "CorpusId": 218153026
+    },
+    "url": "https://www.semanticscholar.org/paper/e530ba2b912864f7833f37edf214741f2df5e1b2",
+    "title": "薄带连铸0.7%Si无取向硅钢的显微组织及织构",
+    "year": 2015,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "pages": "123-127",
+      "volume": "36"
+    },
+    "authors": [
+      {
+        "authorId": "70570455",
+        "name": "马良"
+      },
+      {
+        "authorId": "94735491",
+        "name": "薛艳春"
+      },
+      {
+        "authorId": "73518691",
+        "name": "赵烁"
+      },
+      {
+        "authorId": "67294712",
+        "name": "闫涛"
+      },
+      {
+        "authorId": "1698378033",
+        "name": "岳尔斌"
+      },
+      {
+        "authorId": "94136372",
+        "name": "仇圣桃"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "5247f16d2ad644a30b28d2ec365f1065101e7eb7",
+    "externalIds": {
+      "MAG": "3196549940",
+      "DOI": "10.11804/NUCLPHYSREV.38.2021006",
+      "CorpusId": 239687118
+    },
+    "url": "https://www.semanticscholar.org/paper/5247f16d2ad644a30b28d2ec365f1065101e7eb7",
+    "title": "冷轧和退火对V-5Cr-5Ti合金组织结构和抗辐照硬化性能的影响",
+    "year": 2021,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.11804/NUCLPHYSREV.38.2021006?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.11804/NUCLPHYSREV.38.2021006, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "pages": "1-8",
+      "volume": "38"
+    },
+    "authors": [
+      {
+        "authorId": "2135141435",
+        "name": "牛孟珂"
+      },
+      {
+        "authorId": "2095941543",
+        "name": "杨义涛"
+      },
+      {
+        "authorId": "2098579683",
+        "name": "张崇宏"
+      },
+      {
+        "authorId": "2135153252",
+        "name": "韩旭孝"
+      },
+      {
+        "authorId": "1573737395",
+        "name": "李增德"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "265e65e563135b7f57d329fc5a909273da65db99",
+    "externalIds": {
+      "MAG": "2406714037",
+      "CorpusId": 231558866
+    },
+    "url": "https://www.semanticscholar.org/paper/265e65e563135b7f57d329fc5a909273da65db99",
+    "title": "预退火温度对Ni-5％W合金立方再结晶织构的影响",
+    "year": 2014,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "pages": "609-615",
+      "volume": "38"
+    },
+    "authors": [
+      {
+        "authorId": "2046723182",
+        "name": "杨梦娟"
+      },
+      {
+        "authorId": "114465131",
+        "name": "陈兴品"
+      },
+      {
+        "authorId": "94711216",
+        "name": "孙洪福"
+      },
+      {
+        "authorId": "52398038",
+        "name": "李龙飞"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "d2744a0ffe83d52e5d3403b5e1b08efdb84f2913",
+    "externalIds": {
+      "MAG": "3183637766",
+      "DOI": "10.19591/J.CNKI.CN11-1974/TF.2020050006",
+      "CorpusId": 237689490
+    },
+    "url": "https://www.semanticscholar.org/paper/d2744a0ffe83d52e5d3403b5e1b08efdb84f2913",
+    "title": "退火态Ti−6Al−3Nb−2Zr−1Mo钛合金的组织和力学性能",
+    "year": 2021,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.19591/J.CNKI.CN11-1974/TF.2020050006?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.19591/J.CNKI.CN11-1974/TF.2020050006, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "pages": "326-331",
+      "volume": "39"
+    },
+    "authors": [
+      {
+        "authorId": "152240194",
+        "name": "李烨"
+      },
+      {
+        "authorId": "1998232365",
+        "name": "刘世锋"
+      },
+      {
+        "authorId": "102550879",
+        "name": "王建忠"
+      },
+      {
+        "authorId": "2128531330",
+        "name": "王利卿"
+      },
+      {
+        "authorId": "116918091",
+        "name": "敖庆波"
+      },
+      {
+        "authorId": "2075077763",
+        "name": "马军"
+      },
+      {
+        "authorId": "95472946",
+        "name": "吴琛"
+      },
+      {
+        "authorId": "2097182618",
+        "name": "汤慧萍"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "302f6425e7f7a5ddfd38fbd37ddfba0655542d26",
+    "externalIds": {
+      "MAG": "2264456733",
+      "CorpusId": 101873439
+    },
+    "url": "https://www.semanticscholar.org/paper/302f6425e7f7a5ddfd38fbd37ddfba0655542d26",
+    "title": "Fe-32 Mn-2Si-4Al TWIP钢退火织构和晶界特征的研究",
+    "year": 2010,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": null,
+    "authors": [
+      {
+        "authorId": "93445843",
+        "name": "苏钰"
+      },
+      {
+        "authorId": "92773941",
+        "name": "符仁钰"
+      },
+      {
+        "authorId": "66386587",
+        "name": "李麟"
+      },
+      {
+        "authorId": "92983944",
+        "name": "何慎"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "45cd0458634af647dea89e7d5601a526ae15f46b",
+    "externalIds": {
+      "MAG": "2410331328",
+      "CorpusId": 217869846
+    },
+    "url": "https://www.semanticscholar.org/paper/45cd0458634af647dea89e7d5601a526ae15f46b",
+    "title": "冷却速度对1.35%Si无取向硅钢热轧退火织构的影响",
+    "year": 2016,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "pages": "104-109",
+      "volume": "37"
+    },
+    "authors": [
+      {
+        "authorId": "87867332",
+        "name": "李志超"
+      },
+      {
+        "authorId": "2071982552",
+        "name": "孙强"
+      },
+      {
+        "authorId": "2095967254",
+        "name": "米振莉"
+      },
+      {
+        "authorId": "1697861868",
+        "name": "林瑞民"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "723b3a53fc157468041bab045d87fb4ddcdf8005",
+    "externalIds": {
+      "MAG": "2238037381",
+      "CorpusId": 218188997
+    },
+    "url": "https://www.semanticscholar.org/paper/723b3a53fc157468041bab045d87fb4ddcdf8005",
+    "title": "中间退火加热速率对Al-Mg-Si合金板织构及性能的影响",
+    "year": 2015,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "pages": "55-61",
+      "volume": "36"
+    },
+    "authors": [
+      {
+        "authorId": "87559913",
+        "name": "汪小锋"
+      },
+      {
+        "authorId": "2105288476",
+        "name": "郭明星"
+      },
+      {
+        "authorId": "114879826",
+        "name": "曹零勇"
+      },
+      {
+        "authorId": "2103700554",
+        "name": "彭祥阳"
+      },
+      {
+        "authorId": "117974297",
+        "name": "张济山"
+      },
+      {
+        "authorId": "2097592693",
+        "name": "庄林忠"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "6eb9c8a89d32bb0eec678bb89a46baa1b1bef7d6",
+    "externalIds": {
+      "MAG": "1035469532",
+      "CorpusId": 223219746
+    },
+    "url": "https://www.semanticscholar.org/paper/6eb9c8a89d32bb0eec678bb89a46baa1b1bef7d6",
+    "title": "电工钢中柱状晶尺寸及退火工艺对{100}织构的影响",
+    "year": 2013,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "pages": "111-117",
+      "volume": "34"
+    },
+    "authors": [
+      {
+        "authorId": "69922576",
+        "name": "丁磊"
+      },
+      {
+        "authorId": "94740195",
+        "name": "邵媛媛"
+      },
+      {
+        "authorId": "52564885",
+        "name": "杨平"
+      },
+      {
+        "authorId": "2071977167",
+        "name": "毛卫民"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "896899d718043dd8444f55a212d9019f2e20177f",
+    "externalIds": {
+      "MAG": "826247615",
+      "CorpusId": 224556127
+    },
+    "url": "https://www.semanticscholar.org/paper/896899d718043dd8444f55a212d9019f2e20177f",
+    "title": "轧制法制备低铁损高磁感6.4%（质量分数）硅钢及其织构演变",
+    "year": 2014,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "pages": "133-137",
+      "volume": "45"
+    },
+    "authors": [
+      {
+        "authorId": "116293969",
+        "name": "秦镜"
+      },
+      {
+        "authorId": "1996698102",
+        "name": "杨平"
+      },
+      {
+        "authorId": "2071977167",
+        "name": "毛卫民"
+      },
+      {
+        "authorId": "66360188",
+        "name": "叶丰"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "7996962913f2062573426c73db91d20ebc894533",
+    "externalIds": {
+      "MAG": "2410969857",
+      "CorpusId": 217806544
+    },
+    "url": "https://www.semanticscholar.org/paper/7996962913f2062573426c73db91d20ebc894533",
+    "title": "1.3%Si无取向硅钢初始织构遗传继承性研究",
+    "year": 2016,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "pages": "98-103",
+      "volume": "37"
+    },
+    "authors": [
+      {
+        "authorId": "92737895",
+        "name": "孙强"
+      },
+      {
+        "authorId": "87867332",
+        "name": "李志超"
+      },
+      {
+        "authorId": "2095967254",
+        "name": "米振莉"
+      },
+      {
+        "authorId": "2102711174",
+        "name": "党宁"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "ba492dad4671b864605034d85c2b3807d3d3738d",
+    "externalIds": {
+      "MAG": "435681023",
+      "CorpusId": 223092240
+    },
+    "url": "https://www.semanticscholar.org/paper/ba492dad4671b864605034d85c2b3807d3d3738d",
+    "title": "冷轧后回复处理对Pb-Ca-Sn-Al合金后续轧制退火晶界特征分布的影响",
+    "year": 2009,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "pages": "5-9",
+      "volume": ""
+    },
+    "authors": [
+      {
+        "authorId": "66150601",
+        "name": "张雯"
+      },
+      {
+        "authorId": "52487117",
+        "name": "王卫国"
+      },
+      {
+        "authorId": "117578470",
+        "name": "方晓英"
+      },
+      {
+        "authorId": "82005524",
+        "name": "郭红"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "361cde1abda58b86a40fb05f0f4d15ac8df80927",
+    "externalIds": {
+      "MAG": "2471645689",
+      "CorpusId": 217671135
+    },
+    "url": "https://www.semanticscholar.org/paper/361cde1abda58b86a40fb05f0f4d15ac8df80927",
+    "title": "Ni-Cu-W合金薄带的再结晶织构与性能研究",
+    "year": 2016,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "pages": "221-226",
+      "volume": "40"
+    },
+    "authors": [
+      {
+        "authorId": "67202471",
+        "name": "王均安"
+      },
+      {
+        "authorId": "1694012768",
+        "name": "刘二微"
+      },
+      {
+        "authorId": "1671602706",
+        "name": "张植权"
+      },
+      {
+        "authorId": "72789691",
+        "name": "鲁波"
+      },
+      {
+        "authorId": "2101793134",
+        "name": "贺英"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "78567184548fa39e482dd719859fd8a2ec9a1768",
+    "externalIds": {
+      "MAG": "2259546398",
+      "CorpusId": 224428096
+    },
+    "url": "https://www.semanticscholar.org/paper/78567184548fa39e482dd719859fd8a2ec9a1768",
+    "title": "常化处理对2.9%Si＋0.7%Al无取向硅钢织构及磁性能的影响",
+    "year": 2012,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "pages": "62-67",
+      "volume": "33"
+    },
+    "authors": [
+      {
+        "authorId": "96303647",
+        "name": "张存来"
+      },
+      {
+        "authorId": "52451430",
+        "name": "刘海涛"
+      },
+      {
+        "authorId": "113057710",
+        "name": "张元祥"
+      },
+      {
+        "authorId": "71038130",
+        "name": "曹光明"
+      },
+      {
+        "authorId": "65978890",
+        "name": "刘振宇"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "fbec71c16672a73e6cfd22942c2770c981fb8d83",
+    "externalIds": {
+      "MAG": "2463836463",
+      "CorpusId": 218194286
+    },
+    "url": "https://www.semanticscholar.org/paper/fbec71c16672a73e6cfd22942c2770c981fb8d83",
+    "title": "扭转及退火工艺对Mg-2Al-1Zn轧板塑性及拉压不对称性的改善",
+    "year": 2015,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "pages": "3928-3935",
+      "volume": "25"
+    },
+    "authors": [
+      {
+        "authorId": "2072272308",
+        "name": "王军"
+      },
+      {
+        "authorId": "117769221",
+        "name": "杨续跃"
+      },
+      {
+        "authorId": "73245484",
+        "name": "李祎"
+      },
+      {
+        "authorId": "72258612",
+        "name": "肖振宇"
+      },
+      {
+        "authorId": "114423080",
+        "name": "张笃秀"
+      },
+      {
+        "authorId": "77072276",
+        "name": "Taku"
+      },
+      {
+        "authorId": "2102328027",
+        "name": "Sakai"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "8122d0fa89be8851b655608ae920722132687f9c",
+    "externalIds": {
+      "MAG": "1137946498",
+      "DOI": "10.13228/j.boyuan.issn1001-0963.20140326",
+      "CorpusId": 210211757
+    },
+    "url": "https://www.semanticscholar.org/paper/8122d0fa89be8851b655608ae920722132687f9c",
+    "title": "B对含P高强度无间隙原子钢{111}面织构的影响",
+    "year": 2015,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.13228/j.boyuan.issn1001-0963.20140326?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.13228/j.boyuan.issn1001-0963.20140326, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "pages": "67-72",
+      "volume": "27"
+    },
+    "authors": [
+      {
+        "authorId": "93860735",
+        "name": "宋新莉"
+      },
+      {
+        "authorId": "1483933032",
+        "name": "彭堃"
+      },
+      {
+        "authorId": "102007525",
+        "name": "贾涓"
+      },
+      {
+        "authorId": "108522613",
+        "name": "范丽霞"
+      },
+      {
+        "authorId": "117601032",
+        "name": "袁泽喜"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "e88fd7a178093d96c6f59dbbe3ecf93fd3cd725e",
+    "externalIds": {
+      "MAG": "2253385547",
+      "DOI": "10.11900/0412.1961.2014.00665",
+      "CorpusId": 210401181
+    },
+    "url": "https://www.semanticscholar.org/paper/e88fd7a178093d96c6f59dbbe3ecf93fd3cd725e",
+    "title": "取向硅钢中 114 418 织构对二次再结晶时晶粒异常长大的影响",
+    "year": 2015,
+    "citationCount": 6,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.11900/0412.1961.2014.00665?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.11900/0412.1961.2014.00665, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Acta Metallurgica Sinica",
+      "pages": "769-776",
+      "volume": "51"
+    },
+    "authors": [
+      {
+        "authorId": "2128703604",
+        "name": "Zhiwen Liu"
+      },
+      {
+        "authorId": "2115895007",
+        "name": "Ping Yang"
+      },
+      {
+        "authorId": "2052632177",
+        "name": "Weimin Mao"
+      },
+      {
+        "authorId": "2057950491",
+        "name": "Feng-e Cui"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "6f91b6ec7c41361208df52807a256a9964abf629",
+    "externalIds": {
+      "MAG": "2282237121",
+      "CorpusId": 210682236
+    },
+    "url": "https://www.semanticscholar.org/paper/6f91b6ec7c41361208df52807a256a9964abf629",
+    "title": "Zr-Nb、Zr-Sn-Nb合金轧制板材织构分析",
+    "year": 2012,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": null,
+    "authors": [
+      {
+        "authorId": "82765178",
+        "name": "刘二伟"
+      },
+      {
+        "authorId": "93619539",
+        "name": "张喜燕"
+      },
+      {
+        "authorId": "2001293493",
+        "name": "陈建伟"
+      },
+      {
+        "authorId": "101905547",
+        "name": "栾佰峰"
+      },
+      {
+        "authorId": "52487159",
+        "name": "刘庆"
+      },
+      {
+        "authorId": "118448342",
+        "name": "李中奎"
+      },
+      {
+        "authorId": "51965696",
+        "name": "周军"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "30f4dbe777a5519ae2bf32400853896523c64644",
+    "externalIds": {
+      "MAG": "1559994855",
+      "CorpusId": 210197322
+    },
+    "url": "https://www.semanticscholar.org/paper/30f4dbe777a5519ae2bf32400853896523c64644",
+    "title": "P、Ti对高强IF钢{111}面织构的影响",
+    "year": 2011,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": null,
+    "authors": [
+      {
+        "authorId": "114275445",
+        "name": "代礼斌"
+      },
+      {
+        "authorId": "102007525",
+        "name": "贾涓"
+      },
+      {
+        "authorId": "93860735",
+        "name": "宋新莉"
+      },
+      {
+        "authorId": "117601032",
+        "name": "袁泽喜"
+      },
+      {
+        "authorId": "1483632714",
+        "name": "袁世来"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "eeb8e7d4b7eee4cd8a44ae0d2d7be6c4118ed981",
+    "externalIds": {
+      "MAG": "905879726",
+      "CorpusId": 231106194
+    },
+    "url": "https://www.semanticscholar.org/paper/eeb8e7d4b7eee4cd8a44ae0d2d7be6c4118ed981",
+    "title": "退火温度对Fe-Mn-TWIP钢微观结构的影响",
+    "year": 2011,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "pages": "115-119",
+      "volume": "32"
+    },
+    "authors": [
+      {
+        "authorId": "91491273",
+        "name": "代永娟"
+      },
+      {
+        "authorId": "2095967254",
+        "name": "米振莉"
+      },
+      {
+        "authorId": "2094692267",
+        "name": "唐荻"
+      },
+      {
+        "authorId": "91175353",
+        "name": "吕建崇"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "296f61f3e1885800c91bd0d5612765983365a974",
+    "externalIds": {
+      "MAG": "2223711791",
+      "DOI": "10.11900/0412.1961.2014.00573",
+      "CorpusId": 138584795
+    },
+    "url": "https://www.semanticscholar.org/paper/296f61f3e1885800c91bd0d5612765983365a974",
+    "title": "Fe-3%Si电工钢铸坯柱状晶织构的演变规律 *",
+    "year": 2015,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.11900/0412.1961.2014.00573?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.11900/0412.1961.2014.00573, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Acta Metallurgica Sinica",
+      "pages": "545-552",
+      "volume": "51"
+    },
+    "authors": [
+      {
+        "authorId": "2098702603",
+        "name": "付勇军"
+      },
+      {
+        "authorId": "1996698102",
+        "name": "杨平"
+      },
+      {
+        "authorId": "103642843",
+        "name": "蒋奇武"
+      },
+      {
+        "authorId": "1997997134",
+        "name": "王晓达"
+      },
+      {
+        "authorId": "2104107116",
+        "name": "金文旭"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "5bf1a516bbe7884342e921a99dbe1b1edbb695fc",
+    "externalIds": {
+      "MAG": "2274319636",
+      "DOI": "10.3724/SP.J.1037.2011.00659",
+      "CorpusId": 210213805
+    },
+    "url": "https://www.semanticscholar.org/paper/5bf1a516bbe7884342e921a99dbe1b1edbb695fc",
+    "title": "柱状晶对Fe-3%Si电工钢冷轧织构演变规律的影响",
+    "year": 2012,
+    "citationCount": 10,
+    "openAccessPdf": {
+      "url": "https://www.ams.org.cn/CN/article/downloadArticleFile.do?attachType=PDF&id=20511",
+      "status": "BRONZE",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.3724/SP.J.1037.2011.00659?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.3724/SP.J.1037.2011.00659, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "pages": "782-788",
+      "volume": "48"
+    },
+    "authors": [
+      {
+        "authorId": "52017642",
+        "name": "张宁"
+      },
+      {
+        "authorId": "1996698102",
+        "name": "杨平"
+      },
+      {
+        "authorId": "2071977167",
+        "name": "毛卫民"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "a760b339acc6a01156b9e1f56b8dc012b13d215f",
+    "externalIds": {
+      "MAG": "2238542522",
+      "CorpusId": 231130990
+    },
+    "url": "https://www.semanticscholar.org/paper/a760b339acc6a01156b9e1f56b8dc012b13d215f",
+    "title": "冷轧不同微量化学状态Al-Mn-Fe-Si铝合金的等温退火",
+    "year": 2014,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "pages": "3840-3847",
+      "volume": "24"
+    },
+    "authors": [
+      {
+        "authorId": "2094618487",
+        "name": "黄科"
+      },
+      {
+        "authorId": "72181173",
+        "name": "李彦军"
+      },
+      {
+        "authorId": "2074405233",
+        "name": "Knut"
+      },
+      {
+        "authorId": "2046032779",
+        "name": "Marthinsen"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "abafb7eb48efac7c37c71bf67eaf8d3419977e8b",
+    "externalIds": {
+      "MAG": "2768684515",
+      "DOI": "10.11868/J.ISSN.1001-4381.2016.001535",
+      "CorpusId": 103254131
+    },
+    "url": "https://www.semanticscholar.org/paper/abafb7eb48efac7c37c71bf67eaf8d3419977e8b",
+    "title": "3% Si电工钢铸坯中柱状晶的形变、再结晶行为及织构演变规律",
+    "year": 2017,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.11868/J.ISSN.1001-4381.2016.001535?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.11868/J.ISSN.1001-4381.2016.001535, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "",
+      "pages": "108-114",
+      "volume": "45"
+    },
+    "authors": [
+      {
+        "authorId": "94740195",
+        "name": "邵媛媛"
+      },
+      {
+        "authorId": "87993986",
+        "name": "郭琪"
+      }
+    ],
+    "abstract": null
+  }
+]

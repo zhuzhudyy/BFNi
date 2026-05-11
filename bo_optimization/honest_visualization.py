@@ -8,6 +8,8 @@
 GP 模型将 Pre_ + Process_ 同时作为输入，固定 Pre_=均值违反了物理因果。
 
 可视化套件:
+    Tier 0 (模型评估):
+        plot_model_parity          — LOOCV 真实 vs 预测产率校验图
     Tier 1 (核心替代):
         plot_yield_by_experiment   — 实验产率分组柱状图
         plot_partial_dependence    — 部分依赖图 (PDP): 在 Pre_ 分布上积分
@@ -15,7 +17,7 @@ GP 模型将 Pre_ + Process_ 同时作为输入，固定 Pre_=均值违反了物
     Tier 2 (物理叙事):
         plot_pre_feature_space     — 微观结构特征空间: 分布与产率
         plot_ice_curves            — 个体条件期望 (ICE): 逐样本轨迹
-        plot_ard_grouped           — ARD 分组对比: 工艺 vs 微观结构
+        plot_ard_grouped           — ARD 特征重要性 (双面板: 排序 + log-scale 分布)
     Tier 3 (辅助分析):
         plot_uncertainty_map       — 模型不确定性热力图
         plot_process_pre_mediation — 探索性: 工艺→微观结构因果链
@@ -35,6 +37,10 @@ import matplotlib.patches as mpatches
 from matplotlib.lines import Line2D
 import seaborn as sns
 from scipy.stats import spearmanr, pearsonr
+from sklearn.model_selection import LeaveOneOut
+from sklearn.gaussian_process import GaussianProcessRegressor
+from sklearn.preprocessing import StandardScaler
+from datetime import datetime
 import warnings
 
 warnings.filterwarnings("ignore")
@@ -44,17 +50,106 @@ plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'Arial Unicode M
 plt.rcParams['axes.unicode_minus'] = False
 
 from bo_optimization.contextual_bo_model import (
-    ContextualBayesianOptimizer, SCHEME_TARGETS, SCHEME_NAMES, DEFAULT_PROCESS_BOUNDS
+    ContextualBayesianOptimizer, SCHEME_TARGETS, SCHEME_NAMES, DEFAULT_PROCESS_BOUNDS,
+    PROCESS_LABELS_CN
 )
-from bo_optimization.model_visualization import create_output_dir
 
 SCHEME_COLORS = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3']
-PROCESS_LABELS_CN = {
-    'Process_Temp': '退火温度 (°C)',
-    'Process_Time': '保温时间 (h)',
-    'Process_H2': 'H$_2$ 流量 (sccm)',
-    'Process_Ar': 'Ar 流量 (sccm)',
-}
+
+
+# ============================================================================
+# 工具函数
+# ============================================================================
+
+def create_output_dir(scheme_id=None, n_samples=None):
+    """创建带时间戳的输出文件夹"""
+    if os.path.exists(r"D:\毕业设计\织构数据"):
+        base_output_path = r"D:\毕业设计\织构数据\visualization\output"
+    else:
+        base_output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                        "visualization", "output")
+
+    os.makedirs(base_output_path, exist_ok=True)
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    if scheme_id is not None and n_samples is not None:
+        folder_name = f"Scheme{scheme_id}_N{n_samples}_{timestamp}"
+    else:
+        folder_name = f"viz_{timestamp}"
+    output_dir = os.path.join(base_output_path, folder_name)
+    os.makedirs(output_dir, exist_ok=True)
+
+    print(f"[*] 创建可视化输出文件夹: {output_dir}")
+    return output_dir
+
+
+# ============================================================================
+# Tier 0 — 模型评估
+# ============================================================================
+
+def plot_model_parity(optimizer, data_file, output_dir):
+    """
+    LOOCV 真实值 vs 预测值校验图 (Parity Plot)。
+
+    GPR 是精确插值器，对训练数据直接预测会得到完美结果。
+    使用 LOOCV 才能真实反映模型的泛化能力。
+    """
+    df = pd.read_csv(data_file)
+    all_feature_cols = optimizer.pre_feature_cols + optimizer.target_cols + optimizer.process_cols
+    X = df[all_feature_cols].values
+    y_true = df['TARGET_Yield'].values
+
+    print(f"    执行LOOCV（留一法交叉验证），样本数: {len(df)}...")
+
+    loo = LeaveOneOut()
+    y_pred = np.zeros(len(df))
+    sigma = np.zeros(len(df))
+
+    for train_idx, val_idx in loo.split(X):
+        X_train, X_val = X[train_idx], X[val_idx]
+        y_train = y_true[train_idx]
+
+        scaler = StandardScaler()
+        X_train_scaled = scaler.fit_transform(X_train)
+        X_val_scaled = scaler.transform(X_val)
+
+        gpr = GaussianProcessRegressor(
+            kernel=optimizer.gpr.kernel_,
+            n_restarts_optimizer=0,
+            normalize_y=True,
+            random_state=42
+        )
+        gpr.fit(X_train_scaled, y_train)
+
+        pred_val, std_val = gpr.predict(X_val_scaled, return_std=True)
+        y_pred[val_idx[0]] = pred_val[0] if hasattr(pred_val, '__len__') else pred_val
+        sigma[val_idx[0]] = std_val[0] if hasattr(std_val, '__len__') else std_val
+
+    print(f"    LOOCV完成 - MAE: {np.mean(np.abs(y_true - y_pred)):.4f}, "
+          f"RMSE: {np.sqrt(np.mean((y_true - y_pred)**2)):.4f}")
+
+    plt.figure(figsize=(8, 6))
+    plt.errorbar(y_true, y_pred, yerr=1.96 * sigma, fmt='o', color='blue',
+                 ecolor='lightblue', elinewidth=2, capsize=4, alpha=0.7,
+                 label='预测点 (含95%置信区间)')
+
+    min_val = min(y_true.min(), y_pred.min())
+    max_val = max(y_true.max(), y_pred.max())
+    plt.plot([min_val, max_val], [min_val, max_val], 'r--', lw=2,
+             label='理想预测 (y=x)')
+
+    plt.xlabel('真实目标产率 (True Yield)', fontsize=12)
+    plt.ylabel('预测目标产率 (Predicted Yield)', fontsize=12)
+    plt.title('代理模型预测能力评估 (Parity Plot)', fontsize=14)
+    plt.legend()
+    plt.grid(True, linestyle='--', alpha=0.6)
+    plt.tight_layout()
+
+    base_name = os.path.basename(data_file).replace('.csv', '')
+    save_path = os.path.join(output_dir, f"{base_name}_ParityPlot.png")
+    plt.savefig(save_path, dpi=300)
+    print(f"[*] 预测对角线图已保存至: {save_path}")
+    plt.show()
 
 
 # ============================================================================
@@ -135,7 +230,7 @@ def plot_partial_dependence(optimizer, output_dir, target_scheme=None,
     部分依赖图 (PDP) — 对每个工艺参数在 Pre_ 实际分布上积分。
 
     与固定 Pre_ 均值的做法不同，PDP 从训练数据的 Pre_ 行中随机抽取，
-    每次预测同时变动目标工艺参数，取均值作为边际效应估计。
+    每次预测同时变动目标工艺参数，取均值作为边际效应估计。1
     """
     df = optimizer.training_df.copy()
     pre_cols = optimizer.pre_feature_cols
@@ -466,49 +561,133 @@ def plot_ice_curves(optimizer, output_dir, target_scheme=None,
     plt.close()
 
 
+def _print_top_features(ard_df, top_n=5):
+    """打印最重要的特征（按 ARD 长度尺度排序）"""
+    print(f"\n{'='*60}")
+    print(f"           最重要的 {top_n} 个特征 (按 ARD 长度尺度)")
+    print(f"{'='*60}")
+    df_sorted = ard_df.sort_values('length_scale', ascending=True)
+    print(f"\n{'排名':<4} {'特征名':<25} {'类别':<12} {'长度尺度':<12} {'重要性'}")
+    print("-" * 70)
+    for i, (_, row) in enumerate(df_sorted.head(top_n).iterrows(), 1):
+        importance_str = "★★★" if row['length_scale'] < 0.5 else ("★★" if row['length_scale'] < 1.0 else "★")
+        print(f"{i:<4} {row['feature']:<25} {row['category']:<12} {row['length_scale']:<12.4f} {importance_str}")
+    print(f"{'='*60}")
+
+
 def plot_ard_grouped(optimizer, output_dir):
     """
-    ARD 长度尺度分组对比 — Pre_ vs Target_ vs Process_ 三组水平条形图。
-    直观展示哪些特征在核函数中实际起效。
+    ARD 特征重要性 — 双面板增强版。
+    左图：重要性排序条形图 (1/length_scale)。
+    右图：各类特征长度尺度 log-scale 小提琴+散点图，含阈值线和星级标注。
     """
     ard_df = optimizer.extract_ard_importance()
-    # 按类别 + length_scale 排序
-    cat_order = {'EBSD预处理': 0, '目标晶向': 1, '工艺参数': 2}
-    cat_colors = {'EBSD预处理': '#2166ac', '目标晶向': '#f4a582', '工艺参数': '#4daf4a'}
-    ard_df['cat_order'] = ard_df['category'].map(cat_order)
-    ard_df = ard_df.sort_values(['cat_order', 'length_scale'], ascending=[True, False])
 
-    fig, ax = plt.subplots(figsize=(10, 7))
-    colors = [cat_colors.get(c, 'gray') for c in ard_df['category']]
-    bars = ax.barh(range(len(ard_df)), ard_df['length_scale'], color=colors, alpha=0.85)
+    # 打印 top-5
+    _print_top_features(ard_df, top_n=5)
 
-    ax.set_yticks(range(len(ard_df)))
-    # 简短标签
-    short_labels = [f.replace('Pre_', '').replace('Target_', '')
-                    for f in ard_df['feature']]
-    ax.set_yticklabels(short_labels, fontsize=9)
-    ax.set_xlabel('ARD 长度尺度 (越小越重要)', fontsize=11)
-    ax.set_title('ARD 自动相关性判定: 长度尺度分组对比', fontsize=14)
+    color_map = {'EBSD预处理': '#3498db', '目标晶向': '#e74c3c', '工艺参数': '#2ecc71'}
+    categories = ['EBSD预处理', '目标晶向', '工艺参数']
 
-    # 上界标注线
-    ax.axvline(2.0, color='red', linestyle='--', lw=1.2, alpha=0.6)
-    ax.annotate('接近上界 (5.0):\n核函数近似平坦',
-                xy=(4.5, len(ard_df) * 0.85), fontsize=9, color='red',
-                ha='center')
+    # 按重要性排序（左图用）
+    df_sorted = ard_df.sort_values('importance', ascending=True)
 
-    # 图例
-    legend_patches = [
-        mpatches.Patch(color=cat_colors['EBSD预处理'], label='EBSD 微观结构'),
-        mpatches.Patch(color=cat_colors['目标晶向'], label='目标晶向'),
-        mpatches.Patch(color=cat_colors['工艺参数'], label='工艺参数'),
-    ]
-    ax.legend(handles=legend_patches, fontsize=9, loc='lower right')
-    ax.grid(axis='x', linestyle='--', alpha=0.3)
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 10))
+
+    # ========== 左图：特征重要性排序 ==========
+    y_pos = np.arange(len(df_sorted))
+    colors_left = [color_map[c] for c in df_sorted['category']]
+    bars = ax1.barh(y_pos, df_sorted['importance'], color=colors_left, alpha=0.8,
+                    edgecolor='black', linewidth=0.5)
+
+    ax1.set_yticks(y_pos)
+    ax1.set_yticklabels(df_sorted['feature'], fontsize=9)
+    ax1.set_xlabel('重要性分数 (1/Length Scale)', fontsize=12, fontweight='bold')
+    ax1.set_title('ARD 特征重要性排序', fontsize=14, fontweight='bold', pad=15)
+    ax1.grid(axis='x', alpha=0.3, linestyle='--')
+
+    # 数值标签
+    for i, (_, row) in enumerate(df_sorted.iterrows()):
+        ax1.text(row['importance'] + 0.01, i, f"{row['length_scale']:.3f}",
+                 va='center', fontsize=8, color='darkred')
+
+    from matplotlib.patches import Patch
+    legend_elements = [Patch(facecolor=color_map[cat], label=cat, alpha=0.8)
+                       for cat in categories]
+    ax1.legend(handles=legend_elements, loc='lower right', fontsize=10)
+
+    # ========== 右图：各类长度尺度分布（log-scale） ==========
+    cat_data = [ard_df[ard_df['category'] == cat]['length_scale'].values for cat in categories]
+    cat_positions = [1, 2, 3]
+
+    try:
+        parts = ax2.violinplot(cat_data, positions=cat_positions, widths=0.6,
+                               showmeans=True, showmedians=True, showextrema=False)
+        for pc, cat in zip(parts['bodies'], categories):
+            pc.set_facecolor(color_map[cat])
+            pc.set_alpha(0.4)
+            pc.set_edgecolor(color_map[cat])
+            pc.set_linewidth(2)
+    except Exception:
+        bp = ax2.boxplot(cat_data, positions=cat_positions, widths=0.6,
+                         patch_artist=True, showmeans=True)
+        for patch, cat in zip(bp['boxes'], categories):
+            patch.set_facecolor(color_map[cat])
+            patch.set_alpha(0.4)
+
+    # 散点 + 标注
+    rng = np.random.RandomState(42)
+    for i, (data, cat) in enumerate(zip(cat_data, categories)):
+        jitter = rng.normal(0, 0.08, len(data))
+        x_pos = cat_positions[i] + jitter
+        sizes = [100 if ls < 1 else 50 for ls in data]
+        ax2.scatter(x_pos, data, c=color_map[cat], s=sizes,
+                    alpha=0.7, edgecolors='black', linewidth=0.5, zorder=5)
+
+        cat_df = ard_df[ard_df['category'] == cat].reset_index(drop=True)
+        for j, (x, y) in enumerate(zip(x_pos, data)):
+            if j < len(cat_df):
+                short_name = cat_df.iloc[j]['feature'].replace('Pre_', '').replace('Target_', '').replace('Process_', '')
+                stars = "★★★" if y < 0.5 else ("★★" if y < 1 else ("★" if y < 10 else "☆"))
+                # 只标注高重要性特征（ls < 10）避免拥挤
+                if y < 10:
+                    ax2.annotate(f"{short_name}\n({stars})",
+                                 (x, y), xytext=(20, 10), textcoords='offset points',
+                                 fontsize=7, fontweight='bold', color='darkred',
+                                 bbox=dict(boxstyle='round,pad=0.2', facecolor=color_map[cat],
+                                           alpha=0.3, edgecolor='darkred', linewidth=1),
+                                 arrowprops=dict(arrowstyle='->', color='darkred', lw=0.8))
+
+    # 阈值线 + 区域
+    ax2.axhline(y=1, color='red', linestyle='--', linewidth=2, alpha=0.7, label='高重要性阈值 (ls=1)')
+    ax2.axhline(y=100, color='orange', linestyle='--', linewidth=2, alpha=0.7, label='低重要性阈值 (ls=100)')
+    ax2.axhspan(0.001, 1, alpha=0.1, color='green', label='高重要性区域')
+    ax2.axhspan(100, 200000, alpha=0.1, color='red', label='低重要性区域')
+
+    ax2.set_xticks(cat_positions)
+    ax2.set_xticklabels(categories, fontsize=11)
+    ax2.set_ylabel('Length Scale (对数刻度)', fontsize=12, fontweight='bold')
+    ax2.set_title('各类特征长度尺度分布', fontsize=14, fontweight='bold', pad=15)
+    ax2.set_yscale('log')
+    ax2.set_ylim(0.01, 200000)
+    ax2.set_yticks([0.01, 0.1, 1, 10, 100, 1000, 10000, 100000])
+    ax2.set_yticklabels([r'$10^{-2}$', r'$10^{-1}$', r'$10^{0}$', r'$10^{1}$',
+                         r'$10^{2}$', r'$10^{3}$', r'$10^{4}$', r'$10^{5}$'], fontsize=10)
+    ax2.grid(axis='y', alpha=0.3, linestyle='--')
+    ax2.legend(loc='upper right', fontsize=9)
+
+    # 右侧重要性评级轴
+    ax2_twin = ax2.twinx()
+    ax2_twin.set_ylim(ax2.get_ylim())
+    ax2_twin.set_yscale('log')
+    ax2_twin.set_yticks([0.1, 1, 10, 100, 10000])
+    ax2_twin.set_yticklabels(['★★★\n极重要', '★★\n重要', '★\n一般', '☆\n次要', '☆☆\n无关'], fontsize=9)
+    ax2_twin.set_ylabel('重要性评级', fontsize=11, fontweight='bold', rotation=270, labelpad=20)
 
     plt.tight_layout()
-    save_path = os.path.join(output_dir, "6_ARD_Grouped_Comparison.png")
+    save_path = os.path.join(output_dir, "6_ARD_Feature_Importance.png")
     plt.savefig(save_path, dpi=300, bbox_inches='tight')
-    print(f"[*] ARD 分组对比图已保存至: {save_path}")
+    print(f"[*] ARD 特征重要性图已保存至: {save_path}")
     plt.show()
     plt.close()
 
@@ -579,6 +758,8 @@ def plot_uncertainty_map(optimizer, output_dir, target_scheme=None,
     axes[0].set_xlabel('退火温度 (°C)', fontsize=11)
     axes[0].set_ylabel('保温时间 (h)', fontsize=11)
     axes[0].set_title(f'模型不确定性 σ (Temp × Time){scheme_str}', fontsize=13)
+    axes[0].set_xlim(bounds_t[0], bounds_t[1])
+    axes[0].set_ylim(bounds_time[0], bounds_time[1])
     axes[0].legend(fontsize=8)
 
     # Panel B: H2-Ar
@@ -603,15 +784,26 @@ def plot_uncertainty_map(optimizer, output_dir, target_scheme=None,
     _, sigma2 = optimizer.gpr.predict(Xs2, return_std=True)
     Sigma2_grid = sigma2.reshape(grid_size, grid_size)
 
-    c2 = axes[1].contourf(H2_grid, Ar_grid, Sigma2_grid, levels=40,
-                          cmap='YlOrRd')
+    # 工艺约束 Ar >= 2*H2: 不可行区域遮罩
+    feasible_mask = Ar_grid >= 2 * H2_grid
+    Sigma2_masked = np.where(feasible_mask, Sigma2_grid, np.nan)
+    sigma_vmin = np.nanmin(Sigma2_masked)
+    sigma_vmax = np.nanmax(Sigma2_masked)
+
+    c2 = axes[1].contourf(H2_grid, Ar_grid, Sigma2_masked, levels=40,
+                          cmap='YlOrRd', vmin=sigma_vmin, vmax=sigma_vmax)
     plt.colorbar(c2, ax=axes[1], label='预测标准差 σ')
+    # 约束参考线 Ar = 2*H2
+    axes[1].plot(h2_vals, 2 * h2_vals, 'k--', lw=1.2, alpha=0.7,
+                label='Ar = 2H$_2$ (工艺约束)')
     axes[1].scatter(df_plot['Process_H2'], df_plot['Process_Ar'],
                    c='black', s=40, edgecolor='white', linewidth=0.8,
                    alpha=0.8, label='训练数据点')
     axes[1].set_xlabel('H$_2$ 流量 (sccm)', fontsize=11)
     axes[1].set_ylabel('Ar 流量 (sccm)', fontsize=11)
     axes[1].set_title(f'模型不确定性 σ (H2 × Ar){scheme_str}', fontsize=13)
+    axes[1].set_xlim(bounds_h2[0], bounds_h2[1])
+    axes[1].set_ylim(bounds_ar[0], bounds_ar[1])
     axes[1].legend(fontsize=8)
 
     fig.suptitle('模型认知不确定性: 标准差 σ 在工艺参数空间中的分布',
@@ -756,37 +948,44 @@ if __name__ == "__main__":
     # 输出目录
     output_dir = create_output_dir(scheme_id=current_scheme, n_samples=n_samples)
 
+    # Tier 0
+    print("\n" + "=" * 50)
+    print("  Tier 0: 模型评估")
+    print("=" * 50)
+    print("\n[1/9] LOOCV 校验图...")
+    plot_model_parity(optimizer, default_file, output_dir)
+
     # Tier 1
     print("\n" + "=" * 50)
     print("  Tier 1: 核心替代可视化")
     print("=" * 50)
-    print("\n[1/8] 实验产率分组柱状图...")
+    print("\n[2/9] 实验产率分组柱状图...")
     plot_yield_by_experiment(optimizer, output_dir, target_scheme=target_scheme)
 
-    print("\n[2/8] 部分依赖图 (PDP)...")
+    print("\n[3/9] 部分依赖图 (PDP)...")
     plot_partial_dependence(optimizer, output_dir, target_scheme=target_scheme)
 
-    print("\n[3/8] 原始数据散点图...")
+    print("\n[4/9] 原始数据散点图...")
     plot_raw_data_scatter(optimizer, output_dir)
 
     # Tier 2
-    print("\n[4/8] 微观结构特征空间...")
+    print("\n[5/9] 微观结构特征空间...")
     plot_pre_feature_space(optimizer, output_dir, target_scheme=target_scheme)
 
-    print("\n[5/8] ICE 曲线...")
+    print("\n[6/9] ICE 曲线...")
     plot_ice_curves(optimizer, output_dir, target_scheme=target_scheme)
 
-    print("\n[6/8] ARD 分组对比...")
+    print("\n[7/9] ARD 分组对比...")
     plot_ard_grouped(optimizer, output_dir)
 
     # Tier 3
-    print("\n[7/8] 模型不确定性热力图...")
+    print("\n[8/9] 模型不确定性热力图...")
     plot_uncertainty_map(optimizer, output_dir, target_scheme=target_scheme)
 
-    print("\n[8/8] 探索性因果链...")
+    print("\n[9/9] 探索性因果链...")
     plot_process_pre_mediation(optimizer, output_dir)
 
     print(f"\n{'=' * 50}")
-    print(f"  全部 8 张可视化图已保存至:")
+    print(f"  全部 9 张可视化图已保存至:")
     print(f"  {output_dir}")
     print(f"{'=' * 50}")

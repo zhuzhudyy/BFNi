@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(python -c ' *)",
-      "Bash(python -c \"import pandas as pd; df = pd.read_csv\\('Optimized_Training_Data.csv'\\); print\\('Shape:', df.shape\\); print\\('Columns:', list\\(df.columns\\)\\)\")"
+      "Bash(python -c \"import pandas as pd; df = pd.read_csv\\('Optimized_Training_Data.csv'\\); print\\('Shape:', df.shape\\); print\\('Columns:', list\\(df.columns\\)\\)\")",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
     ]
   },
   "disabledMcpjsonServers": [

@@ -13,8 +13,13 @@ import os
 import re
 import time
 import hashlib
+import ssl
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
+
+_SSL_CTX = ssl.create_default_context()
+_SSL_CTX.check_hostname = False
+_SSL_CTX.verify_mode = ssl.CERT_NONE
 
 from .config import (
     LLM_PROVIDER,
@@ -29,78 +34,9 @@ from .config import (
 # ---------------------------------------------------------------------------
 # LLM client 抽象层
 # ---------------------------------------------------------------------------
-_EXTRACTION_SYSTEM_PROMPT = """\
-You are a materials science data extraction specialist. Your task is to read
-the text of a scientific paper about nickel (Ni) annealing/heat-treatment and
-extract EVERY quantitative experimental data point into a structured JSON format.
+_EXTRACTION_SYSTEM_PROMPT = "Extract ALL numerical experimental data from this materials science paper about nickel annealing into JSON. Include: temperature(C), time(min/h), atmosphere, grain_size(um), GND_density, hardness(HV), twin_fraction, recrystallized_fraction, texture_volume_fractions({hkl}<uvw> format), EBSD_figures. Use null for missing values. Output ONLY valid JSON, no markdown."
 
-IMPORTANT RULES:
-- Extract ALL numerical values you find — temperature, time, flow rates, yields,
-  grain sizes, GND densities, texture fractions, hardness, etc.
-- If a value is stated as a range "800-1000°C", capture both min and max.
-- If atmosphere is mentioned (e.g. "Ar+5%H2"), capture the gas composition.
-- If the paper reports texture volume fractions (e.g. "Cube component was 35%"),
-  capture the exact {hkl}<uvw> notation and fraction.
-- If GND density is reported (e.g. "GND density of 2.3×10¹⁴ m⁻²"), extract it
-  with its unit.
-- For IPF maps / EBSD figures: note in `ebsd_figures` if IPF maps exist, and
-  what orientations they show.
-- If the paper mentions initial state (cold-rolled, electrodeposited, annealed,
-  ECAP, etc.), capture it.
-- If a value is NOT present, set it to null. Never invent values.
-- Output ONLY valid JSON, no markdown fences, no commentary."""
-
-_EXTRACTION_JSON_SCHEMA = """\
-{
-  "material": "pure nickel / Ni alloy composition",
-  "purity": "99.9% or null",
-  "initial_state": "cold-rolled 80% / electrodeposited / ECAP / etc.",
-  "initial_grain_size_um": null,
-  "experiments": [
-    {
-      "sample_id": "S1 or as reported",
-      "process": {
-        "temperature_C": 800,
-        "temperature_range_C": [800, 1000],
-        "time_min": 60,
-        "time_h": 1.0,
-        "atmosphere": "Ar + 5% H2",
-        "H2_flow_sccm": null,
-        "Ar_flow_sccm": null,
-        "heating_rate_C_per_min": 10,
-        "cooling_method": "furnace / air / water quench"
-      },
-      "outcome": {
-        "grain_size_um": 25.3,
-        "gnd_density_mean": 1.2e14,
-        "gnd_density_unit": "m^-2",
-        "hardness_HV": null,
-        "twin_fraction": 0.15,
-        "recrystallized_fraction": 0.8,
-        "texture_volume_fractions": {
-          "cube_{100}<001>": 0.35,
-          "goss_{110}<001>": 0.05,
-          "brass_{110}<112>": 0.10,
-          "copper_{112}<111>": 0.20,
-          "S_{123}<634>": 0.08,
-          "other": 0.22
-        },
-        "ipf_orientations_observed": ["{100}", "{111}", "{110}"],
-        "yield_from_ipf_or_pole_figure": null
-      }
-    }
-  ],
-  "ebsd_available": false,
-  "ebsd_figures": [
-    {
-      "figure_number": "Fig. 3",
-      "type": "IPF map / Pole figure / ODF / GND map",
-      "caption": "...",
-      "conditions_shown": "annealed at 900°C for 1h"
-    }
-  ],
-  "notes": "any additional relevant info"
-}"""
+_EXTRACTION_JSON_SCHEMA = '{"material":"","initial_state":"","experiments":[{"process":{"temperature_C":null,"time_min":null,"atmosphere":null,"heating_rate_C_per_min":null},"outcome":{"grain_size_um":null,"gnd_density_mean":null,"hardness_HV":null,"twin_fraction":null,"recrystallized_fraction":null,"texture_volume_fractions":{}}}]}'
 
 
 def _call_anthropic(system_prompt, user_text, model=None, max_tokens=None):
@@ -134,6 +70,7 @@ def _call_openai(system_prompt, user_text, model=None, max_tokens=None):
             {"role": "user", "content": user_text},
         ],
         temperature=0.0,
+        timeout=300.0,
     )
     return resp.choices[0].message.content
 
@@ -166,7 +103,7 @@ def _download_pdf(url, paper_id):
 
     try:
         req = Request(url, headers={"User-Agent": "LitMiningBot/1.0 (academic research)"})
-        with urlopen(req, timeout=60) as resp:
+        with urlopen(req, timeout=60, context=_SSL_CTX) as resp:
             with open(pdf_path, "wb") as f:
                 f.write(resp.read())
         return pdf_path

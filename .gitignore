@@ -37,3 +37,9 @@ Thumbs.db
 
 # Lingma
 .lingma/
+
+# 环境变量
+.env
+
+# Node.js
+node_modules/

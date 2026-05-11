@@ -17,6 +17,11 @@ if _PROJECT_ROOT not in sys.path:
     sys.path.insert(0, _PROJECT_ROOT)
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+
+plt.rcParams['font.family'] = ['sans-serif']
+plt.rcParams['font.sans-serif'] = ['SimHei', 'Microsoft YaHei', 'Arial Unicode MS', 'DejaVu Sans']
+plt.rcParams['axes.unicode_minus'] = False
 
 from bo_optimization.data_builder import (
     extract_macro_rgb_features,
@@ -24,7 +29,10 @@ from bo_optimization.data_builder import (
     merge_multiple_files,
     extract_features_from_merged_data
 )
-from bo_optimization.contextual_bo_model import ContextualBayesianOptimizer, select_scheme, SCHEME_TARGETS, SCHEME_NAMES, DEFAULT_PROCESS_BOUNDS
+from bo_optimization.contextual_bo_model import (
+    ContextualBayesianOptimizer, select_scheme, SCHEME_TARGETS, SCHEME_NAMES,
+    DEFAULT_PROCESS_BOUNDS, PROCESS_LABELS_CN
+)
 
 
 def get_pre_file_path():
@@ -137,9 +145,75 @@ def predict_optimal_process(data_file, pre_file, scheme_name, target_orientation
     
     # 执行预测（传入目标晶向列表）
     print("\n正在基于预处理特征推荐最优工艺...")
-    best_recipe = optimizer.recommend_next_process(new_sample_features, target_orientations)
-    
-    return best_recipe
+    result = optimizer.recommend_next_process(new_sample_features, target_orientations)
+
+    # 返回最高 μ 点（当前最优工艺）供后续可视化使用
+    return result['best_process']
+
+
+def plot_new_sample_ice(optimizer, new_sample_features, best_recipe,
+                        target_orientations, sweep_param='Process_Temp',
+                        n_grid=50):
+    """
+    为新样品绘制单个工艺参数扫描的 ICE 响应曲线（含 CI）。
+
+    参数:
+        optimizer: 已加载模型权重的 ContextualBayesianOptimizer
+        new_sample_features: 新样品的 Pre_ 特征字典
+        best_recipe: 推荐的最优工艺参数字典
+        target_orientations: 目标晶向列表 (h,k,l) 的 list
+        sweep_param: 要扫描的工艺参数名 (默认 Process_Temp)
+        n_grid: 网格点数
+    """
+    # 固定 Pre_ 特征向量（按模型列顺序）
+    pre_vec = np.array([new_sample_features[c]
+                        for c in optimizer.pre_feature_cols])
+
+    # 构建目标晶向 Multi-Hot 编码
+    target_keys = [f"Target_{h}{k}{l}" for h, k, l in target_orientations]
+    target_enc = np.array([1.0 if c in target_keys else 0.0
+                           for c in optimizer.target_cols])
+
+    # 扫描网格
+    lo, hi = optimizer.bounds[sweep_param]
+    grid = np.linspace(lo, hi, n_grid)
+
+    # 工艺矩阵：其他参数锁定在最优值
+    sweep_idx = optimizer.process_cols.index(sweep_param)
+    proc_template = np.array([best_recipe[c] for c in optimizer.process_cols])
+    X_proc = np.tile(proc_template, (n_grid, 1))
+    X_proc[:, sweep_idx] = grid
+
+    # 拼接并预测
+    X_full = np.hstack([
+        np.tile(pre_vec, (n_grid, 1)),
+        np.tile(target_enc, (n_grid, 1)),
+        X_proc
+    ])
+    X_scaled = optimizer.scaler_X.transform(X_full)
+    mu, sigma = optimizer.gpr.predict(X_scaled, return_std=True)
+
+    # 找到最优点在网格上的索引
+    best_val = best_recipe[sweep_param]
+    best_idx = np.argmin(np.abs(grid - best_val))
+
+    # 绘图
+    fig, ax = plt.subplots(figsize=(10, 5.5))
+    ax.fill_between(grid, mu - 1.96 * sigma, mu + 1.96 * sigma,
+                    alpha=0.2, color='steelblue', label='95% 置信区间')
+    ax.plot(grid, mu, color='steelblue', lw=2, label='预测产率')
+    ax.scatter([best_val], [mu[best_idx]], marker='*', c='red', s=300,
+               edgecolor='darkred', linewidth=1.5, zorder=5,
+               label=f'推荐点 ({sweep_param.replace("Process_", "")}={best_val:.0f})')
+
+    ax.set_xlabel(PROCESS_LABELS_CN.get(sweep_param, sweep_param), fontsize=11)
+    ax.set_ylabel('预测目标产率', fontsize=11)
+    targets_str = ', '.join(f'<{h}{k}{l}>' for h, k, l in target_orientations)
+    ax.set_title(f'新样品 ICE 响应曲线 — 目标晶向: {targets_str}', fontsize=14)
+    ax.legend(fontsize=10)
+    ax.grid(True, linestyle='--', alpha=0.4)
+    plt.tight_layout()
+    plt.show()
 
 
 if __name__ == "__main__":
@@ -235,6 +309,15 @@ if __name__ == "__main__":
             )
         print("\n预测完成!")
         print(f"[*] 模型已保存至: {model_path}")
+
+        # --- 绘制新样品 ICE 响应曲线 ---
+        new_features = extract_features_from_path(pre_file)
+        viz_optimizer = ContextualBayesianOptimizer(bounds=DEFAULT_PROCESS_BOUNDS)
+        if viz_optimizer.load_model(model_path):
+            plot_new_sample_ice(viz_optimizer, new_features, best_recipe,
+                                target_orientations, sweep_param='Process_Temp')
+        else:
+            print("[警告] 无法加载模型文件进行可视化")
     except Exception as e:
         print(f"\n预测过程中出错: {e}")
         import traceback

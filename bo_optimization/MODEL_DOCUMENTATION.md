@@ -237,7 +237,7 @@ for i in range(N):
 ### 8.1 训练模型
 ```bash
 python data_builder.py  # 构建训练数据
-python model_visualization.py  # 训练并可视化
+python bo_optimization/honest_visualization.py  # 完整可视化套件 (9张图)
 ```
 
 ### 8.2 预测新样品
@@ -249,8 +249,8 @@ python predict_new_sample.py
 
 ### 8.3 分析特征重要性
 ```bash
-python ard_feature_importance.py
-# 输出：各特征的ARD长度尺度及重要性排序
+python bo_optimization/honest_visualization.py
+# 输出：含 ARD 特征重要性双面板图（排序 + log-scale 分布）
 ```
 
 ---
@@ -273,10 +273,8 @@ python ard_feature_importance.py
 |-----|------|
 | `contextual_bo_model.py` | 核心贝叶斯优化类 |
 | `data_builder.py` | 训练数据构建 |
-| `model_visualization.py` | 模型训练与可视化 |
+| `honest_visualization.py` | 模型训练与可视化（含 ARD 特征重要性） |
 | `predict_new_sample.py` | 新样品工艺推荐 |
-| `ard_feature_importance.py` | ARD特征重要性分析 |
-| `cognitive_convergence.py` | 认知收敛性分析 |
 
 ---
 

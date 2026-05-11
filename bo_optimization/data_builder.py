@@ -79,7 +79,7 @@ def merge_multiple_files(file_list, file_type='pre'):
                 
                 header_idx = 0
                 for j, line in enumerate(lines):
-                    if line.count(',') > 5 and ('Phase' in line or 'X' in line or 'Euler' in line or 'IPF' in line):
+                    if line.count(',') >= 4 and ('Phase' in line or 'X' in line or 'Euler' in line or 'IPF' in line or 'GND' in line):
                         header_idx = j
                         break
                 
@@ -188,7 +188,77 @@ def extract_features_from_merged_data(merged_df, target_rgbs=None, tolerance=50,
                 low_threshold = q25 - 1.5 * iqr
                 features[f'{prefix}GND_HighRatio'] = (gnd_data > high_threshold).mean()
                 features[f'{prefix}GND_LowRatio'] = (gnd_data < low_threshold).mean()
-    
+
+            # --- 晶粒尺寸代理特征 ---
+            # 1. 分布双峰性: 晶界高GND + 晶内低GND 形成双峰分布
+            #    Bimodality = (skewness^2 + 1) / kurtosis, >0.555 表示双峰
+            sk = gnd_data.skew()
+            ku = gnd_data.kurtosis()
+            if ku > 0:
+                features[f'{prefix}GND_Bimodality'] = (sk**2 + 1) / ku
+
+            # 2. 尾部权重: 高分位数相对于主体的偏离程度
+            #    细晶 → 更多晶界像素 → 上尾更重
+            if q75 > q25:
+                features[f'{prefix}GND_TailWeight'] = (gnd_data.quantile(0.95) - q75) / iqr
+
+            # 3. 高GND像素比例 (P95阈值): 直接代理晶界密度
+            features[f'{prefix}GND_BoundaryFrac'] = (gnd_data > gnd_data.quantile(0.95)).mean()
+
+            # 4. 空间梯度特征 (需要X,Y坐标)
+            x_cols = [c for c in df.columns if c.strip().lower() in ('x', 'x(μm)', 'x [µm]', 'x (µm)', 'x(um)')]
+            y_cols = [c for c in df.columns if c.strip().lower() in ('y', 'y(μm)', 'y [µm]', 'y (µm)', 'y(um)')]
+            if not x_cols:
+                x_cols = [c for c in df.columns if c.strip().upper().startswith('X') and 'euler' not in c.lower() and 'ipf' not in c.lower()]
+            if not y_cols:
+                y_cols = [c for c in df.columns if c.strip().upper().startswith('Y') and 'euler' not in c.lower() and 'ipf' not in c.lower()]
+
+            if x_cols and y_cols:
+                try:
+                    x_col, y_col = x_cols[0], y_cols[0]
+                    x_pos = pd.to_numeric(df[x_col], errors='coerce')
+                    y_pos = pd.to_numeric(df[y_col], errors='coerce')
+
+                    # 按空间位置排序，重建网格
+                    valid = x_pos.notna() & y_pos.notna() & gnd_data.notna()
+                    if valid.sum() > 100:
+                        x_v = x_pos[valid].values
+                        y_v = y_pos[valid].values
+                        gnd_v = gnd_data[valid].values
+
+                        # 推断网格尺寸
+                        x_unique = np.sort(np.unique(np.round(x_v, 2)))
+                        y_unique = np.sort(np.unique(np.round(y_v, 2)))
+                        nx, ny = len(x_unique), len(y_unique)
+
+                        if nx > 2 and ny > 2 and nx * ny <= len(gnd_v) * 3.0:
+                            # 用最近邻映射到网格
+                            grid = np.full((ny, nx), np.nan)
+                            for k in range(len(gnd_v)):
+                                xi = np.argmin(np.abs(x_unique - x_v[k]))
+                                yi = np.argmin(np.abs(y_unique - y_v[k]))
+                                grid[yi, xi] = gnd_v[k]
+
+                            # 计算水平和垂直梯度
+                            grad_x = np.abs(np.diff(grid, axis=1))
+                            grad_y = np.abs(np.diff(grid, axis=0))
+                            grad_x = grad_x[~np.isnan(grad_x)]
+                            grad_y = grad_y[~np.isnan(grad_y)]
+
+                            if len(grad_x) > 0 and len(grad_y) > 0:
+                                grad_all = np.concatenate([grad_x, grad_y])
+                                features[f'{prefix}GND_GradMean'] = np.mean(grad_all)
+                                features[f'{prefix}GND_GradStd'] = np.std(grad_all)
+                                features[f'{prefix}GND_GradP90'] = np.percentile(grad_all, 90)
+                                # 晶界密度代理: 梯度 > P90 的像素比例
+                                grad_threshold = np.percentile(grad_all, 90)
+                                features[f'{prefix}GND_GradBoundaryFrac'] = (grad_all > grad_threshold).mean()
+                                # 梯度变异系数: 细晶材料梯度分布更不均匀
+                                if np.mean(grad_all) > 0:
+                                    features[f'{prefix}GND_GradCV'] = np.std(grad_all) / np.mean(grad_all)
+                except Exception:
+                    pass  # 空间特征计算失败时静默跳过
+
     return features
 
 
@@ -250,7 +320,7 @@ def extract_macro_rgb_features(csv_path, target_rgbs=None, tolerance=50, prefix=
             
     header_idx = 0
     for i, line in enumerate(lines):
-        if line.count(',') > 5 and ('Phase' in line or 'X' in line or 'Euler' in line or 'IPF' in line):
+        if line.count(',') >= 4 and ('Phase' in line or 'X' in line or 'Euler' in line or 'IPF' in line or 'GND' in line):
             header_idx = i
             break
             
@@ -337,6 +407,71 @@ def extract_macro_rgb_features(csv_path, target_rgbs=None, tolerance=50, prefix=
             
             # 低GND区域比例 (低于25%分位数的像素比例 - 代表再结晶/低缺陷区域)
             features[f'{prefix}GND_LowRatio'] = (gnd_data < gnd_data.quantile(0.25)).mean()
+
+            # --- 晶粒尺寸代理特征 ---
+            q75, q25 = gnd_data.quantile(0.75), gnd_data.quantile(0.25)
+            iqr = q75 - q25
+
+            # 1. 双峰性: 晶界高GND + 晶内低GND
+            sk = gnd_data.skew()
+            ku = gnd_data.kurtosis()
+            if ku > 0:
+                features[f'{prefix}GND_Bimodality'] = (sk**2 + 1) / ku
+
+            # 2. 尾部权重
+            if iqr > 0:
+                features[f'{prefix}GND_TailWeight'] = (gnd_data.quantile(0.95) - q75) / iqr
+
+            # 3. 高GND像素比例 (P95阈值)
+            features[f'{prefix}GND_BoundaryFrac'] = (gnd_data > gnd_data.quantile(0.95)).mean()
+
+            # 4. 空间梯度特征
+            x_cols = [c for c in df.columns if c.strip().lower() in ('x', 'x(μm)', 'x [µm]', 'x (µm)', 'x(um)')]
+            y_cols = [c for c in df.columns if c.strip().lower() in ('y', 'y(μm)', 'y [µm]', 'y (µm)', 'y(um)')]
+            if not x_cols:
+                x_cols = [c for c in df.columns if c.strip().upper().startswith('X') and 'euler' not in c.lower() and 'ipf' not in c.lower()]
+            if not y_cols:
+                y_cols = [c for c in df.columns if c.strip().upper().startswith('Y') and 'euler' not in c.lower() and 'ipf' not in c.lower()]
+
+            if x_cols and y_cols:
+                try:
+                    x_col, y_col = x_cols[0], y_cols[0]
+                    x_pos = pd.to_numeric(df[x_col], errors='coerce')
+                    y_pos = pd.to_numeric(df[y_col], errors='coerce')
+
+                    valid = x_pos.notna() & y_pos.notna() & gnd_data.notna()
+                    if valid.sum() > 100:
+                        x_v = x_pos[valid].values
+                        y_v = y_pos[valid].values
+                        gnd_v = gnd_data[valid].values
+
+                        x_unique = np.sort(np.unique(np.round(x_v, 2)))
+                        y_unique = np.sort(np.unique(np.round(y_v, 2)))
+                        nx, ny = len(x_unique), len(y_unique)
+
+                        if nx > 2 and ny > 2 and nx * ny <= len(gnd_v) * 3.0:
+                            grid = np.full((ny, nx), np.nan)
+                            for k in range(len(gnd_v)):
+                                xi = np.argmin(np.abs(x_unique - x_v[k]))
+                                yi = np.argmin(np.abs(y_unique - y_v[k]))
+                                grid[yi, xi] = gnd_v[k]
+
+                            grad_x = np.abs(np.diff(grid, axis=1))
+                            grad_y = np.abs(np.diff(grid, axis=0))
+                            grad_x = grad_x[~np.isnan(grad_x)]
+                            grad_y = grad_y[~np.isnan(grad_y)]
+
+                            if len(grad_x) > 0 and len(grad_y) > 0:
+                                grad_all = np.concatenate([grad_x, grad_y])
+                                features[f'{prefix}GND_GradMean'] = np.mean(grad_all)
+                                features[f'{prefix}GND_GradStd'] = np.std(grad_all)
+                                features[f'{prefix}GND_GradP90'] = np.percentile(grad_all, 90)
+                                grad_threshold = np.percentile(grad_all, 90)
+                                features[f'{prefix}GND_GradBoundaryFrac'] = (grad_all > grad_threshold).mean()
+                                if np.mean(grad_all) > 0:
+                                    features[f'{prefix}GND_GradCV'] = np.std(grad_all) / np.mean(grad_all)
+                except Exception:
+                    pass
 
     return features
 

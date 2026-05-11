@@ -1,0 +1,496 @@
+[
+  {
+    "paperId": "cad6189bf11494252a8b4ed94e0e648953f2781b",
+    "externalIds": {
+      "MAG": "2019492594",
+      "DOI": "10.1088/1757-899X/82/1/012044",
+      "CorpusId": 41461180
+    },
+    "url": "https://www.semanticscholar.org/paper/cad6189bf11494252a8b4ed94e0e648953f2781b",
+    "title": "Orientations of recrystallization nuclei developed in columnar-grained Ni at triple junctions",
+    "year": 2007,
+    "citationCount": 38,
+    "openAccessPdf": {
+      "url": "https://iopscience.iop.org/article/10.1088/1757-899X/82/1/012044/pdf",
+      "status": "GOLD",
+      "license": "CCBY",
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1088/1757-899X/82/1/012044?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1088/1757-899X/82/1/012044, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "IOP Conference Series: Materials Science and Engineering",
+      "volume": "82"
+    },
+    "authors": [
+      {
+        "authorId": "2204646349",
+        "name": "C. Xu"
+      },
+      {
+        "authorId": "2204646349",
+        "name": "C. Xu"
+      },
+      {
+        "authorId": "2157631875",
+        "name": "S. Huang"
+      },
+      {
+        "authorId": "1591144666",
+        "name": "Yubin Zhang"
+      },
+      {
+        "authorId": "9490043",
+        "name": "Guilin Wu"
+      },
+      {
+        "authorId": "2289659",
+        "name": "Q. Liu"
+      },
+      {
+        "authorId": "46194068",
+        "name": "D. Jensen"
+      }
+    ],
+    "abstract": "A high purity columnar grained nickel sample with a strong <001> fiber texture was cold rolled to 50% reduction in thickness, followed by annealing at different temperatures. Optical microscopy was used to depict the grain boundaries prior to annealing and to detect nuclei formed on grain boundaries after annealing. Electron backscatter diffraction was performed to characterize the orientations of the nuclei and the deformed grains. Hardness tests were conducted at deformed grains. The potentials of triple junctions as preferential nucleation sites, the influence of deformation differences between adjacent grains on nucleation and orientation relationships between nuclei and parent matrix are analyzed."
+  },
+  {
+    "paperId": "55ecb4ab7e94e65df2b5feaff12cdd960c91b857",
+    "externalIds": {
+      "MAG": "1993544561",
+      "DOI": "10.1007/s11661-013-1617-y",
+      "CorpusId": 136573972
+    },
+    "url": "https://www.semanticscholar.org/paper/55ecb4ab7e94e65df2b5feaff12cdd960c91b857",
+    "title": "Texture Evolution During Cross Rolling and Annealing of High-Purity Nickel",
+    "year": 2013,
+    "citationCount": 31,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s11661-013-1617-y?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s11661-013-1617-y, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Metallurgical and Materials Transactions A",
+      "pages": "2707-2716",
+      "volume": "44"
+    },
+    "authors": [
+      {
+        "authorId": "144003073",
+        "name": "P. Bhattacharjee"
+      },
+      {
+        "authorId": "2052142863",
+        "name": "M. Joshi"
+      },
+      {
+        "authorId": "2055477221",
+        "name": "V. Chaudhary"
+      },
+      {
+        "authorId": "116723204",
+        "name": "J. R. Gatti"
+      },
+      {
+        "authorId": "145524329",
+        "name": "M. Zaid"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "d75b6bca0346f9f98d2b4077745413cb432145b8",
+    "externalIds": {
+      "MAG": "3041860295",
+      "DOI": "10.1515/rams-2020-0016",
+      "CorpusId": 220368783
+    },
+    "url": "https://www.semanticscholar.org/paper/d75b6bca0346f9f98d2b4077745413cb432145b8",
+    "title": "Effect of cross cold rolling and annealing on microstructure and texture in pure nickel",
+    "year": 2020,
+    "citationCount": 18,
+    "openAccessPdf": {
+      "url": "https://www.degruyter.com/downloadpdf/journals/rams/59/1/article-p252.pdf",
+      "status": "GOLD",
+      "license": "CCBY",
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1515/rams-2020-0016?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1515/rams-2020-0016, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "REVIEWS ON ADVANCED MATERIALS SCIENCE",
+      "pages": "252 - 263",
+      "volume": "59"
+    },
+    "authors": [
+      {
+        "authorId": "2108631658",
+        "name": "Lixia Wang"
+      },
+      {
+        "authorId": "2118652495",
+        "name": "Xingpin Chen"
+      },
+      {
+        "authorId": "2068287504",
+        "name": "Tianhong Luo"
+      },
+      {
+        "authorId": "5425135",
+        "name": "H. Ni"
+      },
+      {
+        "authorId": "32893064",
+        "name": "L. Mei"
+      },
+      {
+        "authorId": "144280438",
+        "name": "P. Ren"
+      },
+      {
+        "authorId": "47362190",
+        "name": "Qing Liu"
+      },
+      {
+        "authorId": "49327043",
+        "name": "Yongfeng Ding"
+      },
+      {
+        "authorId": "2143383705",
+        "name": "Lijun Zhao"
+      }
+    ],
+    "abstract": "Abstract The microstructure and texture in pure nickel were investigated during multi-step cross cold rolling (CCR) and subsequent annealing. It was found that the deformation texture in the CCR nickel was dominated by Brass and rotated Brass about normal direction (ND) (BsND) texture components, along with marginal cube textures. The resulted deformation textures had a significant effect on the recrystallization behavior. Annealing of the CCR nickel at 550°C for 1 h led to the formation of dominant <012> // ND fiber accompanied by minor rotated cube textures, rather than strong cube texture. Increasing the annealing temperature up to 800°C resulted in further enhancement of <012> // ND fiber textures. The possible reasons for recrystallization behavior in annealed CCR sample were discussed based on in-situ annealing experiments from two aspects of oriented nucleation and oriented growth theories."
+  },
+  {
+    "paperId": "4701a0c0c36d65a8bec812e9ac94f016ea53ae18",
+    "externalIds": {
+      "MAG": "2531281969",
+      "DOI": "10.1007/s11661-016-3810-2",
+      "CorpusId": 138092276
+    },
+    "url": "https://www.semanticscholar.org/paper/4701a0c0c36d65a8bec812e9ac94f016ea53ae18",
+    "title": "Microstructure and Texture of Electrodeposited Nanocrystalline Nickel in the As-Deposited State and After In-Situ and Ex-Situ Annealing",
+    "year": 2016,
+    "citationCount": 9,
+    "openAccessPdf": {
+      "url": "",
+      "status": "CLOSED",
+      "license": null,
+      "disclaimer": "Notice: The following paper fields have been elided by the publisher: {'abstract'}. Paper or abstract available at https://api.unpaywall.org/v2/10.1007/s11661-016-3810-2?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1007/s11661-016-3810-2, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Metallurgical and Materials Transactions A",
+      "pages": "6655-6670",
+      "volume": "47"
+    },
+    "authors": [
+      {
+        "authorId": "32618117",
+        "name": "P. Čížek"
+      },
+      {
+        "authorId": "104489384",
+        "name": "A. Sankaran"
+      },
+      {
+        "authorId": "104489384",
+        "name": "A. Sankaran"
+      },
+      {
+        "authorId": "93436485",
+        "name": "E. Rauch"
+      },
+      {
+        "authorId": "93772424",
+        "name": "M. Barnett"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "829203f4dec4ae073d1036bd3ac2b6f30789c810",
+    "externalIds": {
+      "PubMedCentral": "10096122",
+      "DOI": "10.3390/ma16072888",
+      "CorpusId": 258003247,
+      "PubMed": "37049182"
+    },
+    "url": "https://www.semanticscholar.org/paper/829203f4dec4ae073d1036bd3ac2b6f30789c810",
+    "title": "In Situ Study of the Microstructural Evolution of Nickel-Based Alloy with High Proportional Twin Boundaries Obtained by High-Temperature Annealing",
+    "year": 2023,
+    "citationCount": 7,
+    "openAccessPdf": {
+      "url": "https://www.mdpi.com/1996-1944/16/7/2888/pdf?version=1680745698",
+      "status": "GOLD",
+      "license": "CCBY",
+      "disclaimer": "Notice: Paper or abstract available at https://pmc.ncbi.nlm.nih.gov/articles/PMC10096122, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": [
+      "JournalArticle"
+    ],
+    "journal": {
+      "name": "Materials",
+      "volume": "16"
+    },
+    "authors": [
+      {
+        "authorId": "4863224",
+        "name": "Chaolei Zhang"
+      },
+      {
+        "authorId": "2287792430",
+        "name": "Ming Sun"
+      },
+      {
+        "authorId": "94157455",
+        "name": "Ruhan Ya"
+      },
+      {
+        "authorId": "2145612349",
+        "name": "Lulu Li"
+      },
+      {
+        "authorId": "2048917242",
+        "name": "J. Cui"
+      },
+      {
+        "authorId": "2130343974",
+        "name": "Zhipeng Li"
+      },
+      {
+        "authorId": "11785221",
+        "name": "W. Tian"
+      }
+    ],
+    "abstract": "In this paper, we report an in situ study regarding the microstructural evolution of a nickel-based alloy with high proportional twin boundaries by using electron backscatter diffraction techniques combined with the uniaxial tensile test. The study mainly focuses on the evolution of substructure, geometrically necessary dislocation, multiple types of grain boundaries (especially twin boundaries), and grain orientation. The results show that the Cr20Ni80 alloy can be obtained with up to 73% twin boundaries by annealing at 1100 °C for 30 min. During this deformation, dislocations preferentially accumulate near the twin boundary, and the strain also localizes at the twin boundary. With the increasing strain, dislocation interaction with grain boundaries leads to a decreasing trend of twin boundaries. However, when the strain is 0.024, the twin boundary is found to increase slightly. Meanwhile, the grain orientation gradually rotates to a stable direction and forms a Copper, S texture, and α-fiber <110>. Above all, during this deformation process, the alloy is deformed mainly by two deformation mechanisms: mechanical twinning and dislocation slip."
+  },
+  {
+    "paperId": "8fdd1d40ed06d17d71c625a92db6f9c0652d9452",
+    "externalIds": {
+      "MAG": "2184990563",
+      "DOI": "10.1155/TSM.28.71",
+      "CorpusId": 136750384
+    },
+    "url": "https://www.semanticscholar.org/paper/8fdd1d40ed06d17d71c625a92db6f9c0652d9452",
+    "title": "The Effects of Strain Annealing on Grain Boundary Distribution and Hardening in Superpure Nickel",
+    "year": 1996,
+    "citationCount": 4,
+    "openAccessPdf": {
+      "url": "https://doi.org/10.1155/tsm.28.71",
+      "status": "GOLD",
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.1155/TSM.28.71?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.1155/TSM.28.71, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Texture, Stress, and Microstructure",
+      "pages": "71-79",
+      "volume": "28"
+    },
+    "authors": [
+      {
+        "authorId": "144999939",
+        "name": "C. B. Thomson"
+      },
+      {
+        "authorId": "48120737",
+        "name": "V. Randlè"
+      }
+    ],
+    "abstract": "Electron backscatter diffraction is applied to the study of texture and mesotexture in superpure nickel. Low level strain annealing is shown to influence the grain boundary population such that greater proportions of special boundaries exist. It is found that variations in the texture of a specimen are not reflected by characteristic changes in the grain boundary population, indicating that texture analysis cannot be applied to the prediction of special boundary densities. Mechanisms active during the evolution of special boundaries are discussed and compared to those involved under similar conditions in commercially pure nickel. It is shown that alnnealing twin formation need not be prevalent for a high level of special boundaries to form. Differences in the hardness of various boundary types are identified, such that low angle boundaries and ∑3 boundaries close to exact misorientation can be categorized separately to other boundaries, in that they show minimal hardening."
+  },
+  {
+    "paperId": "d4a562f5705e62d78cce5e41a69e80afc17ba567",
+    "externalIds": {
+      "PubMedCentral": "6200827",
+      "MAG": "2898314256",
+      "DOI": "10.1186/s11671-018-2749-1",
+      "CorpusId": 53023350,
+      "PubMed": "30357722"
+    },
+    "url": "https://www.semanticscholar.org/paper/d4a562f5705e62d78cce5e41a69e80afc17ba567",
+    "title": "Comparative Study on Microstructural Stability of Pre-annealed Electrodeposited Nanocrystalline Nickel During Pack Rolling",
+    "year": 2018,
+    "citationCount": 2,
+    "openAccessPdf": {
+      "url": "https://nanoscalereslett.springeropen.com/track/pdf/10.1186/s11671-018-2749-1",
+      "status": "GOLD",
+      "license": "CCBY",
+      "disclaimer": "Notice: Paper or abstract available at https://pmc.ncbi.nlm.nih.gov/articles/PMC6200827, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": [
+      "JournalArticle"
+    ],
+    "journal": {
+      "name": "Nanoscale Research Letters",
+      "volume": "13"
+    },
+    "authors": [
+      {
+        "authorId": "5425135",
+        "name": "H. Ni"
+      },
+      {
+        "authorId": "47897166",
+        "name": "Haiyang Lv"
+      },
+      {
+        "authorId": "2144712757",
+        "name": "Zhaodong Wang"
+      },
+      {
+        "authorId": "144869436",
+        "name": "Jiang Zhu"
+      },
+      {
+        "authorId": "2135820484",
+        "name": "Xi-Yan Zhang"
+      }
+    ],
+    "abstract": "Microstructural stability is an important issue for nanocrystalline materials to be practically used in many fields. The present work shows how microstructure evolves with rolling strain in pre-annealed electrodeposited nanocrystalline nickel containing an initial strong fiber texture, on the basis of X-ray diffraction line profile analysis as well as transmission electron microscopy observation. The influence of shear strain on microstructural stability of the metal/roll contact interface is compared with that of the metal/metal contact interface; the latter would be closer to deformation in plane strain compression. From the statistical microstructural information, together with experimentally observed microstructure of deformed grains after the final rolling pass, it seems fair to conclude that the microstructure of the metal/metal contact interface is more stable during pack rolling than that of the metal/roll interface."
+  },
+  {
+    "paperId": "b4a36b7e5a0b209781f67b1cf5f2118768b0a606",
+    "externalIds": {
+      "MAG": "2372682940",
+      "CorpusId": 138279616
+    },
+    "url": "https://www.semanticscholar.org/paper/b4a36b7e5a0b209781f67b1cf5f2118768b0a606",
+    "title": "Influence of annealing process on cube texture in deformed nickel tapes",
+    "year": 2010,
+    "citationCount": 1,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Transactions of Materials and Heat Treatment",
+      "volume": ""
+    },
+    "authors": [
+      {
+        "authorId": "47394262",
+        "name": "L. Qing"
+      }
+    ],
+    "abstract": null
+  },
+  {
+    "paperId": "17b58da5969b111ca1a46c1d611d6bef274410f9",
+    "externalIds": {
+      "DOI": "10.3390/ma19081608",
+      "CorpusId": 287559279
+    },
+    "url": "https://www.semanticscholar.org/paper/17b58da5969b111ca1a46c1d611d6bef274410f9",
+    "title": "Small-Angle Neutron Scattering on Grain Boundaries of Cold-Rolled Nickel",
+    "year": 2026,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "",
+      "status": null,
+      "license": null,
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.3390/ma19081608?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.3390/ma19081608, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": [
+      "JournalArticle"
+    ],
+    "journal": {
+      "name": "Materials"
+    },
+    "authors": [
+      {
+        "authorId": "2307269814",
+        "name": "Tianfu Li"
+      },
+      {
+        "authorId": "2156142157",
+        "name": "Zijun Wang"
+      },
+      {
+        "authorId": "2430720009",
+        "name": "Wenyao Hu"
+      },
+      {
+        "authorId": "2348389864",
+        "name": "Yijun Yang"
+      },
+      {
+        "authorId": "2239186914",
+        "name": "Xiaoming Du"
+      },
+      {
+        "authorId": "2380437919",
+        "name": "Shibo Yan"
+      },
+      {
+        "authorId": "2312445681",
+        "name": "Zhongping Chen"
+      },
+      {
+        "authorId": "14255750",
+        "name": "Taisen Zuo"
+      },
+      {
+        "authorId": "12484620",
+        "name": "Heming Cheng"
+      },
+      {
+        "authorId": "92107569",
+        "name": "Yongqin Chang"
+      },
+      {
+        "authorId": "2289840742",
+        "name": "Dongfeng Chen"
+      }
+    ],
+    "abstract": "The effect of grain boundaries on small-angle neutron scattering (SANS) was investigated for pure nickel. A series of annealed cold-rolled nickel samples were characterized by SANS, electron backscatter diffraction (EBSD), X-ray diffraction (XRD), and transmission electron microscopy (TEM). The experimental results indicate that the proportion of low-angle grain boundaries (LAGBs) has a noticeable influence on the scattering intensity. Cold-rolled samples exhibited a similar proportion of LAGBs, leading to only slight differences in scattering intensity. The scattering intensity was found to be dependent on annealing time and temperature. For samples with low degrees of recrystallization, a large number of LAGBs remained, resulting in high scattering intensity at low q. In contrast, samples with a high degree of recrystallization showed a significant reduction in LAGBs, which caused a noticeable decrease in SANS intensity."
+  },
+  {
+    "paperId": "a5cd2e7f5104536b95203415ade4381b73ab81d8",
+    "externalIds": {
+      "MAG": "2464297658",
+      "DOI": "10.2355/ISIJINTERNATIONAL.ISIJINT-2016-110",
+      "CorpusId": 138358008
+    },
+    "url": "https://www.semanticscholar.org/paper/a5cd2e7f5104536b95203415ade4381b73ab81d8",
+    "title": "Effect of Initial Ni Plating on the Structure and Hardness of Electrodeposited Ni–W Alloys with and without Annealing",
+    "year": 2016,
+    "citationCount": 0,
+    "openAccessPdf": {
+      "url": "https://www.jstage.jst.go.jp/article/isijinternational/56/6/56_ISIJINT-2016-110/_pdf",
+      "status": "GOLD",
+      "license": "CCBYNCND",
+      "disclaimer": "Notice: Paper or abstract available at https://api.unpaywall.org/v2/10.2355/ISIJINTERNATIONAL.ISIJINT-2016-110?email=<INSERT_YOUR_EMAIL> or https://doi.org/10.2355/ISIJINTERNATIONAL.ISIJINT-2016-110, which is subject to the license by the author or copyright owner provided with this content. Please go to the source to verify the license and copyright information for your use."
+    },
+    "publicationTypes": null,
+    "journal": {
+      "name": "Isij International",
+      "pages": "1048-1056",
+      "volume": "56"
+    },
+    "authors": [
+      {
+        "authorId": "117798179",
+        "name": "Shinichiro Hayata"
+      },
+      {
+        "authorId": "7924659",
+        "name": "Satoshi Oue"
+      },
+      {
+        "authorId": "2117088505",
+        "name": "Takehiro Takahashi"
+      },
+      {
+        "authorId": "144997583",
+        "name": "Hiroaki Nakano"
+      }
+    ],
+    "abstract": "Nickel-plated steel sheets, which constitute battery cases and numerous other items, are likely to seize the plated layers and dies during press working. When hard Ni–W alloys with excellent abrasion resistance1,2) are coated onto Ni-plated steel sheets, steel sheet seizure is unlikely, and excellent consecutive press formability can be achieved. Annealing increases the hardness of the deposited Ni–W alloys, but the hardening mechanism is not clearly understood.3–8) Previously, we investigated the effect of annealing on the structure and hardness of deposited Ni–W alloys, and reported that the hardness increased regardless of alloy composition and the degree of increase particularly enhanced at W contents above 40 mass%.9) Moreover, the alloy composition that significantly changed the hardness also changed the structure of the deposits.9) To simplify the system, we previously deposited Ni–W alloys directly onto steel sheets without an initial Ni plating, and investigated the hardness and texture of the products. As the second step, the initial Ni plating was performed on steel sheets in the present study, and subsequently, we deposit the Ni–W alloys. The Effect of Initial Ni Plating on the Structure and Hardness of Electrodeposited Ni–W Alloys with and without Annealing"
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "chrome-devtools": {
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@latest"]
+    },
+    "zotero": {
+      "command": "C:\\Users\\蒋雨辰\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\zotero-mcp.exe",
+      "env": {
+        "ZOTERO_LOCAL": "true"
+      }
+    }
+  }
+}

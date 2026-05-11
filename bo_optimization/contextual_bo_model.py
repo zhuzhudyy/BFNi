@@ -15,6 +15,14 @@ import warnings
 # 忽略高斯过程在极低方差区域可能产生的数值计算警告
 warnings.filterwarnings("ignore")
 
+# 空间填充：默认最小物理距离（per-dimension 半宽）
+DEFAULT_MIN_PHYSICAL_DISTANCES = {
+    'Process_Temp': 30,   # ±30°C
+    'Process_Time': 3,    # ±3h
+    'Process_H2': 15,     # ±15sccm
+    'Process_Ar': 50,     # ±50sccm
+}
+
 # ============================================================
 # ANOVA Matern 核函数（分组 ARD + 交互效应 + 混合 nu）
 # ============================================================
@@ -976,7 +984,7 @@ class ContextualBayesianOptimizer:
         d_min = dists.min(axis=1)
         return d_min
 
-    def _greedy_select_mixed_score(self, X_candidates, ei_values, X_train_proc, n_select, alpha=0.5):
+    def _greedy_select_mixed_score(self, X_candidates, ei_values, X_train_proc, n_select, alpha=0.5, min_physical_distances=None):
         """
         贪心选择：混合 EI + maximin distance，每选一个点后动态更新距离基准
 
@@ -986,6 +994,7 @@ class ContextualBayesianOptimizer:
             X_train_proc: (n_train, d_proc) 已训练样本的 Process_ 特征
             n_select: 需要选择的点数
             alpha: EI 权重（0~1），(1-alpha) 为 distance 权重
+            min_physical_distances: dict 或 None，per-dimension 最小物理距离
 
         Returns:
             selected_indices: 选中的候选点索引
@@ -995,7 +1004,49 @@ class ContextualBayesianOptimizer:
         X_virtual = X_train_proc.copy()
         selected_indices = []
 
+        # 预计算：固定边界归一化（循环外只算一次）
+        if min_physical_distances is not None:
+            bounds_min = np.array([self.bounds[col][0] for col in self.process_cols])
+            bounds_range = np.array([self.bounds[col][1] - self.bounds[col][0] for col in self.process_cols])
+            norm_thresholds = np.array([
+                min_physical_distances.get(col, 0) / bounds_range[i]
+                for i, col in enumerate(self.process_cols)
+            ])
+            X_cand_norm = (X_candidates - bounds_min) / bounds_range
+
         for _ in range(min(n_select, len(remaining))):
+            # 过滤最小距离约束
+            if min_physical_distances is not None and remaining:
+                if len(X_virtual) == 0:
+                    pass  # 冷启动：无历史点，跳过过滤
+                else:
+                    X_ref_norm = (X_virtual - bounds_min) / bounds_range
+                    feasible = []
+                    for global_idx in remaining:
+                        c = X_cand_norm[global_idx]
+                        diffs = np.abs(X_ref_norm - c)
+                        in_exclusion = np.all(diffs < norm_thresholds, axis=1)
+                        if not np.any(in_exclusion):
+                            feasible.append(global_idx)
+                    if not feasible:
+                        # 兜底：原地缩小阈值 50%，后续迭代继续生效
+                        norm_thresholds *= 0.5
+                        for global_idx in remaining:
+                            c = X_cand_norm[global_idx]
+                            diffs = np.abs(X_ref_norm - c)
+                            in_exclusion = np.all(diffs < norm_thresholds, axis=1)
+                            if not np.any(in_exclusion):
+                                feasible.append(global_idx)
+                        if feasible:
+                            warnings.warn("[空间填充] 候选空间耗尽，阈值已缩小 50%，后续迭代沿用宽松阈值")
+                        else:
+                            warnings.warn(f"[空间填充] 即使缩小阈值仍无可用候选，已选 {len(selected_indices)} 个")
+                            break
+                    remaining = feasible
+
+            if not remaining:
+                break
+
             # 计算当前候选点到虚拟参考集的 maximin distance
             X_cand_remaining = X_candidates[remaining]
             d_min = self._maximin_distance(X_cand_remaining, X_virtual, self.process_cols)
@@ -1017,7 +1068,7 @@ class ContextualBayesianOptimizer:
 
         return np.array(selected_indices), X_candidates[selected_indices]
 
-    def suggest_space_filling(self, n_total_points, alpha=0.5, n_candidates_per_cluster=1000):
+    def suggest_space_filling(self, n_total_points, alpha=0.5, n_candidates_per_cluster=1000, min_physical_distances=DEFAULT_MIN_PHYSICAL_DISTANCES):
         """
         空间填充采样建议：混合 EI + maximin distance
 
@@ -1129,7 +1180,7 @@ class ContextualBayesianOptimizer:
 
             # 贪心选择
             selected_idx, selected_points = self._greedy_select_mixed_score(
-                X_feasible, ei_vals, X_train_proc, n_select, alpha=alpha
+                X_feasible, ei_vals, X_train_proc, n_select, alpha=alpha, min_physical_distances=min_physical_distances
             )
 
             for idx, point in zip(selected_idx, selected_points):
@@ -1172,7 +1223,9 @@ class ContextualBayesianOptimizer:
         if not hasattr(self, 'training_df') or self.training_df is None:
             return 0.0, 1.0, 1.0
 
-        X_proc = self.training_df[self.process_cols].values
+        # 去重：每个唯一工艺参数组合只算一次（多方案扩展不增加覆盖）
+        X_proc_df = self.training_df[self.process_cols].drop_duplicates()
+        X_proc = X_proc_df.values
 
         # 归一化到 [0,1]
         scaler = MinMaxScaler()
@@ -1213,7 +1266,8 @@ class ContextualBayesianOptimizer:
         if not hasattr(self, 'training_df') or self.training_df is None:
             return 0, 0.0, {}
 
-        X_proc = self.training_df[self.process_cols].values
+        # 去重：每个唯一工艺参数组合只算一次
+        X_proc = self.training_df[self.process_cols].drop_duplicates().values
         n_current = len(X_proc)
 
         # 在不同子采样量下计算覆盖率
@@ -1281,16 +1335,21 @@ class ContextualBayesianOptimizer:
         """打印空间覆盖率报告（含实验数估算）"""
         coverage, median_dist, p90_dist = self.compute_space_coverage()
         n_needed, _, curve = self.estimate_experiments_for_coverage(target_coverage=0.30)
-        n_samples = len(self.training_df) if hasattr(self, 'training_df') and self.training_df is not None else 0
+
+        if hasattr(self, 'training_df') and self.training_df is not None:
+            n_rows = len(self.training_df)
+            n_unique = len(self.training_df[self.process_cols].drop_duplicates())
+        else:
+            n_rows = n_unique = 0
 
         print(f"\n{'='*55}")
         print(f"Process_ 空间覆盖率报告（距离基指标）")
         print(f"{'='*55}")
-        print(f"  训练样本数: {n_samples}")
+        print(f"  训练行数: {n_rows}（唯一工艺组合: {n_unique}）")
         print(f"  覆盖率 (r=15%): {coverage:.1%}")
         print(f"  中位最近距离: {median_dist:.3f}（归一化）")
         print(f"  P90 最近距离: {p90_dist:.3f}（归一化）")
-        print(f"  达到 30% 覆盖率约需: {n_needed} 组实验")
+        print(f"  达到 30% 覆盖率约需: {n_needed} 组实验（含已有 {n_unique} 组）")
         if curve:
             print(f"  拟合模型: {curve.get('model', 'N/A')}")
         print(f"{'='*55}\n")

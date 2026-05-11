@@ -19,6 +19,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 from datetime import datetime
+import json
 import warnings
 
 warnings.filterwarnings("ignore")
@@ -54,6 +55,18 @@ def create_output_dir():
         base = os.path.join(os.path.dirname(os.path.abspath(__file__)), "visualization", "output")
     os.makedirs(base, exist_ok=True)
     return base
+
+
+def _load_space_filling_state(scheme):
+    """读取空间填充状态文件，返回 state dict 或 None"""
+    path = f"space_filling_state_方案{scheme}.json"
+    if not os.path.exists(path):
+        return None
+    try:
+        with open(path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception:
+        return None
 
 
 def plot_variance_pie(ax, optimizer):
@@ -107,6 +120,7 @@ def plot_coverage_bar(ax, optimizer):
 
     coverage, median_dist, p90_dist = optimizer.compute_space_coverage()
     n_needed, _, curve = optimizer.estimate_experiments_for_coverage(target_coverage=0.30)
+    n_unique = len(optimizer.training_df[optimizer.process_cols].drop_duplicates())
     n_samples = len(optimizer.training_df)
 
     # 进度条
@@ -131,10 +145,10 @@ def plot_coverage_bar(ax, optimizer):
 
     # 指标文字
     info_lines = [
-        f'当前样本: {n_samples}',
+        f'唯一工艺组合: {n_unique}（训练行: {n_samples}）',
         f'中位距离: {median_dist:.3f} (归一化)',
         f'P90 距离: {p90_dist:.3f}',
-        f'达 30% 还需: ~{max(0, n_needed - n_samples)} 组实验',
+        f'达 30% 还需: ~{max(0, n_needed - n_unique)} 组实验',
     ]
     for i, line in enumerate(info_lines):
         ax.text(5.0, 5.2 - i * 0.9, line, ha='center', va='center', fontsize=10, color='#333333')
@@ -271,90 +285,110 @@ def plot_rmse_curve(ax, optimizer, n_repeats=3):
     ax.grid(True, alpha=0.3)
 
 
-def plot_process_pairplot(ax_grid, optimizer, recommendations=None):
+def plot_process_pairplot(axs, optimizer, state=None):
     """
-    面板 ②：Process_ 空间 Pairplot（2×3 网格）
+    面板 ②：Process_ 关键子图（1×2 网格）
 
-    展示 Process_ 4 维的所有两两组合。
-    蓝色点：训练数据。橙色三角：LHS 推荐点。
-    在 H₂×Ar 子图中画约束线 Ar = 2×H₂。
+    左图：Temp × Time（退火温度-时间）
+    右图：H₂ × Ar（气体流量，含 Ar = 2×H₂ 约束线）
 
     Args:
-        ax_grid: 2×3 的 Axes 数组
+        axs: 长度 2 的 Axes 数组
         optimizer: 训练好的 ContextualBayesianOptimizer
-        recommendations: suggest_space_filling() 的返回值（可选）
+        state: space_filling_state JSON dict（可选）
     """
     proc_cols = optimizer.process_cols
-    n_proc = len(proc_cols)
     X_train = optimizer.training_df[proc_cols].values
 
-    # 生成所有两两组合
-    pairs = []
-    for i in range(n_proc):
-        for j in range(i + 1, n_proc):
-            pairs.append((i, j))
+    # 从状态文件提取空间填充点
+    X_pending = None  # 未分配
+    X_done = None     # 已分配
+    if state and 'points' in state:
+        allocated_indices = {a['index'] for a in state.get('allocations', [])}
+        pending, done = [], []
+        for idx, pt in enumerate(state['points']):
+            row = [pt.get(col, 0) for col in proc_cols]
+            if idx in allocated_indices:
+                done.append(row)
+            else:
+                pending.append(row)
+        if pending:
+            X_pending = np.array(pending)
+        if done:
+            X_done = np.array(done)
 
-    # 提取 LHS 推荐点
-    X_lhs = None
-    if recommendations:
-        X_lhs = np.array([[r[col] for col in proc_cols] for r in recommendations])
-
-    # 约束信息
+    # 定义要画的两个子图：(ylabel, xlabel, title)
+    temp_idx = proc_cols.index('Process_Temp') if 'Process_Temp' in proc_cols else None
+    time_idx = proc_cols.index('Process_Time') if 'Process_Time' in proc_cols else None
     h2_idx = proc_cols.index('Process_H2') if 'Process_H2' in proc_cols else None
     ar_idx = proc_cols.index('Process_Ar') if 'Process_Ar' in proc_cols else None
 
-    for idx, (i, j) in enumerate(pairs):
-        row, col = divmod(idx, 3)
-        ax = ax_grid[row, col]
+    subplot_specs = []
+    if temp_idx is not None and time_idx is not None:
+        subplot_specs.append((temp_idx, time_idx, 'Temp × Time', False))
+    if h2_idx is not None and ar_idx is not None:
+        subplot_specs.append((h2_idx, ar_idx, 'H₂ × Ar', True))
+
+    for ax_idx, (i, j, title, show_constraint) in enumerate(subplot_specs):
+        ax = axs[ax_idx]
 
         # 训练数据
         ax.scatter(X_train[:, j], X_train[:, i], c=COLORS['primary'],
-                   s=20, alpha=0.5, label='训练数据', zorder=2)
+                   s=25, alpha=0.5, label='训练数据', zorder=2)
 
-        # LHS 推荐点
-        if X_lhs is not None:
-            ax.scatter(X_lhs[:, j], X_lhs[:, i], c=COLORS['accent'],
+        # 空间填充：已分配（绿色方块）
+        if X_done is not None:
+            ax.scatter(X_done[:, j], X_done[:, i], c=COLORS['success'],
+                       s=60, marker='s', edgecolors='darkgreen', linewidths=1,
+                       label=f'已分配({len(X_done)})', zorder=3)
+
+        # 空间填充：未分配（橙色三角）
+        if X_pending is not None:
+            ax.scatter(X_pending[:, j], X_pending[:, i], c=COLORS['accent'],
                        s=80, marker='^', edgecolors='red', linewidths=1.5,
-                       label='LHS 推荐', zorder=3)
+                       label=f'待分配({len(X_pending)})', zorder=4)
 
         # 约束线 (H₂ × Ar)
-        if h2_idx is not None and ar_idx is not None:
-            if i == h2_idx and j == ar_idx:
-                x_range = np.linspace(optimizer.bounds[proc_cols[j]][0],
-                                       optimizer.bounds[proc_cols[j]][1], 100)
-                ax.plot(x_range, x_range / 2, '--', color=COLORS['gray'],
-                        linewidth=1, label='Ar = 2×H₂')
-                ax.fill_between(x_range, 0, x_range / 2, alpha=0.05, color='red')
+        if show_constraint:
+            x_range = np.linspace(optimizer.bounds[proc_cols[j]][0],
+                                   optimizer.bounds[proc_cols[j]][1], 100)
+            ax.plot(x_range, x_range / 2, '--', color=COLORS['gray'],
+                    linewidth=1, label='Ar = 2×H₂')
+            ax.fill_between(x_range, 0, x_range / 2, alpha=0.05, color='red')
 
         # 标签
         xlabel = proc_cols[j].replace('Process_', '')
         ylabel = proc_cols[i].replace('Process_', '')
-        ax.set_xlabel(xlabel, fontsize=8)
-        ax.set_ylabel(ylabel, fontsize=8)
-        ax.tick_params(labelsize=7)
+        ax.set_xlabel(xlabel, fontsize=9)
+        ax.set_ylabel(ylabel, fontsize=9)
+        ax.tick_params(labelsize=8)
 
         # 相关系数
         corr = np.corrcoef(X_train[:, i], X_train[:, j])[0, 1]
-        ax.set_title(f'r = {corr:.2f}', fontsize=8, color=COLORS['gray'])
+        ax.set_title(f'{title}  (r = {corr:.2f})', fontsize=10, fontweight='bold')
 
-        if idx == 0:
-            ax.legend(fontsize=6, loc='upper left')
-
-    # 隐藏多余的子图
-    for idx in range(len(pairs), 6):
-        row, col = divmod(idx, 3)
-        ax_grid[row, col].axis('off')
+        if ax_idx == 0:
+            ax.legend(fontsize=7, loc='upper left')
 
 
-def create_dashboard(optimizer, recommendations=None, save_path=None):
+def create_dashboard(optimizer, scheme=1, save_path=None):
     """
     组装 2×2 仪表盘
 
     Args:
         optimizer: 训练好的 ContextualBayesianOptimizer
-        recommendations: suggest_space_filling() 的返回值（可选）
+        scheme: 方案编号，用于读取空间填充状态文件
         save_path: 保存路径（None 则自动生成）
     """
+    # 读取空间填充状态
+    state = _load_space_filling_state(scheme)
+    if state:
+        n_alloc = len(state.get('allocations', []))
+        n_total = len(state.get('points', []))
+        print(f"[*] 读取空间填充状态: {n_alloc}/{n_total} 已分配")
+    else:
+        print("[*] 未找到空间填充状态文件，pairplot 仅显示训练数据")
+
     fig = plt.figure(figsize=(16, 12))
     gs = GridSpec(2, 2, figure=fig, hspace=0.35, wspace=0.3)
 
@@ -363,11 +397,11 @@ def create_dashboard(optimizer, recommendations=None, save_path=None):
     print("[*] 计算 RMSE 学习曲线（K-Fold CV）...")
     plot_rmse_curve(ax1, optimizer)
 
-    # 面板 ②：Process_ pairplot
-    gs_right = gs[0, 1].subgridspec(2, 3, hspace=0.4, wspace=0.35)
-    ax_pair = np.array([[fig.add_subplot(gs_right[r, c]) for c in range(3)] for r in range(2)])
-    print("[*] 绘制 Process_ pairplot...")
-    plot_process_pairplot(ax_pair, optimizer, recommendations)
+    # 面板 ②：Process_ 关键子图
+    gs_right = gs[0, 1].subgridspec(1, 2, hspace=0.35, wspace=0.35)
+    ax_pair = np.array([fig.add_subplot(gs_right[0, c]) for c in range(2)])
+    print("[*] 绘制 Process_ 子图...")
+    plot_process_pairplot(ax_pair, optimizer, state)
 
     # 面板 ③：方差饼图
     ax3 = fig.add_subplot(gs[1, 0])
@@ -408,14 +442,6 @@ if __name__ == "__main__":
             data_file = "Optimized_Training_Data.csv"
         optimizer.train(data_file)
 
-    # 可选：生成 LHS 推荐点
-    print("\n是否生成空间填充推荐？(y/n): ", end='')
-    do_lhs = input().strip().lower() == 'y'
-    recommendations = None
-    if do_lhs:
-        n_points = int(input("推荐点数 (默认 6): ").strip() or "6")
-        recommendations = optimizer.suggest_space_filling(n_total_points=n_points)
-
-    # 生成仪表盘
-    save_path = create_dashboard(optimizer, recommendations=recommendations)
+    # 生成仪表盘（自动读取空间填充状态文件）
+    save_path = create_dashboard(optimizer, scheme=scheme)
     print(f"\n完成！仪表盘: {save_path}")

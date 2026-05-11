@@ -48,7 +48,7 @@ OPENAI_BASE_URL = "https://llmapi.paratera.com/v1"
 
 # 提取批次大小（每篇论文单独调用，但可分 chunk）
 EXTRACT_MAX_TOKENS = 4096
-PDF_MAX_CHARS = 15000  # 超过此长度的论文正文进行滑窗截断
+PDF_MAX_CHARS = 8000   # 超过此长度的论文正文进行滑窗截断
 
 # ============================
 # 特征 schema 映射
@@ -100,7 +100,7 @@ TARGET_SCHEMES = {
 PROCESS_BOUNDS = {
     "Process_Temp": (400.0, 1500.0),    # 文献范围更宽
     "Process_Time": (0.01, 200.0),      # 小时
-    "Process_H2": (0.0, 500.0),
+    "Process_H2": (50.0, 500.0),
     "Process_Ar": (0.0, 2000.0),
 }
 

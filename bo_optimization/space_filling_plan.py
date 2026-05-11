@@ -1,7 +1,9 @@
 """
-空间填充实验规划器
+空间填充实验规划器（支持增量分配）
 
 用途：新原料到货后，为每份样品分配工艺参数，提升全局模型精度。
+支持增量模式：首次运行生成空间填充计划并保存状态文件，
+后续每次到新样品时运行，自动分配下一个未使用的采样点。
 
 使用方法:
     python space_filling_plan.py
@@ -9,12 +11,14 @@
 流程:
     1. 选择方案（目标晶向）
     2. 输入新样品的 pre.csv 文件或文件夹路径
-    3. 系统推荐空间填充工艺参数，并将样品与工艺配对
-    4. 输出实验计划表
+    3. 系统从状态文件中分配下一个空间填充工艺参数
+    4. 输出实验计划表，更新状态文件
 """
 
 import os
 import sys
+import json
+from datetime import datetime
 _PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if _PROJECT_ROOT not in sys.path:
     sys.path.insert(0, _PROJECT_ROOT)
@@ -27,8 +31,93 @@ from bo_optimization.data_builder import (
 )
 from bo_optimization.contextual_bo_model import (
     ContextualBayesianOptimizer, select_scheme, SCHEME_TARGETS, SCHEME_NAMES,
-    DEFAULT_PROCESS_BOUNDS, PROCESS_LABELS_CN
+    DEFAULT_PROCESS_BOUNDS, PROCESS_LABELS_CN, DEFAULT_MIN_PHYSICAL_DISTANCES
 )
+
+SPARSITY_DECAY = 0.5  # 每轮间距缩小比例
+
+
+def _get_state_path(scheme):
+    """获取状态文件路径"""
+    return f"space_filling_state_方案{scheme}.json"
+
+
+def _load_state(scheme):
+    """加载状态文件，返回 (state_dict, None) 或 (None, error_msg)"""
+    path = _get_state_path(scheme)
+    if not os.path.exists(path):
+        return None, "状态文件不存在"
+    try:
+        with open(path, 'r', encoding='utf-8') as f:
+            state = json.load(f)
+        return state, None
+    except Exception as e:
+        return None, f"读取状态文件失败: {e}"
+
+
+def _save_state(scheme, state):
+    """保存状态文件"""
+    path = _get_state_path(scheme)
+    with open(path, 'w', encoding='utf-8') as f:
+        json.dump(state, f, ensure_ascii=False, indent=2)
+
+
+def _init_state(scheme, recommendations, alpha, round=1, sparsity_multiplier=1.0):
+    """首次运行：从 suggest_space_filling 结果初始化状态"""
+    points = []
+    for rec in recommendations:
+        point = {k: v for k, v in rec.items() if k.startswith('Process_')}
+        point['cluster'] = rec.get('cluster', 0)
+        point['ei'] = rec.get('ei', 0.0)
+        point['round'] = round
+        points.append(point)
+
+    state = {
+        'scheme': scheme,
+        'created_at': datetime.now().isoformat(),
+        'round': round,
+        'sparsity_multiplier': sparsity_multiplier,
+        'alpha': alpha,
+        'points': points,
+        'allocations': [],  # [{index, sample_name, assigned_at}]
+    }
+    _save_state(scheme, state)
+    return state
+
+
+def _get_next_unallocated(state):
+    """返回下一个未分配的点索引，None 表示全部已分配"""
+    allocated_indices = {a['index'] for a in state['allocations']}
+    for i in range(len(state['points'])):
+        if i not in allocated_indices:
+            return i
+    return None
+
+
+def _print_state_summary(state):
+    """打印当前状态摘要"""
+    n_total = len(state['points'])
+    n_allocated = len(state['allocations'])
+    n_remaining = n_total - n_allocated
+
+    print(f"\n{'='*60}")
+    print(f"空间填充状态 (方案 {state['scheme']})")
+    print(f"{'='*60}")
+    print(f"  总采样点: {n_total}")
+    print(f"  已分配:   {n_allocated}")
+    print(f"  剩余:     {n_remaining}")
+
+    if n_allocated > 0:
+        print(f"\n  已分配记录:")
+        for a in state['allocations']:
+            idx = a['index']
+            pt = state['points'][idx]
+            proc_str = ", ".join([f"{k.replace('Process_', '')}={v:.1f}"
+                                  for k, v in pt.items() if k.startswith('Process_')])
+            print(f"    #{idx+1} → {a['sample_name']}  [{proc_str}]  ({a['assigned_at'][:10]})")
+
+    print(f"{'='*60}")
+    return n_remaining
 
 
 def _extract_single_sample(folder_path):
@@ -101,7 +190,7 @@ def assign_samples_to_clusters(X_pre_new, X_pre_train, labels_train, k):
 
 
 def run_space_filling_plan():
-    """主流程"""
+    """主流程（支持增量分配）"""
     # 1. 选择方案
     scheme = select_scheme()
 
@@ -122,7 +211,70 @@ def run_space_filling_plan():
     # 3. 显示当前覆盖率
     optimizer.print_coverage_report()
 
-    # 4. 获取新样品数据
+    # 4. 加载或初始化状态
+    state, err = _load_state(scheme)
+    if state is None:
+        print(f"\n[状态] {err}，需要初始化空间填充计划")
+        n_total = int(input("计划生成多少个空间填充采样点？(默认 10): ").strip() or "10")
+
+        sparsity_multiplier = 1.0
+        effective_dist = {k: v * sparsity_multiplier for k, v in DEFAULT_MIN_PHYSICAL_DISTANCES.items()}
+        print(f"\n正在生成 {n_total} 个空间填充采样点（间距约束: Temp±{effective_dist['Process_Temp']:.0f}°C, "
+              f"Time±{effective_dist['Process_Time']:.0f}h, H₂±{effective_dist['Process_H2']:.0f}sccm, "
+              f"Ar±{effective_dist['Process_Ar']:.0f}sccm）...")
+        recommendations = optimizer.suggest_space_filling(
+            n_total_points=n_total, alpha=0.5, min_physical_distances=effective_dist
+        )
+        print(f"实际选出: {len(recommendations)} 个采样点")
+        state = _init_state(scheme, recommendations, alpha=0.5, round=1, sparsity_multiplier=sparsity_multiplier)
+        print(f"状态已保存至: {_get_state_path(scheme)}")
+    else:
+        # 向后兼容：旧状态文件可能没有 round/sparsity_multiplier
+        if 'round' not in state:
+            state['round'] = 1
+        if 'sparsity_multiplier' not in state:
+            state['sparsity_multiplier'] = 1.0
+
+    # 5. 显示状态并检查剩余点
+    n_remaining = _print_state_summary(state)
+
+    if n_remaining == 0:
+        round_num = state.get('round', 1)
+        sparsity_multiplier = state.get('sparsity_multiplier', 1.0)
+        print(f"\n第 {round_num} 轮采样点已全部分配完毕！（当前间距倍率: {sparsity_multiplier}）")
+
+        next_multiplier = sparsity_multiplier * SPARSITY_DECAY
+        if next_multiplier < 0.1:
+            print("间距倍率已低于 0.1，不再继续细化。退出。")
+            return
+
+        choice = input(f"是否进入第 {round_num + 1} 轮（间距 ×{next_multiplier}）？(y/n): ").strip().lower()
+        if choice == 'y':
+            n_new = int(input("新一批采样点数 (默认 10): ").strip() or "10")
+            sparsity_multiplier = next_multiplier
+            effective_dist = {k: v * sparsity_multiplier for k, v in DEFAULT_MIN_PHYSICAL_DISTANCES.items()}
+            print(f"\n正在生成 {n_new} 个新的空间填充采样点（间距约束: Temp±{effective_dist['Process_Temp']:.0f}°C, "
+                  f"Time±{effective_dist['Process_Time']:.0f}h, H₂±{effective_dist['Process_H2']:.0f}sccm, "
+                  f"Ar±{effective_dist['Process_Ar']:.0f}sccm）...")
+            recommendations = optimizer.suggest_space_filling(
+                n_total_points=n_new, alpha=0.5, min_physical_distances=effective_dist
+            )
+            print(f"实际选出: {len(recommendations)} 个采样点")
+            for rec in recommendations:
+                point = {k: v for k, v in rec.items() if k.startswith('Process_')}
+                point['cluster'] = rec.get('cluster', 0)
+                point['ei'] = rec.get('ei', 0.0)
+                point['round'] = round_num + 1
+                state['points'].append(point)
+            state['round'] = round_num + 1
+            state['sparsity_multiplier'] = sparsity_multiplier
+            _save_state(scheme, state)
+            n_remaining = _print_state_summary(state)
+        else:
+            print("退出。")
+            return
+
+    # 6. 获取新样品数据
     print("=" * 50)
     print("请输入新样品的预处理数据")
     print("=" * 50)
@@ -137,77 +289,51 @@ def run_space_filling_plan():
     n_new = len(new_features)
     print(f"\n提取到 {n_new} 份新样品的特征")
 
-    # 匹配特征列
+    # 匹配特征列（仅用于完整性检查，实际分配不依赖特征值）
     pre_cols = optimizer.pre_feature_cols
     missing = [c for c in pre_cols if c not in new_features.columns]
     if missing:
         print(f"[警告] 新样品缺少 {len(missing)} 个特征: {missing[:5]}...")
-        # 用训练数据均值填充
-        for col in missing:
-            new_features[col] = optimizer.training_df[col].mean()
 
-    X_pre_new = new_features[pre_cols].values
-
-    # 5. 询问分配策略
-    print(f"\n分配策略:")
-    print(f"  [1] 每份样品分配不同工艺（最大化空间覆盖，推荐）")
-    print(f"  [2] 所有样品用同一套工艺（验证工艺普适性）")
-
-    while True:
-        choice = input("请选择 (1-2): ").strip()
-        if choice in ['1', '2']:
+    # 7. 为每份样品分配下一个未使用的采样点
+    assignments = []
+    for i in range(n_new):
+        idx = _get_next_unallocated(state)
+        if idx is None:
+            print(f"\n[警告] 采样点已用完，样品 {i+1} 无法分配")
             break
-        print("请输入 1 或 2")
 
-    # 6. 生成推荐
-    if choice == '1':
-        # 每份样品分配不同工艺
-        recommendations = optimizer.suggest_space_filling(
-            n_total_points=n_new, alpha=0.5
-        )
+        point = state['points'][idx]
+        sample_name = os.path.basename(pre_path) if os.path.isfile(pre_path) else f"样品{i+1}"
 
-        # 将样品分配到推荐点（按 Pre_ 特征聚类匹配）
-        if n_new <= len(recommendations):
-            # 简单方案：按样品顺序分配
-            assignments = []
-            for i in range(n_new):
-                rec = recommendations[i]
-                assignments.append({
-                    '样品编号': i + 1,
-                    '样品文件': os.path.basename(pre_path) if os.path.isfile(pre_path) else f"样品{i+1}",
-                    **{k: f"{v:.1f}" for k, v in rec.items() if k.startswith('Process_')},
-                    'Cluster': rec.get('cluster', '-'),
-                    'EI': f"{rec.get('ei', 0):.6f}",
-                })
-        else:
-            # 推荐点不够，复用
-            assignments = []
-            for i in range(n_new):
-                rec = recommendations[i % len(recommendations)]
-                assignments.append({
-                    '样品编号': i + 1,
-                    '样品文件': os.path.basename(pre_path) if os.path.isfile(pre_path) else f"样品{i+1}",
-                    **{k: f"{v:.1f}" for k, v in rec.items() if k.startswith('Process_')},
-                    'Cluster': rec.get('cluster', '-'),
-                    'EI': f"{rec.get('ei', 0):.6f}",
-                })
-    else:
-        # 所有样品用同一套工艺
-        rec = optimizer.recommend_next_process(X_pre_new[0])
-        assignments = []
-        for i in range(n_new):
-            assignments.append({
-                '样品编号': i + 1,
-                '样品文件': os.path.basename(pre_path) if os.path.isfile(pre_path) else f"样品{i+1}",
-                **{k: f"{v:.1f}" for k, v in rec['next_experiment'].items()},
-                'Cluster': '-',
-                'EI': '-',
-            })
+        # 记录分配
+        state['allocations'].append({
+            'index': idx,
+            'sample_name': sample_name,
+            'sample_path': pre_path,
+            'assigned_at': datetime.now().isoformat(),
+        })
 
-    # 7. 输出实验计划
+        assignments.append({
+            '样品编号': i + 1,
+            '样品文件': sample_name,
+            **{k: f"{v:.1f}" for k, v in point.items() if k.startswith('Process_')},
+            '空间填充点': f"#{idx+1}",
+            'Cluster': point.get('cluster', '-'),
+            'EI': f"{point.get('ei', 0):.6f}",
+        })
+
+    # 保存更新后的状态
+    _save_state(scheme, state)
+
+    # 8. 输出实验计划
+    if not assignments:
+        print("\n没有可分配的样品。")
+        return
+
     df_plan = pd.DataFrame(assignments)
     print("\n" + "=" * 60)
-    print("实验计划表")
+    print("本次分配结果")
     print("=" * 60)
     print(df_plan.to_string(index=False))
 
@@ -216,12 +342,14 @@ def run_space_filling_plan():
     df_plan.to_csv(output_file, index=False, encoding='utf-8-sig')
     print(f"\n已保存至: {output_file}")
 
-    # 8. 提示下一步
+    # 9. 提示下一步
+    n_remaining_after = len(state['points']) - len(state['allocations'])
     print(f"\n{'='*60}")
     print("下一步:")
     print(f"  1. 按计划表中的工艺参数进行退火实验")
     print(f"  2. 测量产率后，运行 data_builder.py 合并新数据")
-    print(f"  3. 重新运行本脚本查看更新后的覆盖率")
+    print(f"  3. 下次到新样品时，再运行本脚本分配下一个点")
+    print(f"  [剩余采样点: {n_remaining_after}]")
     print(f"{'='*60}")
 
 

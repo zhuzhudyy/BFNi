@@ -42,17 +42,25 @@ def _save_cache(cache):
         json.dump(cache, f, ensure_ascii=False, indent=2)
 
 
-def _http_get(url, retries=3, delay=2.0):
-    """带重试的 HTTP GET"""
-    req = Request(url, headers={"User-Agent": "LitMiningBot/1.0 (academic research)"})
+def _http_get(url, retries=4, delay=5.0):
+    """带重试的 HTTP GET，针对 429 错误增加更长的等待时间"""
+    req = Request(url, headers={"User-Agent": "LitMiningBot/1.5 (academic research)"})
     for attempt in range(retries):
         try:
             with urlopen(req, timeout=30) as resp:
                 return json.loads(resp.read().decode("utf-8"))
-        except (HTTPError, URLError) as e:
+        except HTTPError as e:
+            if e.code == 429:
+                print(f"      [~] 触发接口限制(429)，自动等待 {delay * (attempt + 2)} 秒后重试...")
+                time.sleep(delay * (attempt + 2))
+            else:
+                if attempt == retries - 1:
+                    raise
+                time.sleep(delay)
+        except URLError as e:
             if attempt == retries - 1:
                 raise
-            time.sleep(delay * (attempt + 1))
+            time.sleep(delay)
 
 
 class LiteratureSearcher:
@@ -78,7 +86,8 @@ class LiteratureSearcher:
                 if pid and pid not in seen_ids:
                     seen_ids.add(pid)
                     all_papers.append(paper)
-            time.sleep(1.2)  # Semantic Scholar rate limit: ~1 req/s
+            # 延长单次请求间隔，防止被封 IP
+            time.sleep(5.0)  
 
         all_papers.sort(key=lambda p: p.get("citationCount", 0), reverse=True)
         return all_papers
@@ -92,6 +101,32 @@ class LiteratureSearcher:
     def save_cache(self):
         """Save search results to JSON cache"""
         _save_cache(self.cache)
+
+    def export_doi_list(self, papers, output_path="download_list.txt"):
+        """
+        导出论文 DOI 列表 + 标题，方便通过清华图书馆代理手动下载 PDF。
+        格式：每行一个 DOI，可直接粘贴到 publisher 网站搜索。
+        """
+        lines = []
+        lines.append("# 文献下载清单 — 通过清华图书馆代理逐篇下载 PDF")
+        lines.append("# 访问 https://doi.org/DOI号 即可跳转到出版社页面")
+        lines.append("# 将下载的 PDF 放入 lit_mining/local_pdfs/ 文件夹\n")
+        for i, p in enumerate(papers, 1):
+            doi = p.get("externalIds", {}).get("DOI", "")
+            title = p.get("title", "N/A")[:100]
+            year = p.get("year", "?")
+            cites = p.get("citationCount", 0)
+            oa = " [免费OA]" if p.get("openAccessPdf") else ""
+            lines.append(f"{'OA' if p.get('openAccessPdf') else '需下载'} | [{year}] cites={cites} | {title}")
+            if doi:
+                lines.append(f"  https://doi.org/{doi}")
+            lines.append("")
+        with open(output_path, "w", encoding="utf-8") as f:
+            f.write("\n".join(lines))
+        oa_count = sum(1 for p in papers if p.get("openAccessPdf"))
+        print(f"[*] 下载清单已导出: {output_path}")
+        print(f"    共 {len(papers)} 篇 ({oa_count} 篇OA免费, {len(papers)-oa_count} 篇需通过图书馆下载)")
+        print(f"    将下载的PDF放入: lit_mining/local_pdfs/ 文件夹")
 
     # ------------------------------------------------------------------
     # 内部方法
@@ -132,7 +167,7 @@ class LiteratureSearcher:
                 }
             except Exception:
                 enriched[doi] = {}
-            time.sleep(0.3)
+            time.sleep(0.5)
         return enriched
 
 
@@ -150,33 +185,6 @@ def search_nickel_papers(max_papers=50):
     papers = searcher.filter_relevant(papers)
     searcher.save_cache()
     return papers[:max_papers]
-
-
-    def export_doi_list(self, papers, output_path="download_list.txt"):
-        """
-        导出论文 DOI 列表 + 标题，方便通过清华图书馆代理手动下载 PDF。
-        格式：每行一个 DOI，可直接粘贴到 publisher 网站搜索。
-        """
-        lines = []
-        lines.append("# 文献下载清单 — 通过清华图书馆代理逐篇下载 PDF")
-        lines.append("# 访问 https://doi.org/DOI号 即可跳转到出版社页面")
-        lines.append("# 将下载的 PDF 放入 lit_mining/local_pdfs/ 文件夹\n")
-        for i, p in enumerate(papers, 1):
-            doi = p.get("externalIds", {}).get("DOI", "")
-            title = p.get("title", "N/A")[:100]
-            year = p.get("year", "?")
-            cites = p.get("citationCount", 0)
-            oa = " [免费OA]" if p.get("openAccessPdf") else ""
-            lines.append(f"{'OA' if p.get('openAccessPdf') else '需下载'} | [{year}] cites={cites} | {title}")
-            if doi:
-                lines.append(f"  https://doi.org/{doi}")
-            lines.append("")
-        with open(output_path, "w", encoding="utf-8") as f:
-            f.write("\n".join(lines))
-        oa_count = sum(1 for p in papers if p.get("openAccessPdf"))
-        print(f"[*] 下载清单已导出: {output_path}")
-        print(f"    共 {len(papers)} 篇 ({oa_count} 篇OA免费, {len(papers)-oa_count} 篇需通过图书馆下载)")
-        print(f"    将下载的PDF放入: lit_mining/local_pdfs/ 文件夹")
 
 
 def _ensure_local_pdf_dir():
