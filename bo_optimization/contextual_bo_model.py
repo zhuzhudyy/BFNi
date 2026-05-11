@@ -1150,63 +1150,150 @@ class ContextualBayesianOptimizer:
 
         return all_recommendations
 
-    def compute_space_coverage(self, n_grid_per_dim=10):
+    def compute_space_coverage(self, n_test=5000, r_fraction=0.15):
         """
-        评估 Process_ 空间的覆盖率（基于网格占位）
+        评估 Process_ 空间的覆盖率（距离基指标）
 
-        将 Process_ 空间划分为 n_grid_per_dim^4 的网格，
-        统计有多少网格内至少有一个训练样本。
+        在归一化 [0,1]^4 空间中随机撒 n_test 个测试点，
+        统计有多少测试点到最近训练样本的距离 < r_fraction。
+
+        Args:
+            n_test: 随机测试点数
+            r_fraction: 覆盖半径（归一化空间的比例，0~1）
+                       0.15 表示每个样本覆盖周围 15% 的空间范围
 
         Returns:
             coverage: 0~1 的覆盖率
-            n_occupied: 被占据的网格数
-            n_total: 总网格数
-            details: dict，各维度的网格边界
+            median_dist: 中位最近距离（归一化）
+            p90_dist: P90 最近距离
         """
+        from sklearn.preprocessing import MinMaxScaler
+
         if not hasattr(self, 'training_df') or self.training_df is None:
-            return 0.0, 0, 0, {}
+            return 0.0, 1.0, 1.0
 
         X_proc = self.training_df[self.process_cols].values
-        n_proc = len(self.process_cols)
 
-        # 计算每个维度的网格边界
-        grid_edges = {}
-        for i, col in enumerate(self.process_cols):
-            lo, hi = self.bounds[col]
-            grid_edges[col] = np.linspace(lo, hi, n_grid_per_dim + 1)
+        # 归一化到 [0,1]
+        scaler = MinMaxScaler()
+        X_norm = scaler.fit_transform(X_proc)
 
-        # 将每个样本映射到网格坐标
-        grid_coords = np.zeros((len(X_proc), n_proc), dtype=int)
-        for i, col in enumerate(self.process_cols):
-            edges = grid_edges[col]
-            grid_coords[:, i] = np.clip(np.digitize(X_proc[:, i], edges) - 1, 0, n_grid_per_dim - 1)
+        # 随机测试点
+        rng = np.random.RandomState(42)
+        X_test = rng.uniform(0, 1, size=(n_test, len(self.process_cols)))
 
-        # 统计被占据的网格数
-        occupied = set(tuple(row) for row in grid_coords)
-        n_total = n_grid_per_dim ** n_proc
-        n_occupied = len(occupied)
-        coverage = n_occupied / n_total
+        # 计算每个测试点到最近训练样本的距离
+        sq_train = np.sum(X_norm ** 2, axis=1)
+        sq_test = np.sum(X_test ** 2, axis=1)
+        dists = np.sqrt(np.maximum(sq_test[:, None] + sq_train[None, :] - 2 * X_test @ X_norm.T, 0))
+        min_dists = dists.min(axis=1)
 
-        return coverage, n_occupied, n_total, grid_edges
+        coverage = np.mean(min_dists < r_fraction)
+        median_dist = np.median(min_dists)
+        p90_dist = np.percentile(min_dists, 90)
+
+        return float(coverage), float(median_dist), float(p90_dist)
+
+    def estimate_experiments_for_coverage(self, target_coverage=0.30, r_fraction=0.15, n_test=5000):
+        """
+        估算达到目标覆盖率需要的总实验数
+
+        基于当前训练集的增长曲线拟合。
+
+        Args:
+            target_coverage: 目标覆盖率（0~1）
+            r_fraction: 覆盖半径
+            n_test: 测试点数
+
+        Returns:
+            n_needed: 估算需要的总实验数
+            current_coverage: 当前覆盖率
+            curve: dict，包含拟合参数
+        """
+        if not hasattr(self, 'training_df') or self.training_df is None:
+            return 0, 0.0, {}
+
+        X_proc = self.training_df[self.process_cols].values
+        n_current = len(X_proc)
+
+        # 在不同子采样量下计算覆盖率
+        sample_sizes = []
+        coverages = []
+        rng = np.random.RandomState(42)
+
+        # 归一化
+        from sklearn.preprocessing import MinMaxScaler
+        scaler = MinMaxScaler()
+        X_norm = scaler.fit_transform(X_proc)
+
+        X_test = rng.uniform(0, 1, size=(n_test, len(self.process_cols)))
+
+        for n_sub in sorted(set([
+            max(5, n_current // 8),
+            max(10, n_current // 4),
+            max(15, n_current // 2),
+            n_current,
+        ])):
+            if n_sub > n_current:
+                continue
+            idx = rng.choice(n_current, size=n_sub, replace=False)
+            X_sub = X_norm[idx]
+
+            sq_train = np.sum(X_sub ** 2, axis=1)
+            sq_test = np.sum(X_test ** 2, axis=1)
+            dists = np.sqrt(np.maximum(sq_test[:, None] + sq_train[None, :] - 2 * X_test @ X_sub.T, 0))
+            min_dists = dists.min(axis=1)
+
+            cov = np.mean(min_dists < r_fraction)
+            sample_sizes.append(n_sub)
+            coverages.append(cov)
+
+        current_coverage = coverages[-1] if coverages else 0.0
+
+        if current_coverage >= target_coverage:
+            return n_current, current_coverage, {}
+
+        # 拟合 coverage ≈ 1 - exp(-a * N) 模型
+        # 这是随机采样覆盖高维空间的经典模型
+        from scipy.optimize import curve_fit
+        def coverage_model(N, a):
+            return 1 - np.exp(-a * N)
+
+        try:
+            popt, _ = curve_fit(coverage_model, sample_sizes, coverages, p0=[0.001], maxfev=1000)
+            a = popt[0]
+            # 求解 target_coverage = 1 - exp(-a * N)
+            n_needed = int(np.ceil(-np.log(1 - target_coverage) / a))
+            curve = {'a': a, 'model': '1-exp(-aN)'}
+        except Exception:
+            # 线性外推作为回退
+            if len(sample_sizes) >= 2:
+                slope = (coverages[-1] - coverages[0]) / (sample_sizes[-1] - sample_sizes[0])
+                n_needed = int(np.ceil((target_coverage - current_coverage) / slope + n_current))
+                curve = {'slope': slope, 'model': 'linear'}
+            else:
+                n_needed = n_current * 10
+                curve = {'model': 'fallback'}
+
+        return n_needed, current_coverage, curve
 
     def print_coverage_report(self):
-        """打印空间覆盖率报告"""
-        coverage, n_occupied, n_total, _ = self.compute_space_coverage()
+        """打印空间覆盖率报告（含实验数估算）"""
+        coverage, median_dist, p90_dist = self.compute_space_coverage()
+        n_needed, _, curve = self.estimate_experiments_for_coverage(target_coverage=0.30)
         n_samples = len(self.training_df) if hasattr(self, 'training_df') and self.training_df is not None else 0
 
-        print(f"\n{'='*50}")
-        print(f"Process_ 空间覆盖率报告")
-        print(f"{'='*50}")
+        print(f"\n{'='*55}")
+        print(f"Process_ 空间覆盖率报告（距离基指标）")
+        print(f"{'='*55}")
         print(f"  训练样本数: {n_samples}")
-        print(f"  已占据网格: {n_occupied} / {n_total}")
-        print(f"  覆盖率: {coverage:.1%}")
-        if coverage < 0.3:
-            print(f"  → 覆盖率较低，建议继续空间填充采样")
-        elif coverage < 0.6:
-            print(f"  → 覆盖率中等，可选择性补充采样")
-        else:
-            print(f"  → 覆盖率较好，模型预测应较可靠")
-        print(f"{'='*50}\n")
+        print(f"  覆盖率 (r=15%): {coverage:.1%}")
+        print(f"  中位最近距离: {median_dist:.3f}（归一化）")
+        print(f"  P90 最近距离: {p90_dist:.3f}（归一化）")
+        print(f"  达到 30% 覆盖率约需: {n_needed} 组实验")
+        if curve:
+            print(f"  拟合模型: {curve.get('model', 'N/A')}")
+        print(f"{'='*55}\n")
 
 
 def add_new_data_to_training(existing_file, new_data_file):
