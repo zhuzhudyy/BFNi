@@ -85,3 +85,62 @@ def plot_variance_pie(ax, optimizer):
 
     total = sum(values)
     ax.set_title(f'方差成分分解 (σ²_total = {total:.4f})', fontsize=11, fontweight='bold')
+
+
+def plot_coverage_bar(ax, optimizer):
+    """
+    面板 ④：覆盖率指标（进度条 + 数字）
+
+    调用 compute_space_coverage() 和 estimate_experiments_for_coverage()
+    显示当前覆盖率、中位距离、达到 30% 还需多少实验。
+    """
+    ax.set_xlim(0, 10)
+    ax.set_ylim(0, 10)
+    ax.axis('off')
+
+    coverage, median_dist, p90_dist = optimizer.compute_space_coverage()
+    n_needed, _, curve = optimizer.estimate_experiments_for_coverage(target_coverage=0.30)
+    n_samples = len(optimizer.training_df)
+
+    # 进度条
+    bar_y = 7.0
+    bar_width = 8.0
+    bar_height = 0.8
+    bar_x = 1.0
+
+    # 背景条
+    ax.barh(bar_y, bar_width, bar_height, left=bar_x, color='#e0e0e0', edgecolor='none')
+    # 填充条
+    fill_width = bar_width * min(coverage, 1.0)
+    bar_color = COLORS['success'] if coverage >= 0.30 else (COLORS['accent'] if coverage >= 0.15 else COLORS['secondary'])
+    ax.barh(bar_y, fill_width, bar_height, left=bar_x, color=bar_color, edgecolor='none')
+    # 百分比文字
+    ax.text(bar_x + bar_width / 2, bar_y, f'{coverage:.1%}', ha='center', va='center',
+            fontsize=14, fontweight='bold', color='white' if coverage > 0.1 else 'black')
+
+    # 标题
+    ax.text(5.0, 9.2, 'Process_ 空间覆盖率', ha='center', va='center',
+            fontsize=12, fontweight='bold')
+
+    # 指标文字
+    info_lines = [
+        f'当前样本: {n_samples}',
+        f'中位距离: {median_dist:.3f} (归一化)',
+        f'P90 距离: {p90_dist:.3f}',
+        f'达 30% 还需: ~{max(0, n_needed - n_samples)} 组实验',
+    ]
+    for i, line in enumerate(info_lines):
+        ax.text(5.0, 5.2 - i * 0.9, line, ha='center', va='center', fontsize=10, color='#333333')
+
+    # 状态标签
+    if coverage >= 0.30:
+        status = '✓ 覆盖率良好'
+        status_color = COLORS['success']
+    elif coverage >= 0.15:
+        status = '△ 覆盖率中等'
+        status_color = COLORS['accent']
+    else:
+        status = '✗ 覆盖率不足'
+        status_color = COLORS['secondary']
+    ax.text(5.0, 1.0, status, ha='center', va='center', fontsize=12,
+            fontweight='bold', color=status_color)
