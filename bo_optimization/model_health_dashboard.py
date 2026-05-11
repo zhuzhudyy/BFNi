@@ -337,3 +337,78 @@ def plot_process_pairplot(ax_grid, optimizer, recommendations=None):
     for idx in range(len(pairs), 6):
         row, col = divmod(idx, 3)
         ax_grid[row, col].axis('off')
+
+
+def create_dashboard(optimizer, recommendations=None, save_path=None):
+    """
+    组装 2×2 仪表盘
+
+    Args:
+        optimizer: 训练好的 ContextualBayesianOptimizer
+        recommendations: suggest_space_filling() 的返回值（可选）
+        save_path: 保存路径（None 则自动生成）
+    """
+    fig = plt.figure(figsize=(16, 12))
+    gs = GridSpec(2, 2, figure=fig, hspace=0.35, wspace=0.3)
+
+    # 面板 ①：RMSE 学习曲线
+    ax1 = fig.add_subplot(gs[0, 0])
+    print("[*] 计算 RMSE 学习曲线（K-Fold CV）...")
+    plot_rmse_curve(ax1, optimizer)
+
+    # 面板 ②：Process_ pairplot
+    gs_right = gs[0, 1].subgridspec(2, 3, hspace=0.4, wspace=0.35)
+    ax_pair = np.array([[fig.add_subplot(gs_right[r, c]) for c in range(3)] for r in range(2)])
+    print("[*] 绘制 Process_ pairplot...")
+    plot_process_pairplot(ax_pair, optimizer, recommendations)
+
+    # 面板 ③：方差饼图
+    ax3 = fig.add_subplot(gs[1, 0])
+    plot_variance_pie(ax3, optimizer)
+
+    # 面板 ④：覆盖率指标
+    ax4 = fig.add_subplot(gs[1, 1])
+    plot_coverage_bar(ax4, optimizer)
+
+    # 总标题
+    n_samples = len(optimizer.training_df)
+    fig.suptitle(f'模型健康状态仪表盘 (N = {n_samples})', fontsize=14, fontweight='bold', y=0.98)
+
+    # 保存
+    if save_path is None:
+        output_dir = create_output_dir()
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        save_path = os.path.join(output_dir, f'model_health_{timestamp}.png')
+
+    fig.savefig(save_path, dpi=150, bbox_inches='tight', facecolor='white')
+    print(f"\n[*] 仪表盘已保存至: {save_path}")
+    plt.close(fig)
+    return save_path
+
+
+if __name__ == "__main__":
+    scheme = select_scheme()
+
+    # 加载模型
+    model_path = f"trained_models/model_scheme{scheme}.pkl"
+    if not os.path.exists(model_path):
+        model_path = "trained_models/model_scheme1.pkl"
+
+    optimizer = ContextualBayesianOptimizer(bounds=DEFAULT_PROCESS_BOUNDS)
+    if not optimizer.load_model(model_path):
+        data_file = f"Optimized_Training_Data_方案{scheme}.csv"
+        if not os.path.exists(data_file):
+            data_file = "Optimized_Training_Data.csv"
+        optimizer.train(data_file)
+
+    # 可选：生成 LHS 推荐点
+    print("\n是否生成空间填充推荐？(y/n): ", end='')
+    do_lhs = input().strip().lower() == 'y'
+    recommendations = None
+    if do_lhs:
+        n_points = int(input("推荐点数 (默认 6): ").strip() or "6")
+        recommendations = optimizer.suggest_space_filling(n_total_points=n_points)
+
+    # 生成仪表盘
+    save_path = create_dashboard(optimizer, recommendations=recommendations)
+    print(f"\n完成！仪表盘: {save_path}")
