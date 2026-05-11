@@ -144,3 +144,121 @@ def plot_coverage_bar(ax, optimizer):
         status_color = COLORS['secondary']
     ax.text(5.0, 1.0, status, ha='center', va='center', fontsize=12,
             fontweight='bold', color=status_color)
+
+
+def plot_rmse_curve(ax, optimizer, n_repeats=3):
+    """
+    面板 ①：RMSE vs 数据量（K-Fold CV 学习曲线）
+
+    在 20, 40, 60, 全量样本上分别执行 5-Fold CV，
+    绘制 RMSE 均值 ± 标准差曲线。
+    使用 3 次多起点 + warm start 加速。
+    """
+    from sklearn.model_selection import KFold
+
+    df = optimizer.training_df
+    pre_cols = optimizer.pre_feature_cols
+    target_cols = optimizer.target_cols
+    process_cols = optimizer.process_cols
+    all_cols = pre_cols + target_cols + process_cols
+
+    X_full = df[all_cols].values
+    y_full = df['TARGET_Yield'].values
+    n_full = len(df)
+
+    # 数据量梯度
+    sizes = sorted(set([20, 40, 60, n_full]))
+    sizes = [s for s in sizes if s <= n_full]
+
+    # 保存全量模型的超参数作为 warm start
+    warm_theta = optimizer.gpr.kernel_.theta.copy() if hasattr(optimizer.gpr, 'kernel_') else None
+
+    results = {}  # size -> list of rmse values
+
+    for n_sub in sizes:
+        rmses = []
+        for rep in range(n_repeats):
+            # 子采样
+            rng = np.random.RandomState(rep * 100 + n_sub)
+            if n_sub < n_full:
+                idx = rng.choice(n_full, size=n_sub, replace=False)
+            else:
+                idx = np.arange(n_full)
+
+            X_sub = X_full[idx]
+            y_sub = y_full[idx]
+
+            # 5-Fold CV
+            kf = KFold(n_splits=5, shuffle=True, random_state=rep)
+            fold_rmses = []
+
+            for train_idx, test_idx in kf.split(X_sub):
+                X_train, X_test = X_sub[train_idx], X_sub[test_idx]
+                y_train, y_test = y_sub[train_idx], y_sub[test_idx]
+
+                # 训练 GPR（3 次多起点 + warm start）
+                from bo_optimization.contextual_bo_model import ANOVAMaternKernel, GPRWithPriors
+                kernel = ANOVAMaternKernel(len(pre_cols), len(target_cols), len(process_cols))
+                gpr = GPRWithPriors(
+                    kernel=kernel, alpha=1e-10, normalize_y=True,
+                    inter_var_prior=(1.5, 1.0), num_restarts=3, random_state=42
+                )
+
+                # Warm start
+                if warm_theta is not None and len(warm_theta) == len(kernel.theta):
+                    try:
+                        kernel.theta = warm_theta
+                    except Exception:
+                        pass
+
+                try:
+                    from sklearn.preprocessing import StandardScaler
+                    scaler = StandardScaler()
+                    X_train_s = scaler.fit_transform(X_train)
+                    X_test_s = scaler.transform(X_test)
+
+                    gpr.fit(X_train_s, y_train)
+                    y_pred = gpr.predict(X_test_s)
+                    rmse = np.sqrt(np.mean((y_pred - y_test) ** 2))
+                    fold_rmses.append(rmse)
+                except Exception:
+                    continue
+
+            if fold_rmses:
+                rmses.append(np.mean(fold_rmses))
+
+        results[n_sub] = rmses
+
+    # 绘制
+    x_vals = []
+    y_means = []
+    y_stds = []
+
+    for size in sizes:
+        rmses = results.get(size, [])
+        if rmses:
+            x_vals.append(size)
+            y_means.append(np.mean(rmses))
+            y_stds.append(np.std(rmses) if len(rmses) > 1 else 0)
+
+    if not x_vals:
+        ax.text(0.5, 0.5, '数据不足', ha='center', va='center', transform=ax.transAxes)
+        return
+
+    y_means = np.array(y_means)
+    y_stds = np.array(y_stds)
+
+    ax.plot(x_vals, y_means, '-o', color=COLORS['primary'], linewidth=2, markersize=6, label='5-Fold CV RMSE')
+    ax.fill_between(x_vals, y_means - y_stds, y_means + y_stds,
+                     alpha=0.2, color=COLORS['primary'])
+
+    # 标注全量结果
+    if n_full in results and results[n_full]:
+        ax.plot(n_full, np.mean(results[n_full]), '*', color=COLORS['secondary'],
+                markersize=15, label=f'全量 RMSE = {np.mean(results[n_full]):.4f}', zorder=5)
+
+    ax.set_xlabel('训练集大小', fontsize=10)
+    ax.set_ylabel('RMSE', fontsize=10)
+    ax.set_title('模型精度 vs 数据量', fontsize=11, fontweight='bold')
+    ax.legend(fontsize=8)
+    ax.grid(True, alpha=0.3)
