@@ -70,6 +70,14 @@ def plot_variance_pie(ax, optimizer):
     var_inter = np.exp(kernel.log_var_inter) if hasattr(kernel, 'log_var_inter') else 0
 
     values = [var_pre, var_target, var_proc, var_inter]
+    total = sum(values)
+
+    if total < 1e-10:
+        ax.text(0.5, 0.5, '方差数据不可用\n（旧模型格式，请重新训练）',
+                ha='center', va='center', transform=ax.transAxes, fontsize=11, color=COLORS['gray'])
+        ax.set_title('方差成分分解', fontsize=11, fontweight='bold')
+        return
+
     labels = ['初始状态\n(Pre_)', '目标晶向\n(Target_)', '工艺参数\n(Process_)', '交互效应\n(Pre_×Proc_)']
     colors = [COLORS['pre'], COLORS['target'], COLORS['proc'], COLORS['inter']]
     explode = (0, 0, 0, 0.08)
@@ -83,7 +91,6 @@ def plot_variance_pie(ax, optimizer):
         t.set_fontsize(8)
         t.set_fontweight('bold')
 
-    total = sum(values)
     ax.set_title(f'方差成分分解 (σ²_total = {total:.4f})', fontsize=11, fontweight='bold')
 
 
