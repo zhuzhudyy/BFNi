@@ -998,8 +998,7 @@ class ContextualBayesianOptimizer:
         for _ in range(min(n_select, len(remaining))):
             # 计算当前候选点到虚拟参考集的 maximin distance
             X_cand_remaining = X_candidates[remaining]
-            d_min = self._maximin_distance(X_cand_remaining, X_virtual,
-                                            self.process_cols[:X_candidates.shape[1]])
+            d_min = self._maximin_distance(X_cand_remaining, X_virtual, self.process_cols)
 
             # 计算 rank 百分位
             ei_remaining = ei_values[remaining]
