@@ -1018,6 +1018,139 @@ class ContextualBayesianOptimizer:
 
         return np.array(selected_indices), X_candidates[selected_indices]
 
+    def suggest_space_filling(self, n_total_points, alpha=0.5, n_candidates_per_cluster=1000):
+        """
+        空间填充采样建议：混合 EI + maximin distance
+
+        Args:
+            n_total_points: 总共需要推荐的采样点数
+            alpha: EI 权重（0~1），默认 0.5
+            n_candidates_per_cluster: 每个 cluster 的 LHS 候选点数
+
+        Returns:
+            recommendations: list of dict，每个包含 process params + cluster info
+        """
+        from sklearn.cluster import KMeans
+        from sklearn.metrics import silhouette_score
+        from scipy.stats import qmc
+
+        if not hasattr(self, 'training_df') or self.training_df is None:
+            raise ValueError("请先调用 train() 训练模型")
+
+        # --- 1. 聚类 Pre_ 特征 ---
+        X_pre_train = self.training_df[self.pre_feature_cols].values
+
+        if len(X_pre_train) < 15:
+            k_best = 1
+            labels = np.zeros(len(X_pre_train), dtype=int)
+            best_score = 0.0
+            print(f"\n[空间填充] 样本量 {len(X_pre_train)} < 15，跳过聚类（单一 cluster）")
+        else:
+            best_score = -1
+            k_best = 3
+            labels = np.zeros(len(X_pre_train), dtype=int)
+            for k in [3, 4, 5]:
+                if k >= len(X_pre_train):
+                    continue
+                km = KMeans(n_clusters=k, random_state=42, n_init=10)
+                labels_k = km.fit_predict(X_pre_train)
+                score = silhouette_score(X_pre_train, labels_k)
+                if score > best_score:
+                    best_score = score
+                    k_best = k
+                    labels = labels_k
+            print(f"\n[空间填充] 最优聚类 k={k_best}（silhouette={best_score:.3f}）")
+
+        # --- 2. 按 cluster 大小比例分配采样点数 ---
+        n_per_cluster = {}
+        for c in range(k_best):
+            count = int(np.sum(labels == c))
+            n_per_cluster[c] = max(1, round(n_total_points * count / len(X_pre_train)))
+        # 调整总数（round 可能导致偏差）
+        total_assigned = sum(n_per_cluster.values())
+        if total_assigned != n_total_points:
+            max_c = max(n_per_cluster, key=n_per_cluster.get)
+            n_per_cluster[max_c] += n_total_points - total_assigned
+
+        print(f"[空间填充] 各 cluster 分配: {n_per_cluster}")
+
+        # --- 3. 获取训练数据的 Process_ 特征（用于距离计算）---
+        X_train_proc = self.training_df[self.process_cols].values
+
+        # --- 4. 对每个 cluster 生成候选点并选择 ---
+        h2_idx = self.process_cols.index('Process_H2')
+        ar_idx = self.process_cols.index('Process_Ar')
+        all_recommendations = []
+
+        for c in range(k_best):
+            n_select = n_per_cluster[c]
+            if n_select <= 0:
+                continue
+
+            # LHS 生成候选点（Process_ 空间）
+            d_proc = len(self.process_cols)
+            sampler = qmc.LatinHypercube(d=d_proc, seed=42 + c)
+            X_lhs_unit = sampler.random(n=n_candidates_per_cluster)
+
+            # 缩放到物理范围
+            bounds_array = np.array([[self.bounds[col][0], self.bounds[col][1]]
+                                      for col in self.process_cols])
+            X_lhs = qmc.scale(X_lhs_unit, bounds_array[:, 0], bounds_array[:, 1])
+
+            # 拒绝采样：Ar >= 2 * H2
+            feasible_mask = X_lhs[:, ar_idx] >= 2 * X_lhs[:, h2_idx]
+            X_feasible = X_lhs[feasible_mask]
+            print(f"  Cluster {c}: LHS {n_candidates_per_cluster} → 可行 {len(X_feasible)} "
+                  f"（拒绝率 {1 - feasible_mask.mean():.1%}）")
+
+            if len(X_feasible) < n_select:
+                print(f"  [警告] 可行点不足，仅选 {len(X_feasible)} 个")
+                n_select = len(X_feasible)
+
+            # 计算 EI
+            # 使用 cluster 中心的 Pre_ 特征作为代表
+            cluster_mask = labels == c
+            x_pre_center = X_pre_train[cluster_mask].mean(axis=0)
+
+            # 使用该 cluster 内样本的 y_best
+            cluster_yields = self.training_df.loc[cluster_mask, 'TARGET_Yield'].values
+            y_best_cluster = np.percentile(cluster_yields, 95) if len(cluster_yields) > 0 else 0.5
+
+            # 目标晶向：使用训练数据中出现的目标
+            target_onehot = np.zeros(len(self.target_cols))
+            if self.target_cols:
+                for col in self.target_cols:
+                    if col in self.training_df.columns:
+                        if self.training_df[col].mean() > 0.5:
+                            target_onehot[self.target_cols.index(col)] = 1.0
+
+            ei_vals, _, _ = self.expected_improvement(
+                X_feasible, x_pre_center, y_best_cluster, target_onehot
+            )
+
+            # 贪心选择
+            selected_idx, selected_points = self._greedy_select_mixed_score(
+                X_feasible, ei_vals, X_train_proc, n_select, alpha=alpha
+            )
+
+            for idx, point in zip(selected_idx, selected_points):
+                rec = {col: point[i] for i, col in enumerate(self.process_cols)}
+                rec['cluster'] = c
+                rec['ei'] = ei_vals[idx]
+                all_recommendations.append(rec)
+
+            # 将选中的点加入虚拟参考集（跨 cluster 也要保持距离）
+            X_train_proc = np.vstack([X_train_proc, selected_points])
+
+        # --- 5. 输出 ---
+        print(f"\n[空间填充] 共推荐 {len(all_recommendations)} 个采样点:")
+        for i, rec in enumerate(all_recommendations):
+            proc_str = ", ".join([f"{k}={v:.1f}" for k, v in rec.items()
+                                  if k.startswith('Process_')])
+            print(f"  #{i+1} [Cluster {rec['cluster']}] {proc_str}  (EI={rec['ei']:.6f})")
+
+        return all_recommendations
+
 
 def add_new_data_to_training(existing_file, new_data_file):
     """
