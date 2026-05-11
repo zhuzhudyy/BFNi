@@ -31,25 +31,60 @@ from bo_optimization.contextual_bo_model import (
 )
 
 
+def _extract_single_sample(folder_path):
+    """从单个实验文件夹提取一份样品的特征（多次测量取均值）"""
+    pre_files = find_data_files(folder_path, 'pre')
+    if not pre_files:
+        return None
+    all_features = []
+    for f in pre_files:
+        feat = extract_macro_rgb_features(f, prefix="Pre_")
+        if isinstance(feat, dict):
+            all_features.append(feat)
+    if not all_features:
+        return None
+    df_multi = pd.DataFrame(all_features)
+    # 多次测量取均值 → 一行代表该样品
+    return df_multi.mean(axis=0).to_frame().T
+
+
 def extract_pre_features(pre_path):
-    """从 pre 文件或文件夹提取特征，返回 DataFrame（每行一个样品）"""
-    if os.path.isdir(pre_path):
-        pre_files = find_data_files(pre_path, 'pre')
-        if not pre_files:
-            raise ValueError(f"在 {pre_path} 中未找到 pre 文件")
-        # 每个 pre 文件单独提取（一个文件 = 一个样品）
-        all_features = []
-        for f in pre_files:
-            feat = extract_macro_rgb_features(f, prefix="Pre_")
-            if isinstance(feat, dict):
-                all_features.append(feat)
-        if not all_features:
-            raise ValueError("未能从任何 pre 文件中提取特征")
-        features = pd.DataFrame(all_features)
-        print(f"  分别提取 {len(features)} 个样品的特征")
-    else:
+    """
+    从路径提取样品特征，返回 DataFrame（每行一个样品）
+
+    支持三种输入：
+    - 单个 pre.csv 文件 → 1 份样品
+    - 单个实验文件夹（含 pre*.csv） → 1 份样品（多次测量取均值）
+    - 父文件夹（含多个子文件夹） → 每个子文件夹 = 1 份样品
+    """
+    if not os.path.isdir(pre_path):
+        # 单个文件
         feat = extract_macro_rgb_features(pre_path, prefix="Pre_")
-        features = pd.DataFrame([feat] if isinstance(feat, dict) else feat)
+        return pd.DataFrame([feat] if isinstance(feat, dict) else feat)
+
+    # 检查是否直接包含 pre 文件（单实验文件夹）
+    pre_files = find_data_files(pre_path, 'pre')
+    if pre_files:
+        sample_df = _extract_single_sample(pre_path)
+        if sample_df is not None:
+            print(f"  单样品文件夹（{len(pre_files)} 次测量取均值）")
+            return sample_df
+
+    # 父文件夹：遍历子文件夹
+    subfolders = [os.path.join(pre_path, d) for d in os.listdir(pre_path)
+                  if os.path.isdir(os.path.join(pre_path, d))]
+    all_samples = []
+    for sub in sorted(subfolders):
+        sample_df = _extract_single_sample(sub)
+        if sample_df is not None:
+            sample_df.index = [os.path.basename(sub)]
+            all_samples.append(sample_df)
+
+    if not all_samples:
+        raise ValueError(f"在 {pre_path} 中未找到任何包含 pre 文件的样品文件夹")
+
+    features = pd.concat(all_samples, ignore_index=True)
+    print(f"  发现 {len(features)} 份样品")
     return features
 
 
