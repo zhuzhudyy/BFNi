@@ -337,8 +337,11 @@ def run_space_filling_plan():
     print("=" * 60)
     print(df_plan.to_string(index=False))
 
-    # 保存
+    # 保存（追加到已有文件）
     output_file = f"space_filling_plan_方案{scheme}.csv"
+    if os.path.exists(output_file):
+        df_old = pd.read_csv(output_file, encoding='utf-8-sig')
+        df_plan = pd.concat([df_old, df_plan], ignore_index=True)
     df_plan.to_csv(output_file, index=False, encoding='utf-8-sig')
     print(f"\n已保存至: {output_file}")
 
