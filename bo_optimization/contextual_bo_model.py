@@ -6,17 +6,285 @@ _PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if _PROJECT_ROOT not in sys.path:
     sys.path.insert(0, _PROJECT_ROOT)
 from sklearn.gaussian_process import GaussianProcessRegressor
-from sklearn.gaussian_process.kernels import Matern, ConstantKernel, WhiteKernel
+from sklearn.gaussian_process.kernels import Kernel, Hyperparameter
 from sklearn.preprocessing import StandardScaler
-from scipy.stats import norm
+from scipy.stats import norm, gamma as gamma_dist
+from scipy.optimize import minimize
 import warnings
 
 # 忽略高斯过程在极低方差区域可能产生的数值计算警告
 warnings.filterwarnings("ignore")
 
 # ============================================================
-# 共享常量：所有模块共用，避免重复定义
+# ANOVA Matern 核函数（分组 ARD + 交互效应 + 混合 nu）
 # ============================================================
+
+class ANOVAMaternKernel(Kernel):
+    """
+    ANOVA 分解的 Matern 核函数（单类实现，参数平坦化）
+
+    K = σ²_pre × Matern52(Pre_) + σ²_target × Matern52(Target_)
+      + σ²_proc × Matern32(Process_) + σ²_inter × Matern52(Pre_) × Matern32(Process_)
+      + σ²_noise
+
+    theta 结构（log 尺度）：
+    [pre_ls(n_pre), target_ls(n_target), proc_ls(n_proc),
+     log(σ²_pre), log(σ²_target), log(σ²_proc), log(σ²_inter), log(σ²_noise)]
+
+    长度尺度共享：交互项复用主效应的长度尺度，无额外参数。
+    """
+
+    def __init__(self, n_pre, n_target, n_proc,
+                 pre_ls_bounds=(0.3, 5.0), target_ls_bounds=(0.5, 3.0), proc_ls_bounds=(0.3, 3.0)):
+        self.n_pre = n_pre
+        self.n_target = n_target
+        self.n_proc = n_proc
+        self.pre_ls_bounds = pre_ls_bounds
+        self.target_ls_bounds = target_ls_bounds
+        self.proc_ls_bounds = proc_ls_bounds
+
+        # 超参数定义（通过 Hyperparameter 对象让 sklearn 识别）
+        self._hyperparameters = []
+        if n_pre > 0:
+            self._hyperparameters.append(
+                Hyperparameter('pre_length_scale', 'numeric', (pre_ls_bounds,) * n_pre, n_pre))
+        if n_target > 0:
+            self._hyperparameters.append(
+                Hyperparameter('target_length_scale', 'numeric', (target_ls_bounds,) * n_target, n_target))
+        if n_proc > 0:
+            self._hyperparameters.append(
+                Hyperparameter('proc_length_scale', 'numeric', (proc_ls_bounds,) * n_proc, n_proc))
+        self._hyperparameters.append(
+            Hyperparameter('log_var_pre', 'numeric', (-6.0, 6.0)))
+        self._hyperparameters.append(
+            Hyperparameter('log_var_target', 'numeric', (-6.0, 6.0)))
+        self._hyperparameters.append(
+            Hyperparameter('log_var_proc', 'numeric', (-6.0, 6.0)))
+        self._hyperparameters.append(
+            Hyperparameter('log_var_inter', 'numeric', (-6.0, 6.0)))
+        self._hyperparameters.append(
+            Hyperparameter('log_noise_level', 'numeric', (-10.0, 10.0)))
+
+    @property
+    def hyperparameter_length_scale(self):
+        """返回第一个 length_scale 超参数（sklearn 兼容）"""
+        return self._hyperparameters[0]
+
+    @property
+    def theta(self):
+        """返回 log 尺度的超参数向量"""
+        vals = []
+        for hp in self._hyperparameters:
+            v = self._get_param(hp.name)
+            if 'length_scale' in hp.name:
+                vals.append(np.log(np.atleast_1d(v)))
+            else:
+                vals.append(np.atleast_1d(v))  # 已经是 log 尺度
+        return np.concatenate(vals)
+
+    @theta.setter
+    def theta(self, value):
+        offset = 0
+        for hp in self._hyperparameters:
+            n = hp.n_elements
+            vals = value[offset:offset + n]
+            if 'length_scale' in hp.name:
+                setattr(self, hp.name, np.exp(vals))
+            elif n == 1:
+                setattr(self, hp.name, float(vals[0]))
+            else:
+                setattr(self, hp.name, vals)
+            offset += n
+
+    @property
+    def bounds(self):
+        result = []
+        for hp in self._hyperparameters:
+            b = np.atleast_2d(hp.bounds)  # shape: (n_elements, 2)
+            for row in b:
+                lo, hi = row
+                if 'length_scale' in hp.name:
+                    result.append([np.log(lo), np.log(hi)])
+                else:
+                    result.append([lo, hi])
+        return np.array(result)
+
+    def _get_param(self, name):
+        if hasattr(self, name):
+            return getattr(self, name)
+        # 默认值
+        if 'length_scale' in name:
+            if 'pre' in name:
+                return np.ones(self.n_pre)
+            elif 'target' in name:
+                return np.ones(self.n_target)
+            elif 'proc' in name:
+                return np.ones(self.n_proc)
+        return 0.0  # log(1.0) = 0
+
+    def get_params(self, deep=True):
+        # 返回构造函数参数（sklearn clone 需要）
+        return {'n_pre': self.n_pre, 'n_target': self.n_target, 'n_proc': self.n_proc,
+                'pre_ls_bounds': self.pre_ls_bounds, 'target_ls_bounds': self.target_ls_bounds,
+                'proc_ls_bounds': self.proc_ls_bounds}
+
+    def set_params(self, **params):
+        for k, v in params.items():
+            setattr(self, k, v)
+        return self
+
+    def _matern_kernel(self, dists, nu):
+        """计算 Matern 核值"""
+        if nu == 0.5:
+            return np.exp(-dists)
+        elif nu == 1.5:
+            return (1.0 + np.sqrt(3.0) * dists) * np.exp(-np.sqrt(3.0) * dists)
+        elif nu == 2.5:
+            return (1.0 + np.sqrt(5.0) * dists + 5.0 / 3.0 * dists ** 2) * np.exp(-np.sqrt(5.0) * dists)
+        return np.exp(-dists)
+
+    def _scaled_dists(self, X, Y, ls, dim_slice):
+        """计算归一化欧氏距离"""
+        Xs = X[:, dim_slice] / ls
+        Ys = Y[:, dim_slice] / ls if Y is not None else Xs
+        sq_sum_X = np.sum(Xs ** 2, axis=1, keepdims=True)
+        sq_sum_Y = np.sum(Ys ** 2, axis=1, keepdims=True) if Y is not None else sq_sum_X
+        dists = np.sqrt(np.maximum(sq_sum_X + sq_sum_Y.T - 2 * Xs @ Ys.T, 0))
+        return dists
+
+    def __call__(self, X, Y=None, eval_gradient=False):
+        X = np.asarray(X)
+        if Y is None:
+            Y = X
+
+        pre_ls = np.atleast_1d(self._get_param('pre_length_scale'))
+        target_ls = np.atleast_1d(self._get_param('target_length_scale'))
+        proc_ls = np.atleast_1d(self._get_param('proc_length_scale'))
+        var_pre = np.exp(self.log_var_pre) if hasattr(self, 'log_var_pre') else 1.0
+        var_target = np.exp(self.log_var_target) if hasattr(self, 'log_var_target') else 1.0
+        var_proc = np.exp(self.log_var_proc) if hasattr(self, 'log_var_proc') else 1.0
+        var_inter = np.exp(self.log_var_inter) if hasattr(self, 'log_var_inter') else 1.0
+        noise = np.exp(self.log_noise_level) if hasattr(self, 'log_noise_level') else 1e-4
+
+        pre_dims = list(range(self.n_pre))
+        target_dims = list(range(self.n_pre, self.n_pre + self.n_target))
+        proc_dims = list(range(self.n_pre + self.n_target, self.n_pre + self.n_target + self.n_proc))
+
+        n = X.shape[0]
+        m = Y.shape[0]
+        K = np.zeros((n, m))
+
+        # 主效应
+        if self.n_pre > 0:
+            d_pre = self._scaled_dists(X, Y, pre_ls, pre_dims)
+            K += var_pre * self._matern_kernel(d_pre, 2.5)
+        if self.n_target > 0:
+            d_target = self._scaled_dists(X, Y, target_ls, target_dims)
+            K += var_target * self._matern_kernel(d_target, 2.5)
+        if self.n_proc > 0:
+            d_proc = self._scaled_dists(X, Y, proc_ls, proc_dims)
+            K += var_proc * self._matern_kernel(d_proc, 1.5)
+
+        # 交互效应（复用主效应长度尺度）
+        if self.n_pre > 0 and self.n_proc > 0:
+            K_pre_inter = self._matern_kernel(d_pre, 2.5)
+            K_proc_inter = self._matern_kernel(d_proc, 1.5)
+            K += var_inter * K_pre_inter * K_proc_inter
+
+        # 噪声
+        if Y is X:
+            np.fill_diagonal(K, K.diagonal() + noise)
+
+        if eval_gradient:
+            return K, np.empty((n, m, 0))  # 梯度暂不支持
+        return K
+
+    def diag(self, X):
+        var_pre = np.exp(self.log_var_pre) if hasattr(self, 'log_var_pre') else 1.0
+        var_target = np.exp(self.log_var_target) if hasattr(self, 'log_var_target') else 1.0
+        var_proc = np.exp(self.log_var_proc) if hasattr(self, 'log_var_proc') else 1.0
+        var_inter = np.exp(self.log_var_inter) if hasattr(self, 'log_var_inter') else 1.0
+        noise = np.exp(self.log_noise_level) if hasattr(self, 'log_noise_level') else 1e-4
+        return np.full(X.shape[0], var_pre + var_target + var_proc + var_inter + noise)
+
+    def is_stationary(self):
+        return False
+
+    def __repr__(self):
+        return f"ANOVAMaternKernel(pre={self.n_pre}, target={self.n_target}, proc={self.n_proc})"
+
+
+class GPRWithPriors(GaussianProcessRegressor):
+    """
+    扩展 sklearn GPR，支持：
+    1. 对交互项方差施加 Gamma 先验
+    2. 多起点优化（num_restarts 次随机重启）
+    """
+
+    def __init__(self, kernel, alpha=1e-10, normalize_y=True,
+                 n_restarts_optimizer=0, random_state=None,
+                 inter_var_prior=None, num_restarts=20):
+        super().__init__(
+            kernel=kernel, alpha=alpha, normalize_y=normalize_y,
+            n_restarts_optimizer=0,
+            random_state=random_state
+        )
+        self.inter_var_prior = inter_var_prior  # (a, b) for Gamma(a,b)
+        self.num_restarts = num_restarts
+
+    def fit(self, X, y):
+        """多起点优化 + 先验注入"""
+        from sklearn.utils import check_random_state
+        rng = check_random_state(self.random_state)
+
+        best_lml = -np.inf
+        best_theta = None
+        best_kernel = None
+
+        for restart in range(self.num_restarts):
+            try:
+                if restart > 0:
+                    # 随机初始化核参数
+                    theta = self.kernel.theta.copy()
+                    bounds = self.kernel.bounds
+                    for i, (lo, hi) in enumerate(bounds):
+                        theta[i] = rng.uniform(lo + 0.1 * (hi - lo), hi - 0.1 * (hi - lo))
+                    self.kernel.theta = theta
+
+                # 父类 fit（单次优化）
+                super().fit(X, y)
+
+                # 计算带先验的 LML
+                lml = self._lml_with_prior()
+
+                if lml > best_lml:
+                    best_lml = lml
+                    best_theta = self.kernel_.theta.copy()
+                    best_kernel = self.kernel_
+
+            except Exception:
+                continue
+
+        if best_theta is not None:
+            self.kernel_ = best_kernel
+            # 重新计算 cholesky
+            K = self.kernel_(self.X_train_)
+            K[np.diag_indices_from(K)] += self.alpha
+            self.L_ = np.linalg.cholesky(K)
+            self.log_marginal_likelihood_value_ = best_lml
+
+        return self
+
+    def _lml_with_prior(self):
+        """计算带先验的 log marginal likelihood"""
+        lml = self.log_marginal_likelihood(self.kernel_.theta, eval_gradient=False)
+
+        if self.inter_var_prior is not None and hasattr(self.kernel_, 'log_var_inter'):
+            a, b = self.inter_var_prior
+            inter_var = np.exp(self.kernel_.log_var_inter)
+            lml += gamma_dist.logpdf(inter_var, a=a, scale=1.0 / b)
+
+        return lml
 
 ALL_TARGET_ORIENTATIONS = [
     (1, 0, 3), (1, 0, 2), (3, 0, 1),
@@ -41,15 +309,22 @@ SCHEME_TARGETS = {
 DEFAULT_PROCESS_BOUNDS = {
     'Process_Temp': (1000.0, 1400.0),
     'Process_Time': (1.0, 30.0),
-    'Process_H2': (0.0, 160.0),
+    'Process_H2': (50.0, 160.0),
     'Process_Ar': (0.0, 800.0),
+}
+
+PROCESS_LABELS_CN = {
+    'Process_Temp': '退火温度 (°C)',
+    'Process_Time': '保温时间 (h)',
+    'Process_H2': 'H$_2$ 流量 (sccm)',
+    'Process_Ar': 'Ar 流量 (sccm)',
 }
 
 class ContextualBayesianOptimizer:
     def __init__(self, bounds, target_orientations=None):
         """
         初始化上下文贝叶斯优化器（支持多任务学习）
-        
+
         Args:
             bounds: 字典形式的工艺参数物理搜索边界
             target_orientations: 所有可能的目标晶向列表，用于One-Hot编码
@@ -59,22 +334,9 @@ class ContextualBayesianOptimizer:
         self.pre_feature_cols = []
         self.target_cols = []  # 目标晶向One-Hot特征列
         self.target_orientations = target_orientations or []
-        
-        # 定义核函数：常数核 * Matern核(启用ARD) + 白噪声核
-        # Matern(nu=2.5) 适用于具有二阶可导性的物理过程拟合
-        # ARD (Automatic Relevance Determination): 为每个特征分配独立的长度尺度
-        # 这样模型可以自动学习哪些特征更重要（长度尺度小 = 更敏感）
-        # 注意：ARD长度尺度将在train()中根据实际特征维度初始化
-        self.ard_length_scale = 1.0  # 临时值，将在train时更新
-        kernel = ConstantKernel(1.0, (1e-3, 1e3)) * Matern(length_scale=self.ard_length_scale, nu=2.5) + WhiteKernel(noise_level=1e-4)
-        
-        self.gpr = GaussianProcessRegressor(
-            kernel=kernel, 
-            n_restarts_optimizer=10, 
-            normalize_y=True,
-            random_state=42
-        )
-        
+
+        # 核函数将在 train() 中根据实际特征维度初始化（ANOVA Matern 架构）
+        self.gpr = None
         self.scaler_X = StandardScaler()
         
     def _pre_feature_screening(self, df, pre_feature_cols, corr_threshold=0.9):
@@ -113,134 +375,124 @@ class ContextualBayesianOptimizer:
     
     def train(self, csv_path, enable_feature_screening=True):
         """
-        读取历史实验数据并拟合代理模型（支持多任务）
-        
+        读取历史实验数据并拟合代理模型（ANOVA Matern 核架构）
+
         Args:
             csv_path: 训练数据文件路径
             enable_feature_screening: 是否启用特征初筛（小样本时建议启用）
         """
         self.training_df = pd.read_csv(csv_path)
-        
+
         # 自动识别各类特征列
         self.pre_feature_cols = [col for col in self.training_df.columns if col.startswith('Pre_')]
         self.target_cols = [col for col in self.training_df.columns if col.startswith('Target_')]
-        
-        # 【修复】小样本时进行特征初筛，防止维度灾难
+
+        # 小样本时进行特征初筛
         n_samples = len(self.training_df)
         n_pre_features = len(self.pre_feature_cols)
-        
-        # 强制启用特征初筛：样本数不足特征数5倍时降维
+
         if enable_feature_screening and n_samples < n_pre_features * 5:
             print(f"\n[!] 警告: 样本数({n_samples})不足预处理特征数({n_pre_features})的5倍")
             print("    启用特征初筛以防止模型过拟合...")
-            # 提高相关性阈值，更激进地降维
             self.pre_feature_cols = self._pre_feature_screening(
                 self.training_df, self.pre_feature_cols, corr_threshold=0.8
             )
-        
+
         # 构建特征矩阵 X 与目标向量 y
-        # 顺序: EBSD预处理特征 + 目标晶向One-Hot + 工艺参数
         all_feature_cols = self.pre_feature_cols + self.target_cols + self.process_cols
         X_df = self.training_df[all_feature_cols]
         y = self.training_df['TARGET_Yield'].values
-        
-        n_features = len(all_feature_cols)
-        
-        # 启用 ARD: 为每个特征分配独立的长度尺度
-        # 重新构建带ARD的核函数
-        ard_length_scales = [1.0] * n_features  # 每个特征一个长度尺度参数
-        
-        # 【修复】长度尺度上下界对齐 StandardScaler 后的实际数据范围
-        # StandardScaler 归一化后各维度范围约在 [-3, +3] 之间
-        # 下界 0.3 允许模型对敏感维度学习短程相关性
-        # 上界 5.0 防止长度尺度过大导致模型对参数变化完全无响应
-        # （原先 100.0 上界使得 exp(-(Δx/100)²)≈1，工艺参数实际上被忽略）
-        ard_bounds = [(0.3, 5.0)] * n_features
-        
-        kernel_ard = ConstantKernel(1.0, (1e-3, 1e3)) * \
-                     Matern(length_scale=ard_length_scales, length_scale_bounds=ard_bounds, nu=2.5) + \
-                     WhiteKernel(noise_level=1e-4)
-        
-        # 更新GPR的核函数
-        self.gpr.kernel = kernel_ard
-        
-        # 对输入空间进行标准化处理，加速核函数收敛
+
+        n_pre = len(self.pre_feature_cols)
+        n_target = len(self.target_cols)
+        n_proc = len(self.process_cols)
+
+        # 构建 ANOVA Matern 核函数
+        # K = k_pre + k_target + k_proc + k_inter(pre × proc) + noise
+        # - Pre_ 和 Target_ 使用 Matern 5/2（平滑响应）
+        # - Process_ 使用 Matern 3/2（允许阈值效应）
+        # - 交互项的长度尺度与主效应共享
+        kernel = ANOVAMaternKernel(n_pre, n_target, n_proc)
+
+        # 构建带先验的 GPR 模型
+        # 交互项方差施加弱 Gamma 先验 Gamma(1.5, 1.0)，防止过拟合
+        self.gpr = GPRWithPriors(
+            kernel=kernel,
+            alpha=1e-10,
+            normalize_y=True,
+            inter_var_prior=(1.5, 1.0),
+            num_restarts=20,
+            random_state=42
+        )
+
+        # 标准化输入
         X_scaled = self.scaler_X.fit_transform(X_df)
-        
-        # 模型拟合
+
+        # 模型拟合（多起点优化 + 先验注入）
+        print("\n[*] 正在训练 ANOVA Matern GPR 模型（20 次多起点优化）...")
         self.gpr.fit(X_scaled, y)
-        
-        # 打印ARD分析结果
+
+        # 打印 ARD 分析
         self._print_ard_analysis()
-        print(f"代理模型训练完毕。吸收样本量: {len(self.training_df)}，总特征维度: {len(all_feature_cols)}。")
-        print(f"  - EBSD预处理特征: {len(self.pre_feature_cols)} 维")
-        print(f"  - 目标晶向One-Hot: {len(self.target_cols)} 维")
-        print(f"  - 工艺参数: {len(self.process_cols)} 维")
-        print(f"优化后核函数参数: {self.gpr.kernel_}")
+        print(f"\n代理模型训练完毕。吸收样本量: {len(self.training_df)}，总特征维度: {len(all_feature_cols)}。")
+        print(f"  - EBSD预处理特征: {n_pre} 维 (Matern 5/2)")
+        print(f"  - 目标晶向One-Hot: {n_target} 维 (Matern 5/2)")
+        print(f"  - 工艺参数: {n_proc} 维 (Matern 3/2)")
+        print(f"  - 交互项: Pre_ × Process_ (共享长度尺度)")
 
     def _print_ard_analysis(self):
-        """
-        打印ARD (Automatic Relevance Determination) 分析结果
-        显示每个特征的长度尺度，判断特征重要性
-        """
+        """打印 ANOVA 核函数的 ARD 分析结果"""
         try:
-            # 从优化后的核函数中提取Matern核的长度尺度
             kernel = self.gpr.kernel_
-            # 核函数结构: ConstantKernel * Matern + WhiteKernel
-            # 所以 kernel.k1 是 ConstantKernel * Matern, kernel.k2 是 WhiteKernel
-            matern_kernel = kernel.k1.k2  # 获取Matern核
-            length_scales = matern_kernel.length_scale
-            
-            all_feature_cols = self.pre_feature_cols + self.target_cols + self.process_cols
-            
-            print("\n" + "="*60)
-            print("           ARD 特征重要性分析 (长度尺度越小 = 越重要)")
-            print("="*60)
-            
-            # 按特征类别分组显示
-            idx = 0
-            
-            # EBSD预处理特征
+
+            pre_ls = np.atleast_1d(kernel.pre_length_scale)
+            target_ls = np.atleast_1d(kernel.target_length_scale)
+            proc_ls = np.atleast_1d(kernel.proc_length_scale)
+            var_pre = np.exp(kernel.log_var_pre)
+            var_target = np.exp(kernel.log_var_target)
+            var_proc = np.exp(kernel.log_var_proc)
+            var_inter = np.exp(kernel.log_var_inter)
+
+            print("\n" + "="*70)
+            print("         ANOVA Matern ARD 分析 (长度尺度越小 = 越重要)")
+            print("="*70)
+
             if self.pre_feature_cols:
-                print("\n【EBSD预处理特征】")
-                for col in self.pre_feature_cols:
-                    if idx < len(length_scales):
-                        ls = length_scales[idx]
-                        importance = "★★★" if ls < 0.5 else ("★★" if ls < 1.0 else "★")
-                        print(f"  {col:25s}: length_scale = {ls:8.4f} {importance}")
-                        idx += 1
-            
-            # 目标晶向One-Hot
+                print(f"\n【EBSD预处理特征 (Matern 5/2)】 σ²_pre = {var_pre:.4f}")
+                for i, col in enumerate(self.pre_feature_cols):
+                    if i < len(pre_ls):
+                        ls = pre_ls[i]
+                        imp = "★★★" if ls < 0.5 else ("★★" if ls < 1.0 else "★")
+                        print(f"  {col:30s}: ls = {ls:8.4f} {imp}")
+
             if self.target_cols:
-                print("\n【目标晶向One-Hot】")
-                for col in self.target_cols:
-                    if idx < len(length_scales):
-                        ls = length_scales[idx]
-                        importance = "★★★" if ls < 0.5 else ("★★" if ls < 1.0 else "★")
-                        print(f"  {col:25s}: length_scale = {ls:8.4f} {importance}")
-                        idx += 1
-            
-            # 工艺参数
+                print(f"\n【目标晶向 One-Hot (Matern 5/2)】 σ²_target = {var_target:.4f}")
+                for i, col in enumerate(self.target_cols):
+                    if i < len(target_ls):
+                        ls = target_ls[i]
+                        imp = "★★★" if ls < 0.5 else ("★★" if ls < 1.0 else "★")
+                        print(f"  {col:30s}: ls = {ls:8.4f} {imp}")
+
             if self.process_cols:
-                print("\n【工艺参数】")
-                for col in self.process_cols:
-                    if idx < len(length_scales):
-                        ls = length_scales[idx]
-                        importance = "★★★" if ls < 0.5 else ("★★" if ls < 1.0 else "★")
-                        print(f"  {col:25s}: length_scale = {ls:8.4f} {importance}")
-                        idx += 1
-            
-            # 找出最重要和最不重要的特征
-            if len(length_scales) == len(all_feature_cols):
-                sorted_indices = np.argsort(length_scales)
-                print(f"\n【ARD分析结论】")
-                print(f"  最敏感特征 (最重要): {all_feature_cols[sorted_indices[0]]} (ls={length_scales[sorted_indices[0]]:.4f})")
-                print(f"  最不敏感特征: {all_feature_cols[sorted_indices[-1]]} (ls={length_scales[sorted_indices[-1]]:.4f})")
-            
-            print("="*60)
-            
+                print(f"\n【工艺参数 (Matern 3/2, 允许阈值效应)】 σ²_proc = {var_proc:.4f}")
+                for i, col in enumerate(self.process_cols):
+                    if i < len(proc_ls):
+                        ls = proc_ls[i]
+                        imp = "★★★" if ls < 0.5 else ("★★" if ls < 1.0 else "★")
+                        print(f"  {col:30s}: ls = {ls:8.4f} {imp}")
+
+            total_var = var_pre + var_target + var_proc + var_inter
+            inter_ratio = var_inter / (total_var + 1e-10)
+            print(f"\n【交互效应 (Pre_ × Process_)】 σ²_inter = {var_inter:.4f}")
+            print(f"  交互项占总方差比例: {inter_ratio:.1%}")
+            if inter_ratio > 0.1:
+                print("  → 交互效应显著，初始状态与工艺参数存在耦合")
+            else:
+                print("  → 交互效应较弱，主效应主导")
+
+            print("="*70)
+
         except Exception as e:
-            # 如果解析失败，不中断训练流程
             print(f"\n[ARD分析] 无法解析核函数参数: {e}")
 
     def _compute_y_best(self, x_pre, target_keys, target_orientations, k_neighbors=3):
@@ -349,13 +601,30 @@ class ContextualBayesianOptimizer:
         
         # 计算 EI 积分
         sigma_safe = np.maximum(sigma, 1e-12)
-        with np.errstate(divide='warn'):
+        with np.errstate(divide='ignore', invalid='ignore'):
             imp = mu - y_best
             Z = imp / sigma_safe
             ei = imp * norm.cdf(Z) + sigma_safe * norm.pdf(Z)
-            ei[sigma_safe <= 1e-12] = 0.0
+        # 数值保护：浮点运算可能使 EI 微负（imp*Φ(Z) 负项略大于 σ*φ(Z) 正项）
+        # 必须钳位到 0，否则 L-BFGS-B 会追逐最负区域而非真正最优
+        ei = np.maximum(ei, 0.0)
+        ei[sigma <= 1e-12] = 0.0
 
         return ei, mu, sigma
+
+    def _predict_mu(self, X_process_array, x_pre_array, target_onehot=None):
+        """纯预测产率均值（无采集函数），用于寻找最高 μ 点"""
+        n_samples = X_process_array.shape[0]
+        if target_onehot is None:
+            target_onehot = np.zeros(len(self.target_cols))
+        X_concat = np.hstack([
+            np.tile(x_pre_array, (n_samples, 1)),
+            np.tile(target_onehot, (n_samples, 1)),
+            X_process_array
+        ])
+        X_scaled = self.scaler_X.transform(X_concat)
+        mu, sigma = self.gpr.predict(X_scaled, return_std=True)
+        return mu, sigma
 
     def recommend_next_process(self, new_pre_features, target_orientations=None, n_random_starts=100000):
         """
@@ -389,11 +658,18 @@ class ContextualBayesianOptimizer:
         
         # ==================== 两步 EI 优化策略 ====================
         # 步骤1: 大规模随机采样，寻找有潜力的区域
+        h2_idx = self.process_cols.index('Process_H2')
+        ar_idx = self.process_cols.index('Process_Ar')
         sampled_process = np.zeros((n_random_starts, len(self.process_cols)))
         for i, col in enumerate(self.process_cols):
             low, high = self.bounds[col]
             sampled_process[:, i] = np.random.uniform(low, high, n_random_starts)
-            
+        # 约束: Ar >= 2 * H2，不满足的点重采样至满足
+        for j in range(n_random_starts):
+            while sampled_process[j, ar_idx] < 2 * sampled_process[j, h2_idx]:
+                sampled_process[j, h2_idx] = np.random.uniform(*self.bounds['Process_H2'])
+                sampled_process[j, ar_idx] = np.random.uniform(*self.bounds['Process_Ar'])
+
         # 评估所有采样点的 EI 值
         ei_values, mu_values, sigma_values = self.expected_improvement(
             sampled_process, x_pre, y_best, target_onehot
@@ -413,11 +689,15 @@ class ContextualBayesianOptimizer:
         # 定义边界（用于L-BFGS-B）
         bounds_list = [(self.bounds[col][0], self.bounds[col][1]) for col in self.process_cols]
         
-        # 定义负EI函数（用于最小化）
+        # 定义负EI函数（用于最小化），含 Ar >= 2*H2 约束的平滑二次惩罚
         def neg_ei(x_process):
             x_process = x_process.reshape(1, -1)
+            h2, ar = x_process[0, h2_idx], x_process[0, ar_idx]
             ei, _, _ = self.expected_improvement(x_process, x_pre, y_best, target_onehot)
-            return -ei[0]  # 返回负EI用于最小化
+            penalty = 0.0
+            if ar < 2 * h2:
+                penalty = 1e4 * (2 * h2 - ar) ** 2
+            return -ei[0] + penalty
         
         # 对每个Top点进行局部优化
         optimized_results = []
@@ -430,7 +710,11 @@ class ContextualBayesianOptimizer:
                     bounds=bounds_list,
                     options={'maxiter': 100, 'ftol': 1e-9}
                 )
-                optimized_ei = -result.fun
+                # 用真实 EI（不含惩罚）评估
+                actual_ei, _, _ = self.expected_improvement(
+                    result.x.reshape(1, -1), x_pre, y_best, target_onehot
+                )
+                optimized_ei = actual_ei[0]
                 optimized_results.append({
                     'ei': optimized_ei,
                     'x': result.x,
@@ -450,42 +734,111 @@ class ContextualBayesianOptimizer:
                     'success': False
                 })
         
-        # 选择优化后EI最大的点
-        best_result = max(optimized_results, key=lambda r: r['ei'])
-        best_process = best_result['x']
-        
-        # 获取最终预测值
-        _, final_mu, final_sigma = self.expected_improvement(
-            best_process.reshape(1, -1), x_pre, y_best, target_onehot
+        # 选择优化后EI最大的可行点（Ar >= 2*H2）
+        def is_feasible(x):
+            return x[ar_idx] >= 2 * x[h2_idx]
+
+        feasible_ei = [r for r in optimized_results if is_feasible(r['x'])]
+        if feasible_ei:
+            best_ei_result = max(feasible_ei, key=lambda r: r['ei'])
+        else:
+            # 所有L-BFGS-B结果均不可行，回退到随机采样中的最佳可行点
+            feasible_mask = np.array([
+                is_feasible(sampled_process[j]) for j in range(n_random_starts)
+            ])
+            feasible_ei_vals = ei_values.copy()
+            feasible_ei_vals[~feasible_mask] = -np.inf
+            fallback_idx = np.argmax(feasible_ei_vals)
+            best_ei_result = {'ei': ei_values[fallback_idx], 'x': sampled_process[fallback_idx],
+                              'init_ei': ei_values[fallback_idx], 'improvement': 0, 'success': False}
+            print("[警告] L-BFGS-B 优化结果均违反 Ar>=2*H2 约束，回退到随机采样可行点")
+        best_ei_process = best_ei_result['x']
+
+        # 获取EI最优的预测值
+        _, ei_mu, ei_sigma = self.expected_improvement(
+            best_ei_process.reshape(1, -1), x_pre, y_best, target_onehot
         )
-        expected_yield = final_mu[0]
-        uncertainty = final_sigma[0]
-        
-        print(f"\n[*] 最优结果来自: Top {optimized_results.index(best_result)+1} "
-              f"(优化{'成功' if best_result['success'] else '失败'})")
-        print(f"[*] EI 改进: {best_result['init_ei']:.6f} → {best_result['ei']:.6f} "
-              f"(+{(best_result['ei']/best_result['init_ei']-1)*100:.2f}%)")
-        
-        recommendation = {col: best_process[i] for i, col in enumerate(self.process_cols)}
-        
-        # 显示目标晶向信息
+
+        # ==================== 最高 μ 点（纯利用，当前最优工艺）====================
+        # 复用同一批随机采样的 mu_values，取 Top 5 精炼
+        top5_mu_indices = np.argsort(mu_values)[-5:][::-1]
+        top5_mu_process = sampled_process[top5_mu_indices]
+        top5_mu_vals = mu_values[top5_mu_indices]
+
+        def neg_mu(x_process):
+            x_process = x_process.reshape(1, -1)
+            mu, _ = self._predict_mu(x_process, x_pre, target_onehot)
+            h2, ar = x_process[0, h2_idx], x_process[0, ar_idx]
+            penalty = 0.0
+            if ar < 2 * h2:
+                penalty = 1e4 * (2 * h2 - ar) ** 2
+            return -mu[0] + penalty
+
+        mu_optimized = []
+        for i, init_point in enumerate(top5_mu_process):
+            try:
+                result = minimize(neg_mu, init_point, method='L-BFGS-B',
+                                  bounds=bounds_list, options={'maxiter': 100, 'ftol': 1e-9})
+                # 用真实 mu（不含惩罚）评估
+                actual_mu, _ = self._predict_mu(result.x.reshape(1, -1), x_pre, target_onehot)
+                mu_optimized.append({'mu': actual_mu[0], 'x': result.x, 'success': result.success})
+            except Exception:
+                mu_optimized.append({'mu': top5_mu_vals[i], 'x': init_point, 'success': False})
+
+        # 选择可行点中 mu 最大的
+        feasible_mu = [r for r in mu_optimized if is_feasible(r['x'])]
+        if feasible_mu:
+            best_mu_result = max(feasible_mu, key=lambda r: r['mu'])
+        else:
+            best_mu_result = max(mu_optimized, key=lambda r: r['mu'])
+            print("[警告] μ 优化结果均违反 Ar>=2*H2 约束")
+        best_mu_process = best_mu_result['x']
+        mu_final, mu_sigma_final = self._predict_mu(
+            best_mu_process.reshape(1, -1), x_pre, target_onehot
+        )
+
+        # ==================== 输出 ====================
+        ei_recommendation = {col: best_ei_process[i] for i, col in enumerate(self.process_cols)}
+        mu_recommendation = {col: best_mu_process[i] for i, col in enumerate(self.process_cols)}
+
         if target_orientations:
             target_str = ", ".join([f"<{h}{k}{l}>" for h, k, l in target_orientations])
         else:
             target_str = "当前训练目标"
-        print("\n==================================================")
+
+        print(f"\n[*] EI 最优结果来自: Top {optimized_results.index(best_ei_result)+1} "
+              f"(优化{'成功' if best_ei_result['success'] else '失败'})")
+        print(f"[*] EI 改进: {best_ei_result['init_ei']:.6f} → {best_ei_result['ei']:.6f} "
+              f"(+{(best_ei_result['ei']/best_ei_result['init_ei']-1)*100:.2f}%)")
+
+        print("\n" + "="*60)
         print(f"目标晶向: {target_str}")
         print(f"y_best (优化参考值): {y_best:.2%}")
         print(f"  来源: {y_best_source} | 同目标样本: {n_matching} 个")
-        print("基于当前预处理微观状态的下一轮最优工艺预测：")
-        for k, v in recommendation.items():
+
+        print("\n--- 下一轮实验推荐（最高 EI 点）---")
+        print("    平衡探索与利用，信息量最大")
+        for k, v in ei_recommendation.items():
             print(f"  > {k}: {v:.2f}")
-        print("--------------------------------------------------")
-        print(f"  > 预测目标产率 (Mean): {expected_yield:.2%}")
-        print(f"  > 模型不确定度 (Std):  {uncertainty:.4f}")
-        print("==================================================\n")
-        
-        return recommendation
+        print(f"  > 预测产率 (μ): {ei_mu[0]:.2%}")
+        print(f"  > 不确定度 (σ): {ei_sigma[0]:.4f}")
+
+        print("\n--- 当前最优工艺（最高 μ 点）---")
+        print("    模型最有信心的最优工艺，适合部署")
+        for k, v in mu_recommendation.items():
+            print(f"  > {k}: {v:.2f}")
+        print(f"  > 预测产率 (μ): {mu_final[0]:.2%}")
+        print(f"  > 不确定度 (σ): {mu_sigma_final[0]:.4f}")
+        print("="*60 + "\n")
+
+        return {
+            'next_experiment': ei_recommendation,
+            'best_process': mu_recommendation,
+            'ei_yield': ei_mu[0],
+            'ei_uncertainty': ei_sigma[0],
+            'mu_yield': mu_final[0],
+            'mu_uncertainty': mu_sigma_final[0],
+        }
 
     def save_model(self, model_path):
         """
@@ -561,30 +914,67 @@ class ContextualBayesianOptimizer:
     def extract_ard_importance(self):
         """从训练好的模型中提取 ARD 长度尺度，返回 DataFrame"""
         kernel = self.gpr.kernel_
-        matern_kernel = kernel.k1.k2
-        length_scales = matern_kernel.length_scale
 
-        all_feature_cols = self.pre_feature_cols + self.target_cols + self.process_cols
+        pre_ls = np.atleast_1d(kernel.pre_length_scale)
+        target_ls = np.atleast_1d(kernel.target_length_scale)
+        proc_ls = np.atleast_1d(kernel.proc_length_scale)
 
         importance_data = []
-        for i, col in enumerate(all_feature_cols):
-            if i < len(length_scales):
-                ls = length_scales[i]
-                importance_score = 1.0 / (ls + 1e-10)
-                if col.startswith('Pre_'):
-                    category = 'EBSD预处理'
-                elif col.startswith('Target_'):
-                    category = '目标晶向'
-                else:
-                    category = '工艺参数'
+        for i, col in enumerate(self.pre_feature_cols):
+            if i < len(pre_ls):
+                ls = pre_ls[i]
                 importance_data.append({
-                    'feature': col,
-                    'length_scale': ls,
-                    'importance': importance_score,
-                    'category': category,
+                    'feature': col, 'length_scale': ls,
+                    'importance': 1.0 / (ls + 1e-10), 'category': 'EBSD预处理',
+                })
+        for i, col in enumerate(self.target_cols):
+            if i < len(target_ls):
+                ls = target_ls[i]
+                importance_data.append({
+                    'feature': col, 'length_scale': ls,
+                    'importance': 1.0 / (ls + 1e-10), 'category': '目标晶向',
+                })
+        for i, col in enumerate(self.process_cols):
+            if i < len(proc_ls):
+                ls = proc_ls[i]
+                importance_data.append({
+                    'feature': col, 'length_scale': ls,
+                    'importance': 1.0 / (ls + 1e-10), 'category': '工艺参数',
                 })
 
         return pd.DataFrame(importance_data)
+
+    def _maximin_distance(self, X_candidates, X_reference, feature_cols):
+        """
+        计算候选点到参考集的 maximin distance（归一化空间）
+
+        Args:
+            X_candidates: (n_candidates, d) 候选点矩阵
+            X_reference: (n_ref, d) 参考点矩阵（已训练样本 + 已选点）
+            feature_cols: 特征列名列表，用于确定归一化范围
+
+        Returns:
+            d_min: (n_candidates,) 每个候选点到参考集的最小距离
+        """
+        from sklearn.preprocessing import MinMaxScaler
+
+        # 合并候选点和参考点，统一归一化
+        X_all = np.vstack([X_candidates, X_reference])
+        scaler = MinMaxScaler()
+        X_all_norm = scaler.fit_transform(X_all)
+
+        X_cand_norm = X_all_norm[:len(X_candidates)]
+        X_ref_norm = X_all_norm[len(X_candidates):]
+
+        # 计算欧氏距离矩阵 (n_candidates, n_ref)
+        # 使用 ||a-b||² = ||a||² + ||b||² - 2a·b
+        sq_cand = np.sum(X_cand_norm ** 2, axis=1, keepdims=True)
+        sq_ref = np.sum(X_ref_norm ** 2, axis=1, keepdims=True)
+        dists = np.sqrt(np.maximum(sq_cand + sq_ref.T - 2 * X_cand_norm @ X_ref_norm.T, 0))
+
+        # 每个候选点到参考集的最小距离
+        d_min = dists.min(axis=1)
+        return d_min
 
 
 def add_new_data_to_training(existing_file, new_data_file):
