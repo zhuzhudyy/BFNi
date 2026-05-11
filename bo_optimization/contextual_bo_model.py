@@ -1150,6 +1150,64 @@ class ContextualBayesianOptimizer:
 
         return all_recommendations
 
+    def compute_space_coverage(self, n_grid_per_dim=10):
+        """
+        评估 Process_ 空间的覆盖率（基于网格占位）
+
+        将 Process_ 空间划分为 n_grid_per_dim^4 的网格，
+        统计有多少网格内至少有一个训练样本。
+
+        Returns:
+            coverage: 0~1 的覆盖率
+            n_occupied: 被占据的网格数
+            n_total: 总网格数
+            details: dict，各维度的网格边界
+        """
+        if not hasattr(self, 'training_df') or self.training_df is None:
+            return 0.0, 0, 0, {}
+
+        X_proc = self.training_df[self.process_cols].values
+        n_proc = len(self.process_cols)
+
+        # 计算每个维度的网格边界
+        grid_edges = {}
+        for i, col in enumerate(self.process_cols):
+            lo, hi = self.bounds[col]
+            grid_edges[col] = np.linspace(lo, hi, n_grid_per_dim + 1)
+
+        # 将每个样本映射到网格坐标
+        grid_coords = np.zeros((len(X_proc), n_proc), dtype=int)
+        for i, col in enumerate(self.process_cols):
+            edges = grid_edges[col]
+            grid_coords[:, i] = np.clip(np.digitize(X_proc[:, i], edges) - 1, 0, n_grid_per_dim - 1)
+
+        # 统计被占据的网格数
+        occupied = set(tuple(row) for row in grid_coords)
+        n_total = n_grid_per_dim ** n_proc
+        n_occupied = len(occupied)
+        coverage = n_occupied / n_total
+
+        return coverage, n_occupied, n_total, grid_edges
+
+    def print_coverage_report(self):
+        """打印空间覆盖率报告"""
+        coverage, n_occupied, n_total, _ = self.compute_space_coverage()
+        n_samples = len(self.training_df) if hasattr(self, 'training_df') and self.training_df is not None else 0
+
+        print(f"\n{'='*50}")
+        print(f"Process_ 空间覆盖率报告")
+        print(f"{'='*50}")
+        print(f"  训练样本数: {n_samples}")
+        print(f"  已占据网格: {n_occupied} / {n_total}")
+        print(f"  覆盖率: {coverage:.1%}")
+        if coverage < 0.3:
+            print(f"  → 覆盖率较低，建议继续空间填充采样")
+        elif coverage < 0.6:
+            print(f"  → 覆盖率中等，可选择性补充采样")
+        else:
+            print(f"  → 覆盖率较好，模型预测应较可靠")
+        print(f"{'='*50}\n")
+
 
 def add_new_data_to_training(existing_file, new_data_file):
     """
