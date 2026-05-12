@@ -304,7 +304,7 @@ def run_space_filling_plan():
             break
 
         point = state['points'][idx]
-        sample_name = os.path.basename(pre_path) if os.path.isfile(pre_path) else f"样品{i+1}"
+        sample_name = os.path.basename(pre_path)
 
         # 记录分配
         state['allocations'].append({
